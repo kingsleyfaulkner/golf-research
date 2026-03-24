@@ -38,19 +38,19 @@ training.pre_training.batch_size: 80
 - **Val loss:** 2.1299
 - **Val BPB:** 1.2614
 
-## Loss Curve
+## Train Loss Curve
 
-![Loss vs runtime (log scale)](loss_chart.svg)
+![Train loss vs runtime (log scale)](loss_chart.svg)
 
 ## vs Baseline ([artifacts_8x_rtx_pro_6000_4](../../baseline/artifacts_8x_rtx_pro_6000_4))
 
 - **Val BPB:** 1.2614 vs 1.2764 (-0.0149)
 
-| | full | int6 | int8 | nvfp4 |
-| :--- | ---: | ---: | ---: | ---: |
-| **Experiment** | 1.2614 | 1.3111 | 1.2643 | 1.4770 |
-| **Baseline** | 1.2764 | 1.3580 | 1.3570 | 1.7303 |
-| **Delta** | -0.0149 | -0.0469 | -0.0928 | -0.2534 |
+| | train loss | full | int6 | int8 | nvfp4 |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| **Experiment** | 2.1994 | 1.2614 | 1.3111 | 1.2643 | 1.4770 |
+| **Baseline** | 2.1428 | 1.2764 | 1.3580 | 1.3570 | 1.7303 |
+| **Delta** | +0.0566 | -0.0149 | -0.0469 | -0.0928 | -0.2534 |
 
 ## Quantization
 
