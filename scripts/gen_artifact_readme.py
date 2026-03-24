@@ -9,8 +9,10 @@ Usage:
 """
 
 import json
+import math
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 
@@ -66,6 +68,186 @@ def find_baseline(root, gpu_tag):
     return baseline_artifact, eval_report
 
 
+def read_all_metrics(path):
+    if not path.exists():
+        return []
+    records = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                records.append(json.loads(line))
+    return records
+
+
+def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
+    """Return SVG string for loss vs runtime (minutes) on a log-y scale."""
+    W, H = 720, 400
+    ML, MR, MT, MB = 65, 20, 20, 50
+
+    pw = W - ML - MR
+    ph = H - MT - MB
+
+    def to_points(metrics):
+        if not metrics:
+            return []
+        t0 = datetime.fromisoformat(metrics[0]["timestamp"])
+        pts = []
+        for m in metrics:
+            try:
+                t = datetime.fromisoformat(m["timestamp"])
+                minutes = (t - t0).total_seconds() / 60.0
+                loss = m.get("ce_loss") or m.get("loss")
+                if loss and loss > 0:
+                    pts.append((minutes, float(loss)))
+            except Exception:
+                pass
+        return pts
+
+    exp_pts = to_points(exp_metrics)
+    base_pts = to_points(baseline_metrics) if baseline_metrics else []
+
+    all_pts = exp_pts + base_pts
+    if not all_pts:
+        return None
+
+    all_x = [p[0] for p in all_pts]
+    all_y = [p[1] for p in all_pts]
+
+    x_min, x_max = 0, max(all_x)
+    y_min_data = min(all_y)
+    y_max_data = max(all_y)
+
+    # Pad log-scale bounds slightly
+    log_lo = math.floor(math.log10(y_min_data) * 4) / 4 - 0.1
+    log_hi = math.ceil(math.log10(y_max_data) * 4) / 4 + 0.1
+    y_min = 10**log_lo
+    y_max = 10**log_hi
+
+    def sx(x):
+        if x_max == x_min:
+            return ML + pw / 2
+        return ML + (x - x_min) / (x_max - x_min) * pw
+
+    def sy(y):
+        frac = (math.log10(y) - log_lo) / (log_hi - log_lo)
+        return MT + (1 - frac) * ph
+
+    def polyline(pts):
+        return " ".join(f"{sx(x):.1f},{sy(y):.1f}" for x, y in pts)
+
+    # Y ticks at 1, 2, 3, 5 per decade
+    y_ticks = []
+    for decade in range(math.floor(math.log10(y_min_data)) - 1, math.ceil(math.log10(y_max_data)) + 2):
+        for mult in [1, 2, 3, 5]:
+            val = mult * (10**decade)
+            if y_min <= val <= y_max:
+                y_ticks.append((val, mult == 1))
+
+    # X ticks — roughly 5-6 ticks
+    if x_max > 0:
+        raw_step = x_max / 5
+        mag = 10 ** math.floor(math.log10(raw_step)) if raw_step > 0 else 1
+        step = max(1, round(raw_step / mag)) * mag
+    else:
+        step = 1
+    x_ticks = []
+    t = 0.0
+    while t <= x_max + step * 0.01:
+        x_ticks.append(t)
+        t += step
+
+    svg = []
+    svg.append(
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
+        f'width="{W}" height="{H}" style="background:white">'
+    )
+    svg.append(f'<rect x="{ML}" y="{MT}" width="{pw}" height="{ph}" fill="#f9f9f9"/>')
+
+    # Grid lines
+    for val, major in y_ticks:
+        yy = sy(val)
+        color = "#ccc" if major else "#e8e8e8"
+        svg.append(f'<line x1="{ML}" y1="{yy:.1f}" x2="{ML+pw}" y2="{yy:.1f}" stroke="{color}" stroke-width="1"/>')
+    for tx in x_ticks:
+        xx = sx(tx)
+        svg.append(f'<line x1="{xx:.1f}" y1="{MT}" x2="{xx:.1f}" y2="{MT+ph}" stroke="#e8e8e8" stroke-width="1"/>')
+
+    # Data series
+    if base_pts:
+        svg.append(
+            f'<polyline points="{polyline(base_pts)}" fill="none" '
+            f'stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,3"/>'
+        )
+    if exp_pts:
+        svg.append(
+            f'<polyline points="{polyline(exp_pts)}" fill="none" '
+            f'stroke="#2563eb" stroke-width="2"/>'
+        )
+
+    # Axes border
+    svg.append(f'<rect x="{ML}" y="{MT}" width="{pw}" height="{ph}" fill="none" stroke="#555" stroke-width="1.5"/>')
+
+    # Y tick marks and labels
+    for val, major in y_ticks:
+        yy = sy(val)
+        if major:
+            label = f"{val:.0f}" if val >= 10 else (f"{val:.1f}" if val >= 1 else f"{val:.2f}")
+            svg.append(f'<line x1="{ML-5}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="#555" stroke-width="1.5"/>')
+            svg.append(
+                f'<text x="{ML-8}" y="{yy:.1f}" text-anchor="end" dominant-baseline="middle" '
+                f'font-size="11" font-family="monospace,sans-serif">{label}</text>'
+            )
+        else:
+            svg.append(f'<line x1="{ML-3}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="#888" stroke-width="1"/>')
+
+    # X tick marks and labels
+    for tx in x_ticks:
+        xx = sx(tx)
+        svg.append(f'<line x1="{xx:.1f}" y1="{MT+ph}" x2="{xx:.1f}" y2="{MT+ph+5}" stroke="#555" stroke-width="1.5"/>')
+        svg.append(
+            f'<text x="{xx:.1f}" y="{MT+ph+18}" text-anchor="middle" '
+            f'font-size="11" font-family="monospace,sans-serif">{tx:.0f}</text>'
+        )
+
+    # Axis labels
+    svg.append(
+        f'<text x="{ML + pw // 2}" y="{H - 8}" text-anchor="middle" '
+        f'font-size="13" font-family="sans-serif">Runtime (minutes)</text>'
+    )
+    cy = MT + ph // 2
+    svg.append(
+        f'<text transform="rotate(-90,16,{cy})" x="16" y="{cy}" text-anchor="middle" '
+        f'font-size="13" font-family="sans-serif">Loss (log scale)</text>'
+    )
+
+    # Legend (only when baseline is shown)
+    if base_pts:
+        lx = ML + pw - 115
+        ly = MT + 12
+        svg.append(
+            f'<rect x="{lx-5}" y="{ly-6}" width="120" height="46" '
+            f'fill="white" fill-opacity="0.85" stroke="#ddd" stroke-width="1" rx="3"/>'
+        )
+        svg.append(
+            f'<line x1="{lx}" y1="{ly+5}" x2="{lx+22}" y2="{ly+5}" '
+            f'stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,3"/>'
+        )
+        svg.append(
+            f'<text x="{lx+27}" y="{ly+9}" font-size="11" font-family="sans-serif">Baseline</text>'
+        )
+        svg.append(
+            f'<line x1="{lx}" y1="{ly+24}" x2="{lx+22}" y2="{ly+24}" '
+            f'stroke="#2563eb" stroke-width="2"/>'
+        )
+        svg.append(
+            f'<text x="{lx+27}" y="{ly+28}" font-size="11" font-family="sans-serif">Experiment</text>'
+        )
+
+    svg.append("</svg>")
+    return "\n".join(svg)
+
+
 def main():
     artifact_dir = Path(sys.argv[1])
     experiment_dir = Path(sys.argv[2])
@@ -102,8 +284,20 @@ def main():
     # Load data sources
     system = load_json(artifact_dir / "system.json")
     metrics = last_metrics_line(artifact_dir / "metrics.jsonl")
+    all_metrics = read_all_metrics(artifact_dir / "metrics.jsonl")
     eval_report = load_json(artifact_dir / "eval_report.json")
     quant_data = eval_report.get("quant", {}) if eval_report else {}
+
+    # Generate and save loss chart SVG
+    gpu_tag_for_chart = artifact_name.replace("artifacts_", "").rstrip("_0123456789")
+    chart_baseline_metrics = None
+    if experiment_name != "baseline":
+        chart_baseline_artifact, _ = find_baseline(root_dir, gpu_tag_for_chart)
+        if chart_baseline_artifact:
+            chart_baseline_metrics = read_all_metrics(chart_baseline_artifact / "metrics.jsonl")
+    svg_content = generate_loss_chart_svg(all_metrics, chart_baseline_metrics)
+    if svg_content:
+        (artifact_dir / "loss_chart.svg").write_text(svg_content)
 
     # Results summary (BPB first — most important)
     lines.append("")
@@ -119,6 +313,13 @@ def main():
     if eval_report:
         lines.append(f"- **Val loss:** {fmt(eval_report.get('val_loss'))}")
         lines.append(f"- **Val BPB:** {fmt(eval_report.get('val_bpb'))}")
+
+    # Loss chart
+    if svg_content:
+        lines.append("")
+        lines.append("## Loss Curve")
+        lines.append("")
+        lines.append("![Loss vs runtime (log scale)](loss_chart.svg)")
 
     # Comparison vs baseline (before quant details)
     if experiment_name != "baseline" and eval_report:
