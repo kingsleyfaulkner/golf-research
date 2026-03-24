@@ -53,7 +53,7 @@ training.pre_training.batch_size: 80
 | | int6 | int8 | mxfp4 | nvfp4 |
 | :--- | ---: | ---: | ---: | ---: |
 | **BPB** | 1.3111 | 1.3117 | 1.6422 | 1.8285 |
-| **Size** | 16.1 MB | 15.4 MB | 11.1 MB | 11.3 MB |
+| **Size** | 14.4 MB | 15.4 MB | 11.1 MB | 11.3 MB |
 
 ## Config Changes vs Baseline
 

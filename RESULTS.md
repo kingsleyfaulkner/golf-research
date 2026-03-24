@@ -22,7 +22,7 @@
 
 | Experiment | Date | Steps | Loss | Val Loss | Val BPB | nvfp4 BPB | mxfp4 BPB | int6 BPB | int8 BPB | Artifacts |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
-| 005-mlp-3x | 2026-03-23 14:54 | 3640 | 2.1994 | 2.1299 | 1.2614 | 🟢 1.8285 (11.3M) | 🟢 1.6422 (11.1M) | 🔴 1.3111 (16.1M) | 🟢 1.3117 (15.4M) | [artifacts](experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000) |
+| 005-mlp-3x | 2026-03-24 12:46 | 3640 | 2.1994 | 2.1299 | 1.2614 | 🟢 1.8285 (11.3M) | 🟢 1.6422 (11.1M) | 🟢 1.3111 (14.4M) | 🟢 1.3117 (15.4M) | [artifacts](experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000) |
 | 004-momentum-warmup | 2026-03-23 14:42 | 4292 | 2.1632 | 2.1481 | 1.2722 | 🟢 3.0434 (9.0M) | 🟢 2.7400 (8.8M) | 🟢 1.3825 (12.8M) | 🟢 1.3812 (12.3M) | [artifacts](experiments/004-momentum-warmup/artifacts_8x_rtx_pro_6000) |
 | 003-grad-clip | 2026-03-24 07:30 | 4301 | 2.1749 | 2.1535 | 1.2754 | 🟢 1.6574 (9.4M) | 🟢 1.6938 (8.6M) | 🟢 1.3444 (12.8M) | 🟢 1.3433 (12.3M) | [artifacts](experiments/003-grad-clip/artifacts_8x_rtx_pro_6000) |
 | baseline | 2026-03-23 14:19 | 4147 | 2.1428 | 2.1551 | 1.2764 | 🟢 1.7303 (9.4M) | 🟢 - (8.5M) | 🟢 1.3580 (12.8M) | 🟢 1.3570 (12.3M) | [artifacts](experiments/baseline/artifacts_8x_rtx_pro_6000_4) |

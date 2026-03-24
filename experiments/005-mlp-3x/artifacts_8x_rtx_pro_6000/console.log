@@ -681,3 +681,150 @@ Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6,int8,mxfp4,nvfp4
 [2026-03-24 11:00:14] INFO     nvfp4 (zstd): compressed=11,025,660 bytes serialized=12,684,555 bytes payload=12,612,976 bytes
 [2026-03-24 11:00:14] INFO     nvfp4 roundtrip verified
 [2026-03-24 11:00:14] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/quant_report.json
+Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6, uncompressed)
+Traceback (most recent call last):
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 43, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6, uncompressed)
+[2026-03-24 12:32:34] INFO     Extracting compressed checkpoint: /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/checkpoint.tar.gz
+/home/kingsley/projects/golf-research/scripts/quant.py:702: DeprecationWarning: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior.
+  tar.extractall(tmp_dir)
+[2026-03-24 12:32:34] INFO     Loading checkpoint: /tmp/quant_checkpoint_qofeta9s/checkpoint/step_3640_final_model
+[2026-03-24 12:32:34] INFO     Loading checkpoint from /tmp/quant_checkpoint_qofeta9s/checkpoint/step_3640_final_model
+[2026-03-24 12:32:35] INFO     Loaded model from /tmp/quant_checkpoint_qofeta9s/checkpoint/step_3640_final_model (21,769,800 parameters)
+[2026-03-24 12:32:35] INFO     Quantizing to int6
+[2026-03-24 12:32:45] INFO     int6 (zstd): compressed=14,401,198 bytes serialized=22,489,083 bytes payload=22,429,840 bytes
+[2026-03-24 12:32:45] INFO     int6 roundtrip verified
+[2026-03-24 12:32:45] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/quant_report.json
+Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6, uncompressed)
+Traceback (most recent call last):
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 43, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6, uncompressed)
+[2026-03-24 12:34:06] INFO     Extracting compressed checkpoint: /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/checkpoint.tar.gz
+/home/kingsley/projects/golf-research/scripts/quant.py:702: DeprecationWarning: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior.
+  tar.extractall(tmp_dir)
+[2026-03-24 12:34:07] INFO     Loading checkpoint: /tmp/quant_checkpoint_7d_4ejt9/checkpoint/step_3640_final_model
+[2026-03-24 12:34:07] INFO     Loading checkpoint from /tmp/quant_checkpoint_7d_4ejt9/checkpoint/step_3640_final_model
+[2026-03-24 12:34:07] INFO     Loaded model from /tmp/quant_checkpoint_7d_4ejt9/checkpoint/step_3640_final_model (21,769,800 parameters)
+[2026-03-24 12:34:07] INFO     Quantizing to int6
+[2026-03-24 12:34:47] INFO     int6 (zstd): compressed=14,401,198 bytes serialized=22,489,083 bytes payload=22,429,840 bytes
+[2026-03-24 12:34:47] INFO     int6 roundtrip verified
+[2026-03-24 12:34:47] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/quant_report.json
+Quantizing: 005-mlp-3x (artifacts_8x_rtx_pro_6000, schemes=int6, uncompressed)
+[2026-03-24 12:45:55] INFO     Extracting compressed checkpoint: /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/checkpoint.tar.gz
+/home/kingsley/projects/golf-research/scripts/quant.py:702: DeprecationWarning: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior.
+  tar.extractall(tmp_dir)
+[2026-03-24 12:45:55] INFO     Loading checkpoint: /tmp/quant_checkpoint_v3s6fcsj/checkpoint/step_3640_final_model
+[2026-03-24 12:45:55] INFO     Loading checkpoint from /tmp/quant_checkpoint_v3s6fcsj/checkpoint/step_3640_final_model
+[2026-03-24 12:45:56] INFO     Loaded model from /tmp/quant_checkpoint_v3s6fcsj/checkpoint/step_3640_final_model (21,769,800 parameters)
+[2026-03-24 12:45:56] INFO     Quantizing to int6
+[2026-03-24 12:46:06] INFO     int6 (zstd): compressed=14,401,198 bytes serialized=22,489,083 bytes payload=22,429,840 bytes
+[2026-03-24 12:46:06] INFO     int6 roundtrip verified
+[2026-03-24 12:46:06] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/quant_report.json
+Running evaluation: 005-mlp-3x (artifacts_8x_rtx_pro_6000, 1 GPU(s))
+[2026-03-24 12:46:09] INFO     Eval config: checkpoints=step_3640_final_model_int6 device=cuda:0 sequence_length=1024 batch_size=64 world_size=1
+[2026-03-24 12:46:09] INFO     Tokenizer: /home/kingsley/github/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+[2026-03-24 12:46:09] INFO     Validation data: /home/kingsley/github/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin
+[2026-03-24 12:46:09] INFO     Loaded tokens=62.02M sequences=60.6K vocab_size=1024
+[2026-03-24 12:46:09] INFO     Loading int6 checkpoint: step_3640_final_model_int6
+[2026-03-24 12:46:09] INFO     Running int6 evaluation (device=cuda:0)
+[2026-03-24 12:46:24] INFO      - batch 10/947 loss=2.184 bpb=1.314
+[2026-03-24 12:46:39] INFO      - batch 20/947 loss=2.203 bpb=1.317
+[2026-03-24 12:46:53] INFO      - batch 30/947 loss=2.208 bpb=1.323
+[2026-03-24 12:47:07] INFO      - batch 40/947 loss=2.198 bpb=1.320
+[2026-03-24 12:47:22] INFO      - batch 50/947 loss=2.199 bpb=1.321
+[2026-03-24 12:47:36] INFO      - batch 60/947 loss=2.192 bpb=1.318
+[2026-03-24 12:47:51] INFO      - batch 70/947 loss=2.192 bpb=1.315
+[2026-03-24 12:48:05] INFO      - batch 80/947 loss=2.194 bpb=1.317
+[2026-03-24 12:48:19] INFO      - batch 90/947 loss=2.200 bpb=1.319
+[2026-03-24 12:48:34] INFO      - batch 100/947 loss=2.203 bpb=1.322
+[2026-03-24 12:48:48] INFO      - batch 110/947 loss=2.203 bpb=1.322
+[2026-03-24 12:49:03] INFO      - batch 120/947 loss=2.203 bpb=1.322
+[2026-03-24 12:49:17] INFO      - batch 130/947 loss=2.202 bpb=1.322
+[2026-03-24 12:49:31] INFO      - batch 140/947 loss=2.202 bpb=1.321
+[2026-03-24 12:49:46] INFO      - batch 150/947 loss=2.204 bpb=1.321
+[2026-03-24 12:50:00] INFO      - batch 160/947 loss=2.207 bpb=1.322
+[2026-03-24 12:50:15] INFO      - batch 170/947 loss=2.208 bpb=1.320
+[2026-03-24 12:50:29] INFO      - batch 180/947 loss=2.210 bpb=1.322
+[2026-03-24 12:50:44] INFO      - batch 190/947 loss=2.211 bpb=1.322
+[2026-03-24 12:50:58] INFO      - batch 200/947 loss=2.212 bpb=1.322
+[2026-03-24 12:51:12] INFO      - batch 210/947 loss=2.211 bpb=1.321
+[2026-03-24 12:51:27] INFO      - batch 220/947 loss=2.213 bpb=1.320
+[2026-03-24 12:51:41] INFO      - batch 230/947 loss=2.214 bpb=1.319
+[2026-03-24 12:51:56] INFO      - batch 240/947 loss=2.214 bpb=1.319
+[2026-03-24 12:52:10] INFO      - batch 250/947 loss=2.215 bpb=1.318
+[2026-03-24 12:52:24] INFO      - batch 260/947 loss=2.214 bpb=1.317
+[2026-03-24 12:52:39] INFO      - batch 270/947 loss=2.216 bpb=1.318
+[2026-03-24 12:52:53] INFO      - batch 280/947 loss=2.216 bpb=1.317
+[2026-03-24 12:53:08] INFO      - batch 290/947 loss=2.215 bpb=1.316
+[2026-03-24 12:53:22] INFO      - batch 300/947 loss=2.214 bpb=1.316
+[2026-03-24 12:53:36] INFO      - batch 310/947 loss=2.213 bpb=1.315
+[2026-03-24 12:53:51] INFO      - batch 320/947 loss=2.213 bpb=1.314
+[2026-03-24 12:54:05] INFO      - batch 330/947 loss=2.212 bpb=1.313
+[2026-03-24 12:54:20] INFO      - batch 340/947 loss=2.211 bpb=1.312
+[2026-03-24 12:54:34] INFO      - batch 350/947 loss=2.212 bpb=1.312
+[2026-03-24 12:54:49] INFO      - batch 360/947 loss=2.211 bpb=1.311
+[2026-03-24 12:55:03] INFO      - batch 370/947 loss=2.212 bpb=1.312
+[2026-03-24 12:55:17] INFO      - batch 380/947 loss=2.211 bpb=1.311
+[2026-03-24 12:55:32] INFO      - batch 390/947 loss=2.210 bpb=1.311
+[2026-03-24 12:55:46] INFO      - batch 400/947 loss=2.210 bpb=1.311
+[2026-03-24 12:56:01] INFO      - batch 410/947 loss=2.210 bpb=1.311
+[2026-03-24 12:56:15] INFO      - batch 420/947 loss=2.209 bpb=1.311
+[2026-03-24 12:56:29] INFO      - batch 430/947 loss=2.208 bpb=1.311
+[2026-03-24 12:56:44] INFO      - batch 440/947 loss=2.208 bpb=1.311
+[2026-03-24 12:56:58] INFO      - batch 450/947 loss=2.206 bpb=1.311
+[2026-03-24 12:57:13] INFO      - batch 460/947 loss=2.206 bpb=1.311
+[2026-03-24 12:57:27] INFO      - batch 470/947 loss=2.206 bpb=1.311
+[2026-03-24 12:57:41] INFO      - batch 480/947 loss=2.206 bpb=1.312
+[2026-03-24 12:57:56] INFO      - batch 490/947 loss=2.208 bpb=1.312
+[2026-03-24 12:58:10] INFO      - batch 500/947 loss=2.208 bpb=1.312
+[2026-03-24 12:58:25] INFO      - batch 510/947 loss=2.209 bpb=1.313
+[2026-03-24 12:58:39] INFO      - batch 520/947 loss=2.211 bpb=1.314
+[2026-03-24 12:58:54] INFO      - batch 530/947 loss=2.211 bpb=1.314
+[2026-03-24 12:59:08] INFO      - batch 540/947 loss=2.212 bpb=1.314
+[2026-03-24 12:59:22] INFO      - batch 550/947 loss=2.213 bpb=1.314
+[2026-03-24 12:59:37] INFO      - batch 560/947 loss=2.212 bpb=1.314
+[2026-03-24 12:59:51] INFO      - batch 570/947 loss=2.212 bpb=1.313
+[2026-03-24 13:00:06] INFO      - batch 580/947 loss=2.212 bpb=1.313
+[2026-03-24 13:00:20] INFO      - batch 590/947 loss=2.212 bpb=1.312
+[2026-03-24 13:00:34] INFO      - batch 600/947 loss=2.213 bpb=1.313
+[2026-03-24 13:00:49] INFO      - batch 610/947 loss=2.212 bpb=1.313
+[2026-03-24 13:01:03] INFO      - batch 620/947 loss=2.212 bpb=1.312
+[2026-03-24 13:01:18] INFO      - batch 630/947 loss=2.211 bpb=1.311
+[2026-03-24 13:01:32] INFO      - batch 640/947 loss=2.211 bpb=1.311
+[2026-03-24 13:01:47] INFO      - batch 650/947 loss=2.211 bpb=1.310
+[2026-03-24 13:02:01] INFO      - batch 660/947 loss=2.210 bpb=1.310
+[2026-03-24 13:02:15] INFO      - batch 670/947 loss=2.210 bpb=1.309
+[2026-03-24 13:02:30] INFO      - batch 680/947 loss=2.210 bpb=1.309
+[2026-03-24 13:02:44] INFO      - batch 690/947 loss=2.210 bpb=1.310
+[2026-03-24 13:02:59] INFO      - batch 700/947 loss=2.210 bpb=1.309
+[2026-03-24 13:03:13] INFO      - batch 710/947 loss=2.210 bpb=1.310
+[2026-03-24 13:03:27] INFO      - batch 720/947 loss=2.210 bpb=1.310
+[2026-03-24 13:03:42] INFO      - batch 730/947 loss=2.210 bpb=1.310
+[2026-03-24 13:03:56] INFO      - batch 740/947 loss=2.210 bpb=1.311
+[2026-03-24 13:04:11] INFO      - batch 750/947 loss=2.210 bpb=1.311
+[2026-03-24 13:04:25] INFO      - batch 760/947 loss=2.210 bpb=1.311
+[2026-03-24 13:04:40] INFO      - batch 770/947 loss=2.211 bpb=1.312
+[2026-03-24 13:04:54] INFO      - batch 780/947 loss=2.211 bpb=1.312
+[2026-03-24 13:05:08] INFO      - batch 790/947 loss=2.212 bpb=1.313
+[2026-03-24 13:05:23] INFO      - batch 800/947 loss=2.213 bpb=1.313
+[2026-03-24 13:05:37] INFO      - batch 810/947 loss=2.213 bpb=1.313
+[2026-03-24 13:05:52] INFO      - batch 820/947 loss=2.213 bpb=1.313
+[2026-03-24 13:06:06] INFO      - batch 830/947 loss=2.214 bpb=1.313
+[2026-03-24 13:06:20] INFO      - batch 840/947 loss=2.214 bpb=1.313
+[2026-03-24 13:06:35] INFO      - batch 850/947 loss=2.215 bpb=1.313
+[2026-03-24 13:06:49] INFO      - batch 860/947 loss=2.215 bpb=1.313
+[2026-03-24 13:07:04] INFO      - batch 870/947 loss=2.215 bpb=1.313
+[2026-03-24 13:07:18] INFO      - batch 880/947 loss=2.215 bpb=1.313
+[2026-03-24 13:07:32] INFO      - batch 890/947 loss=2.215 bpb=1.313
+[2026-03-24 13:07:47] INFO      - batch 900/947 loss=2.215 bpb=1.312
+[2026-03-24 13:08:01] INFO      - batch 910/947 loss=2.215 bpb=1.312
+[2026-03-24 13:08:16] INFO      - batch 920/947 loss=2.214 bpb=1.312
+[2026-03-24 13:08:30] INFO      - batch 930/947 loss=2.214 bpb=1.311
+[2026-03-24 13:08:45] INFO      - batch 940/947 loss=2.214 bpb=1.311
+[2026-03-24 13:08:54] INFO      - batch 947/947 loss=2.214 bpb=1.311
+[2026-03-24 13:08:54] INFO     int6 eval complete: val_bpb=1.311 compressed_bytes=14,401,198 in 1364.5s
+[2026-03-24 13:08:54] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/005-mlp-3x/artifacts_8x_rtx_pro_6000/eval_report.json
