@@ -304,11 +304,11 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     )
     cy = MT + ph // 2
     svg.append(
-        f'<text transform="rotate(-90,16,{cy})" x="16" y="{cy}" text-anchor="middle" '
+        f'<text transform="rotate(-90,28,{cy})" x="28" y="{cy}" text-anchor="middle" '
         f'font-size="13" font-family="sans-serif" fill="{BASE_COLOR}">Train loss (log scale)</text>'
     )
     if diff_axis:
-        rx_label = W - 8
+        rx_label = W - MR + 22
         svg.append(
             f'<text transform="rotate(90,{rx_label},{cy})" x="{rx_label}" y="{cy}" text-anchor="middle" '
             f'font-size="13" font-family="sans-serif" fill="{DIFF_COLOR}">Train loss diff (exp − base)</text>'
