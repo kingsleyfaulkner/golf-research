@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-03-24T07:27:34.691033+00:00",
+  "timestamp": "2026-03-24T14:27:06.926774+00:00",
   "quant": {
     "int6": {
       "scheme": "int6",
       "compressor": "zstd",
-      "compressed_bytes": 12368519,
-      "serialized_bytes": 13370107,
+      "compressed_bytes": 11511872,
+      "serialized_bytes": 17761275,
       "param_count": 17584712
     },
     "int8": {

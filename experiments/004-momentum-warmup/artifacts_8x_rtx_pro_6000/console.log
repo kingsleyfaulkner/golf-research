@@ -645,3 +645,118 @@ Running evaluation: 004-momentum-warmup (artifacts_8x_rtx_pro_6000, 1 GPU(s))
 [2026-03-24 09:27:27] INFO     Running full-precision evaluation
 [2026-03-24 09:27:42] INFO      - batch 10/947 loss=2.120 bpb=1.275
 [2026-03-24 09:27:56] INFO      - batch 20/947 loss=2.139 bpb=1.279
+Quantizing: 004-momentum-warmup (artifacts_8x_rtx_pro_6000, schemes=int6, compressed)
+[2026-03-24 14:26:59] INFO     Extracting compressed checkpoint: /home/kingsley/projects/golf-research/experiments/004-momentum-warmup/artifacts_8x_rtx_pro_6000/checkpoint.tar.gz
+/home/kingsley/projects/golf-research/scripts/quant.py:702: DeprecationWarning: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior.
+  tar.extractall(tmp_dir)
+[2026-03-24 14:26:59] INFO     Loading checkpoint: /tmp/quant_checkpoint_szdusqqo/checkpoint/step_4292_final_model
+[2026-03-24 14:26:59] INFO     Loading checkpoint from /tmp/quant_checkpoint_szdusqqo/checkpoint/step_4292_final_model
+[2026-03-24 14:26:59] INFO     Loaded model from /tmp/quant_checkpoint_szdusqqo/checkpoint/step_4292_final_model (17,051,208 parameters)
+[2026-03-24 14:26:59] INFO     Quantizing to int6
+[2026-03-24 14:27:06] INFO     int6 (zstd): compressed=11,511,872 bytes serialized=17,761,275 bytes payload=17,702,032 bytes
+[2026-03-24 14:27:06] INFO     int6 roundtrip verified
+[2026-03-24 14:27:06] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/004-momentum-warmup/artifacts_8x_rtx_pro_6000/quant_report.json
+Running evaluation: 004-momentum-warmup (artifacts_8x_rtx_pro_6000, 1 GPU(s))
+[2026-03-24 14:27:09] INFO     Eval config: checkpoints=step_4292_final_model_int6 device=cuda:0 sequence_length=1024 batch_size=64 world_size=1
+[2026-03-24 14:27:09] INFO     Tokenizer: /home/kingsley/github/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+[2026-03-24 14:27:09] INFO     Validation data: /home/kingsley/github/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin
+[2026-03-24 14:27:09] INFO     Loaded tokens=62.02M sequences=60.6K vocab_size=1024
+[2026-03-24 14:27:09] INFO     Loading int6 checkpoint: step_4292_final_model_int6
+[2026-03-24 14:27:10] INFO     Running int6 evaluation (device=cuda:0)
+[2026-03-24 14:27:24] INFO      - batch 10/947 loss=2.306 bpb=1.387
+[2026-03-24 14:27:38] INFO      - batch 20/947 loss=2.325 bpb=1.390
+[2026-03-24 14:27:52] INFO      - batch 30/947 loss=2.330 bpb=1.396
+[2026-03-24 14:28:06] INFO      - batch 40/947 loss=2.320 bpb=1.393
+[2026-03-24 14:28:20] INFO      - batch 50/947 loss=2.321 bpb=1.395
+[2026-03-24 14:28:34] INFO      - batch 60/947 loss=2.315 bpb=1.391
+[2026-03-24 14:28:48] INFO      - batch 70/947 loss=2.315 bpb=1.389
+[2026-03-24 14:29:02] INFO      - batch 80/947 loss=2.317 bpb=1.390
+[2026-03-24 14:29:16] INFO      - batch 90/947 loss=2.322 bpb=1.393
+[2026-03-24 14:29:30] INFO      - batch 100/947 loss=2.325 bpb=1.396
+[2026-03-24 14:29:44] INFO      - batch 110/947 loss=2.326 bpb=1.395
+[2026-03-24 14:29:58] INFO      - batch 120/947 loss=2.326 bpb=1.396
+[2026-03-24 14:30:12] INFO      - batch 130/947 loss=2.324 bpb=1.395
+[2026-03-24 14:30:26] INFO      - batch 140/947 loss=2.324 bpb=1.395
+[2026-03-24 14:30:40] INFO      - batch 150/947 loss=2.327 bpb=1.394
+[2026-03-24 14:30:54] INFO      - batch 160/947 loss=2.330 bpb=1.395
+[2026-03-24 14:31:08] INFO      - batch 170/947 loss=2.330 bpb=1.394
+[2026-03-24 14:31:22] INFO      - batch 180/947 loss=2.333 bpb=1.396
+[2026-03-24 14:31:36] INFO      - batch 190/947 loss=2.334 bpb=1.395
+[2026-03-24 14:31:50] INFO      - batch 200/947 loss=2.334 bpb=1.395
+[2026-03-24 14:32:04] INFO      - batch 210/947 loss=2.334 bpb=1.394
+[2026-03-24 14:32:18] INFO      - batch 220/947 loss=2.335 bpb=1.393
+[2026-03-24 14:32:32] INFO      - batch 230/947 loss=2.336 bpb=1.392
+[2026-03-24 14:32:46] INFO      - batch 240/947 loss=2.336 bpb=1.391
+[2026-03-24 14:33:00] INFO      - batch 250/947 loss=2.337 bpb=1.391
+[2026-03-24 14:33:14] INFO      - batch 260/947 loss=2.335 bpb=1.390
+[2026-03-24 14:33:28] INFO      - batch 270/947 loss=2.337 bpb=1.390
+[2026-03-24 14:33:42] INFO      - batch 280/947 loss=2.337 bpb=1.389
+[2026-03-24 14:33:56] INFO      - batch 290/947 loss=2.336 bpb=1.388
+[2026-03-24 14:34:10] INFO      - batch 300/947 loss=2.335 bpb=1.387
+[2026-03-24 14:34:24] INFO      - batch 310/947 loss=2.334 bpb=1.387
+[2026-03-24 14:34:38] INFO      - batch 320/947 loss=2.333 bpb=1.386
+[2026-03-24 14:34:52] INFO      - batch 330/947 loss=2.333 bpb=1.385
+[2026-03-24 14:35:06] INFO      - batch 340/947 loss=2.332 bpb=1.384
+[2026-03-24 14:35:20] INFO      - batch 350/947 loss=2.332 bpb=1.383
+[2026-03-24 14:35:34] INFO      - batch 360/947 loss=2.331 bpb=1.383
+[2026-03-24 14:35:48] INFO      - batch 370/947 loss=2.332 bpb=1.383
+[2026-03-24 14:36:02] INFO      - batch 380/947 loss=2.331 bpb=1.383
+[2026-03-24 14:36:16] INFO      - batch 390/947 loss=2.331 bpb=1.383
+[2026-03-24 14:36:30] INFO      - batch 400/947 loss=2.331 bpb=1.383
+[2026-03-24 14:36:44] INFO      - batch 410/947 loss=2.330 bpb=1.383
+[2026-03-24 14:36:58] INFO      - batch 420/947 loss=2.329 bpb=1.382
+[2026-03-24 14:37:12] INFO      - batch 430/947 loss=2.329 bpb=1.383
+[2026-03-24 14:37:26] INFO      - batch 440/947 loss=2.329 bpb=1.383
+[2026-03-24 14:37:40] INFO      - batch 450/947 loss=2.327 bpb=1.383
+[2026-03-24 14:37:54] INFO      - batch 460/947 loss=2.327 bpb=1.383
+[2026-03-24 14:38:08] INFO      - batch 470/947 loss=2.326 bpb=1.383
+[2026-03-24 14:38:22] INFO      - batch 480/947 loss=2.327 bpb=1.384
+[2026-03-24 14:38:36] INFO      - batch 490/947 loss=2.329 bpb=1.384
+[2026-03-24 14:38:50] INFO      - batch 500/947 loss=2.329 bpb=1.384
+[2026-03-24 14:39:04] INFO      - batch 510/947 loss=2.330 bpb=1.385
+[2026-03-24 14:39:18] INFO      - batch 520/947 loss=2.332 bpb=1.385
+[2026-03-24 14:39:32] INFO      - batch 530/947 loss=2.332 bpb=1.385
+[2026-03-24 14:39:46] INFO      - batch 540/947 loss=2.332 bpb=1.385
+[2026-03-24 14:40:00] INFO      - batch 550/947 loss=2.334 bpb=1.386
+[2026-03-24 14:40:14] INFO      - batch 560/947 loss=2.333 bpb=1.385
+[2026-03-24 14:40:28] INFO      - batch 570/947 loss=2.332 bpb=1.385
+[2026-03-24 14:40:42] INFO      - batch 580/947 loss=2.333 bpb=1.385
+[2026-03-24 14:40:56] INFO      - batch 590/947 loss=2.332 bpb=1.384
+[2026-03-24 14:41:10] INFO      - batch 600/947 loss=2.333 bpb=1.384
+[2026-03-24 14:41:24] INFO      - batch 610/947 loss=2.333 bpb=1.384
+[2026-03-24 14:41:38] INFO      - batch 620/947 loss=2.333 bpb=1.383
+[2026-03-24 14:41:52] INFO      - batch 630/947 loss=2.332 bpb=1.383
+[2026-03-24 14:42:06] INFO      - batch 640/947 loss=2.331 bpb=1.382
+[2026-03-24 14:42:20] INFO      - batch 650/947 loss=2.331 bpb=1.382
+[2026-03-24 14:42:34] INFO      - batch 660/947 loss=2.331 bpb=1.381
+[2026-03-24 14:42:48] INFO      - batch 670/947 loss=2.330 bpb=1.380
+[2026-03-24 14:43:02] INFO      - batch 680/947 loss=2.330 bpb=1.380
+[2026-03-24 14:43:16] INFO      - batch 690/947 loss=2.331 bpb=1.381
+[2026-03-24 14:43:30] INFO      - batch 700/947 loss=2.330 bpb=1.381
+[2026-03-24 14:43:44] INFO      - batch 710/947 loss=2.330 bpb=1.381
+[2026-03-24 14:43:58] INFO      - batch 720/947 loss=2.331 bpb=1.382
+[2026-03-24 14:44:12] INFO      - batch 730/947 loss=2.330 bpb=1.382
+[2026-03-24 14:44:26] INFO      - batch 740/947 loss=2.331 bpb=1.382
+[2026-03-24 14:44:40] INFO      - batch 750/947 loss=2.331 bpb=1.383
+[2026-03-24 14:44:54] INFO      - batch 760/947 loss=2.331 bpb=1.383
+[2026-03-24 14:45:08] INFO      - batch 770/947 loss=2.331 bpb=1.383
+[2026-03-24 14:45:22] INFO      - batch 780/947 loss=2.332 bpb=1.384
+[2026-03-24 14:45:36] INFO      - batch 790/947 loss=2.333 bpb=1.384
+[2026-03-24 14:45:50] INFO      - batch 800/947 loss=2.333 bpb=1.384
+[2026-03-24 14:46:04] INFO      - batch 810/947 loss=2.334 bpb=1.384
+[2026-03-24 14:46:18] INFO      - batch 820/947 loss=2.334 bpb=1.384
+[2026-03-24 14:46:32] INFO      - batch 830/947 loss=2.334 bpb=1.384
+[2026-03-24 14:46:46] INFO      - batch 840/947 loss=2.335 bpb=1.385
+[2026-03-24 14:47:00] INFO      - batch 850/947 loss=2.336 bpb=1.385
+[2026-03-24 14:47:14] INFO      - batch 860/947 loss=2.336 bpb=1.385
+[2026-03-24 14:47:28] INFO      - batch 870/947 loss=2.336 bpb=1.384
+[2026-03-24 14:47:42] INFO      - batch 880/947 loss=2.336 bpb=1.384
+[2026-03-24 14:47:56] INFO      - batch 890/947 loss=2.336 bpb=1.384
+[2026-03-24 14:48:10] INFO      - batch 900/947 loss=2.335 bpb=1.384
+[2026-03-24 14:48:24] INFO      - batch 910/947 loss=2.335 bpb=1.383
+[2026-03-24 14:48:38] INFO      - batch 920/947 loss=2.335 bpb=1.383
+[2026-03-24 14:48:52] INFO      - batch 930/947 loss=2.335 bpb=1.383
+[2026-03-24 14:49:06] INFO      - batch 940/947 loss=2.334 bpb=1.382
+[2026-03-24 14:49:15] INFO      - batch 947/947 loss=2.334 bpb=1.382
+[2026-03-24 14:49:15] INFO     int6 eval complete: val_bpb=1.382 compressed_bytes=11,511,872 in 1325.2s
+[2026-03-24 14:49:15] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/004-momentum-warmup/artifacts_8x_rtx_pro_6000/eval_report.json

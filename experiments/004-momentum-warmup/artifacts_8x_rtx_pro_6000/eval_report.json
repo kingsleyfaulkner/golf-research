@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-23T14:42:24.844596+00:00",
-  "val_tokens_evaluated": 62021632,
+  "timestamp": "2026-03-24T14:27:09.965664+00:00",
+  "val_tokens_evaluated": 62021633,
   "vocab_size": 1024,
   "checkpoint": "artifacts/checkpoint",
   "val_loss": 2.148057272563033,
@@ -9,11 +9,11 @@
   "quant": {
     "int6": {
       "scheme": "int6",
-      "compressed_bytes": 12798019,
-      "val_bpb": 1.3824511269529256,
-      "val_loss": 2.334210819335835,
+      "compressed_bytes": 11511872,
+      "val_bpb": 1.3824510120828883,
+      "val_loss": 2.3342106253825885,
       "val_tokens_evaluated": 62021632,
-      "eval_time_seconds": 6.92
+      "eval_time_seconds": 1325.21
     },
     "int8": {
       "scheme": "int8",
