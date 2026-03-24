@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-24T13:09:04.727634+00:00",
+  "timestamp": "2026-03-24T13:41:24.595606+00:00",
   "val_tokens_evaluated": 62021633,
   "vocab_size": 1024,
   "checkpoint": "artifacts/checkpoint",
@@ -25,11 +25,11 @@
     },
     "mxfp4": {
       "scheme": "mxfp4",
-      "compressed_bytes": 11094087,
-      "val_bpb": 1.6422263783075164,
-      "val_loss": 2.772830449705032,
+      "compressed_bytes": 10996460,
+      "val_bpb": 1.5456935170728179,
+      "val_loss": 2.6098387571074597,
       "val_tokens_evaluated": 62021632,
-      "eval_time_seconds": 7.69
+      "eval_time_seconds": 1358.31
     },
     "nvfp4": {
       "scheme": "nvfp4",
