@@ -434,7 +434,7 @@ def quantize_state_dict(
             if bits < 8:
                 meta["orig_shape"] = list(q.shape)
                 meta["orig_numel"] = int(q.numel())
-                q = pack_nbits(q, bits)
+                # q = pack_nbits(q, bits)
             if meta:
                 qmeta[name] = meta
             quantized[name] = q
@@ -516,7 +516,7 @@ def dequantize_state_dict(obj: dict[str, object]) -> dict[str, Tensor]:
     """
     scheme = obj.get("__quant_scheme__") or obj.get("__quant_format__", "int8")
     is_intN = scheme.startswith("int")
-    bits = obj.get("__quant_bits__", 8) if is_intN else None
+    # bits = obj.get("__quant_bits__", 8) if is_intN else None
 
     out: dict[str, Tensor] = {}
     qmeta = obj.get("qmeta", {})
@@ -530,7 +530,8 @@ def dequantize_state_dict(obj: dict[str, object]) -> dict[str, Tensor]:
             s = obj["scales"][name]
             meta = qmeta.get(name, {})
             if "orig_numel" in meta:
-                q = unpack_nbits(q, bits, meta["orig_numel"]).reshape(meta["orig_shape"])
+                # q = unpack_nbits(q, bits, meta["orig_numel"]).reshape(meta["orig_shape"])
+                q = q.reshape(meta["orig_shape"])
             if meta.get("scheme") == "per_row" or s.ndim > 0:
                 s = s.to(dtype=torch.float32)
                 out[name] = (
