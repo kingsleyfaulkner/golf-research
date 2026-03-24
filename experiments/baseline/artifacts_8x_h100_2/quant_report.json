@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-03-24T07:28:50.438640+00:00",
+  "quant": {
+    "int6": {
+      "scheme": "int6",
+      "compressor": "zstd",
+      "compressed_bytes": 12306428,
+      "serialized_bytes": 13370107,
+      "param_count": 17584712
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressor": "zstd",
+      "compressed_bytes": 11286031,
+      "serialized_bytes": 17759611,
+      "param_count": 17584712
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressor": "zstd",
+      "compressed_bytes": 8465817,
+      "serialized_bytes": 11113787,
+      "param_count": 17584712
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressor": "zstd",
+      "compressed_bytes": 8705366,
+      "serialized_bytes": 10030347,
+      "param_count": 17584712
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-03-23T16:01:23.247911+00:00",
+  "checkpoint": "artifacts/checkpoint",
+  "val_data": "/workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin",
+  "tokenizer": "/workspace/parameter-golf/data/tokenizers/fineweb_1024_bpe.model",
+  "sequence_length": 1024,
+  "batch_size": 64,
+  "device": "cuda",
+  "val_tokens": 62021633,
+  "val_sequences": 60568,
+  "vocab_size": 1024,
+  "val_loss": 2.6324008811403496,
+  "val_bpb": 1.559056077788133,
+  "eval_time_seconds": 203.11,
+  "reference_baseline_bpb": 1.2244,
+  "val_tokens_evaluated": 62021633,
+  "quant": {
+    "int6": {
+      "scheme": "int6",
+      "compressed_bytes": 9277722,
+      "val_bpb": 1.5755818434079703,
+      "val_loss": 2.660303944153257,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 334.51
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 8088710,
+      "val_bpb": 1.5770464731267124,
+      "val_loss": 2.6627769100825076,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 346.77
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressed_bytes": 7781881,
+      "val_bpb": 1.6387507652659048,
+      "val_loss": 2.7669620226717835,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 335.24
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressed_bytes": 8148337,
+      "val_bpb": 1.6602952666609354,
+      "val_loss": 2.8033390108148075,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 334.95
+    }
+  }
+}

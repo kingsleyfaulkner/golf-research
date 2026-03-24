@@ -1,0 +1,783 @@
+Overrides saved to artifacts/overrides.yaml
+Running experiment: baseline (8 GPU(s))
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Initializing distributed: rank=4, world_size=8, local_rank=4, backend=nccl
+[W323 14:08:19.243682032 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:19.243704466 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:19] INFO     Initializing distributed: rank=6, world_size=8, local_rank=6, backend=nccl
+[W323 14:08:19.708282742 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:19.708304674 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:19] INFO     Initializing distributed: rank=5, world_size=8, local_rank=5, backend=nccl
+[W323 14:08:19.709607554 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:19.709631360 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:19] INFO     Training stages: ['pre_training']
+[2026-03-23 14:08:20] INFO     Initializing distributed: rank=3, world_size=8, local_rank=3, backend=nccl
+[W323 14:08:20.982059582 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:20.982078060 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:20] INFO     Initializing distributed: rank=7, world_size=8, local_rank=7, backend=nccl
+[W323 14:08:20.236642711 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:20.236665665 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:20] INFO     Initializing distributed: rank=2, world_size=8, local_rank=2, backend=nccl
+[W323 14:08:20.257585780 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:20.257609245 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:20] INFO     Initializing distributed: rank=0, world_size=8, local_rank=0, backend=nccl
+[W323 14:08:20.275839996 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:20.275864803 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:20] INFO     Initializing distributed: rank=1, world_size=8, local_rank=1, backend=nccl
+[W323 14:08:20.277190587 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:08:20.277216946 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:08:20] INFO     Distributed initialized: rank 0 of 8
+[2026-03-23 14:08:20] INFO     Device: cuda:0, distributed: True
+[2026-03-23 14:08:20] INFO     Starting stage: pre_training
+[2026-03-23 14:08:20] INFO     Seed: 699113502
+[2026-03-23 14:08:20] INFO     Loaded 80 shards from /workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_train_*.bin (8.00B tokens)
+[2026-03-23 14:08:20] INFO     DecoderTransformer params=17.05M non_emb_params=16.53M
+[2026-03-23 14:08:20] INFO     DecoderTransformerTrainer compile=CompileConfig
+[2026-03-23 14:08:20] INFO     LayerWiseOptimiser groups=3 params=17,051,208
+[2026-03-23 14:08:20] INFO      - embedding: Adam lr=0.0500 betas=(0.9000, 0.9500) layers=1 params=524,288
+[2026-03-23 14:08:20] INFO      - block_scalars: Adam lr=0.0400 betas=(0.9000, 0.9500) layers=32 params=11,848
+[2026-03-23 14:08:20] INFO      - default: Muon lr=0.0400 momentum=0.9500 layers=54 params=16,515,072 features=[HyperparameterSchedule(parameter=momentum, initial=0.8500, final=0.9500, scheduler=LinearLR(start_factor=0.3333, end_factor=1.0000, total_iters=500))]
+[2026-03-23 14:08:20] INFO     WallclockWarmdownScheduler decay_type=linear base_lrs=[0.0500, 0.0400, 0.0400]
+[2026-03-23 14:08:20] INFO     Model trainer features: CompileDiagnostics, Autocast(dtype=bfloat16), CUDABackend(tf32=True, sdp=flash)
+[2026-03-23 14:08:20] INFO     torch.compile diagnostics enabled - stats will be reported after the first training step
+[2026-03-23 14:08:20] INFO     Training features: SystemDiagnostics(console, artifacts/system.json), ConfigSnapshot(artifacts/experiment.yaml), GradientAccumulation(grad_accum=1, micro_batch=80, full_batch=80), SpeedMonitor, MemoryProfiler, Checkpointer, MetricsLogger(artifacts/metrics.jsonl), ConsoleLogger
+[2026-03-23 14:08:20] INFO     Host: 02b47b459ca1 cpu=AMD EPYC 9355 32-Core Processor ram=2015.41GB
+[2026-03-23 14:08:20] INFO     Software: python=3.12.3 pytorch=2.10.0+cu128 cuda=12.8
+[2026-03-23 14:08:20] INFO      - GPU 0: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 1: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 2: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 3: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 4: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 5: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 6: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO      - GPU 7: NVIDIA RTX PRO 6000 Blackwell Server Edition memory=94.97GB SMs=188 compute=12.0
+[2026-03-23 14:08:20] INFO     Distributed: world_size=8 rank=0 backend=nccl
+[2026-03-23 14:08:20] INFO     Saved resolved config to artifacts/experiment.yaml
+[rank3]:[W323 14:08:21.004282258 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank1]:[W323 14:08:21.004638932 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank4]:[W323 14:08:21.004880674 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank6]:[W323 14:08:21.005164599 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank0]:[W323 14:08:21.005580922 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[2026-03-23 14:08:21] INFO     DDP applied to model
+[2026-03-23 14:08:21] INFO     Running 10 warmup steps
+[rank2]:[W323 14:08:21.006859515 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank5]:[W323 14:08:21.007113044 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank7]:[W323 14:08:21.008356405 Utils.hpp:112] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[2026-03-23 14:08:47] INFO     Compiled model active
+[2026-03-23 14:08:47] INFO     torch.compile diagnostics | graphs=4 | graph breaks=0
+[2026-03-23 14:08:47] INFO     No graph breaks detected
+[2026-03-23 14:08:47] INFO      - warmup step 1/10 25.9s
+[2026-03-23 14:08:48] INFO     torch.compile step timing | first=25.90s (incl. compilation) | second=0.3286s (compiled)
+[2026-03-23 14:08:48] INFO      - warmup step 2/10 0.9s
+[2026-03-23 14:08:48] INFO      - warmup step 3/10 0.1s
+[2026-03-23 14:08:48] INFO      - warmup step 4/10 0.1s
+[2026-03-23 14:08:49] INFO      - warmup step 5/10 0.1s
+[2026-03-23 14:08:49] INFO      - warmup step 6/10 0.1s
+[2026-03-23 14:08:49] INFO      - warmup step 7/10 0.1s
+[2026-03-23 14:08:50] INFO      - warmup step 8/10 0.1s
+[2026-03-23 14:08:50] INFO      - warmup step 9/10 0.1s
+[2026-03-23 14:08:50] INFO      - warmup step 10/10 0.1s
+[2026-03-23 14:08:50] INFO     Warmup complete in 29.4s
+[2026-03-23 14:08:50] INFO     Starting training total_batch_tokens=655,360 params=17.05M
+[2026-03-23 14:08:50] INFO     Starting epoch 1
+[2026-03-23 14:08:52] INFO     step=10 | epoch=1 | ce_loss=6.455 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=6.455 | lr=0.0500 | ms_per_step=128.1 | flops_per_sec=5.23E+14 | tokens_per_sec=5,114,523 | tokens_seen=6.55M | total_flops=670.48T
+[2026-03-23 14:08:54] INFO     step=20 | epoch=1 | ce_loss=5.438 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=5.438 | lr=0.0500 | ms_per_step=128.5 | flops_per_sec=5.22E+14 | tokens_per_sec=5,098,651 | tokens_seen=13.11M | total_flops=1.34P
+[2026-03-23 14:08:57] INFO     step=30 | epoch=1 | ce_loss=4.672 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=4.672 | lr=0.0500 | ms_per_step=128.9 | flops_per_sec=5.20E+14 | tokens_per_sec=5,085,250 | tokens_seen=19.66M | total_flops=2.01P
+[2026-03-23 14:08:59] INFO     step=40 | epoch=1 | ce_loss=4.335 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=4.335 | lr=0.0500 | ms_per_step=129.0 | flops_per_sec=5.20E+14 | tokens_per_sec=5,079,137 | tokens_seen=26.21M | total_flops=2.68P
+[2026-03-23 14:09:01] INFO     step=50 | epoch=1 | ce_loss=4.137 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=4.137 | lr=0.0500 | ms_per_step=129.0 | flops_per_sec=5.20E+14 | tokens_per_sec=5,078,833 | tokens_seen=32.77M | total_flops=3.35P
+[2026-03-23 14:09:04] INFO     step=60 | epoch=1 | ce_loss=3.820 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.820 | lr=0.0500 | ms_per_step=129.0 | flops_per_sec=5.20E+14 | tokens_per_sec=5,081,843 | tokens_seen=39.32M | total_flops=4.02P
+[2026-03-23 14:09:06] INFO     step=70 | epoch=1 | ce_loss=3.610 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.610 | lr=0.0500 | ms_per_step=128.9 | flops_per_sec=5.20E+14 | tokens_per_sec=5,084,554 | tokens_seen=45.88M | total_flops=4.69P
+[2026-03-23 14:09:08] INFO     step=80 | epoch=1 | ce_loss=3.565 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.565 | lr=0.0500 | ms_per_step=128.7 | flops_per_sec=5.21E+14 | tokens_per_sec=5,093,186 | tokens_seen=52.43M | total_flops=5.36P
+[2026-03-23 14:09:10] INFO     step=90 | epoch=1 | ce_loss=3.424 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.424 | lr=0.0500 | ms_per_step=128.4 | flops_per_sec=5.22E+14 | tokens_per_sec=5,104,338 | tokens_seen=58.98M | total_flops=6.03P
+[2026-03-23 14:09:12] INFO     step=100 | epoch=1 | ce_loss=3.282 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.282 | lr=0.0500 | ms_per_step=128.2 | flops_per_sec=5.23E+14 | tokens_per_sec=5,113,298 | tokens_seen=65.54M | total_flops=6.70P
+[2026-03-23 14:09:14] INFO     step=110 | epoch=1 | ce_loss=3.209 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.209 | lr=0.0500 | ms_per_step=128.0 | flops_per_sec=5.24E+14 | tokens_per_sec=5,121,336 | tokens_seen=72.09M | total_flops=7.38P
+[2026-03-23 14:09:16] INFO     step=120 | epoch=1 | ce_loss=3.192 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.192 | lr=0.0500 | ms_per_step=127.8 | flops_per_sec=5.25E+14 | tokens_per_sec=5,127,452 | tokens_seen=78.64M | total_flops=8.05P
+[2026-03-23 14:09:18] INFO     step=130 | epoch=1 | ce_loss=3.088 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.088 | lr=0.0500 | ms_per_step=127.7 | flops_per_sec=5.25E+14 | tokens_per_sec=5,132,878 | tokens_seen=85.20M | total_flops=8.72P
+[2026-03-23 14:09:20] INFO     step=140 | epoch=1 | ce_loss=3.104 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.104 | lr=0.0500 | ms_per_step=127.5 | flops_per_sec=5.26E+14 | tokens_per_sec=5,138,219 | tokens_seen=91.75M | total_flops=9.39P
+[2026-03-23 14:09:22] INFO     step=150 | epoch=1 | ce_loss=3.004 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=3.004 | lr=0.0500 | ms_per_step=127.5 | flops_per_sec=5.26E+14 | tokens_per_sec=5,141,490 | tokens_seen=98.30M | total_flops=10.06P
+[2026-03-23 14:09:24] INFO     step=160 | epoch=1 | ce_loss=2.950 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.950 | lr=0.0500 | ms_per_step=127.4 | flops_per_sec=5.26E+14 | tokens_per_sec=5,144,870 | tokens_seen=104.86M | total_flops=10.73P
+[2026-03-23 14:09:25] INFO     step=170 | epoch=1 | ce_loss=2.881 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.881 | lr=0.0500 | ms_per_step=127.3 | flops_per_sec=5.27E+14 | tokens_per_sec=5,149,239 | tokens_seen=111.41M | total_flops=11.40P
+[2026-03-23 14:09:27] INFO     step=180 | epoch=1 | ce_loss=2.921 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.921 | lr=0.0500 | ms_per_step=127.2 | flops_per_sec=5.27E+14 | tokens_per_sec=5,153,410 | tokens_seen=117.96M | total_flops=12.07P
+[2026-03-23 14:09:29] INFO     step=190 | epoch=1 | ce_loss=2.858 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.858 | lr=0.0500 | ms_per_step=127.1 | flops_per_sec=5.27E+14 | tokens_per_sec=5,154,971 | tokens_seen=124.52M | total_flops=12.74P
+[2026-03-23 14:09:31] INFO     step=200 | epoch=1 | ce_loss=2.881 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.881 | lr=0.0500 | ms_per_step=127.0 | flops_per_sec=5.28E+14 | tokens_per_sec=5,158,322 | tokens_seen=131.07M | total_flops=13.41P
+[2026-03-23 14:09:33] INFO     step=210 | epoch=1 | ce_loss=2.726 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.726 | lr=0.0500 | ms_per_step=127.0 | flops_per_sec=5.28E+14 | tokens_per_sec=5,161,607 | tokens_seen=137.63M | total_flops=14.08P
+[2026-03-23 14:09:34] INFO     step=220 | epoch=1 | ce_loss=2.773 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.773 | lr=0.0500 | ms_per_step=126.9 | flops_per_sec=5.28E+14 | tokens_per_sec=5,163,980 | tokens_seen=144.18M | total_flops=14.75P
+[2026-03-23 14:09:36] INFO     step=230 | epoch=1 | ce_loss=2.776 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.776 | lr=0.0500 | ms_per_step=126.8 | flops_per_sec=5.29E+14 | tokens_per_sec=5,167,104 | tokens_seen=150.73M | total_flops=15.42P
+[2026-03-23 14:09:38] INFO     step=240 | epoch=1 | ce_loss=2.728 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.728 | lr=0.0500 | ms_per_step=126.8 | flops_per_sec=5.29E+14 | tokens_per_sec=5,169,970 | tokens_seen=157.29M | total_flops=16.09P
+[2026-03-23 14:09:39] INFO     step=250 | epoch=1 | ce_loss=2.725 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.725 | lr=0.0500 | ms_per_step=126.7 | flops_per_sec=5.29E+14 | tokens_per_sec=5,172,101 | tokens_seen=163.84M | total_flops=16.76P
+[2026-03-23 14:09:41] INFO     step=260 | epoch=1 | ce_loss=2.679 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.679 | lr=0.0500 | ms_per_step=126.6 | flops_per_sec=5.29E+14 | tokens_per_sec=5,175,489 | tokens_seen=170.39M | total_flops=17.43P
+[2026-03-23 14:09:43] INFO     step=270 | epoch=1 | ce_loss=2.689 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.689 | lr=0.0500 | ms_per_step=126.6 | flops_per_sec=5.30E+14 | tokens_per_sec=5,177,208 | tokens_seen=176.95M | total_flops=18.10P
+[2026-03-23 14:09:44] INFO     step=280 | epoch=1 | ce_loss=2.702 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.702 | lr=0.0500 | ms_per_step=126.5 | flops_per_sec=5.30E+14 | tokens_per_sec=5,178,712 | tokens_seen=183.50M | total_flops=18.77P
+[2026-03-23 14:09:46] INFO     step=290 | epoch=1 | ce_loss=2.685 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.685 | lr=0.0500 | ms_per_step=126.6 | flops_per_sec=5.30E+14 | tokens_per_sec=5,178,490 | tokens_seen=190.05M | total_flops=19.44P
+[2026-03-23 14:09:47] INFO     step=300 | epoch=1 | ce_loss=2.648 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.648 | lr=0.0500 | ms_per_step=126.5 | flops_per_sec=5.30E+14 | tokens_per_sec=5,179,042 | tokens_seen=196.61M | total_flops=20.11P
+[2026-03-23 14:09:49] INFO     step=310 | epoch=1 | ce_loss=2.619 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.619 | lr=0.0500 | ms_per_step=126.6 | flops_per_sec=5.30E+14 | tokens_per_sec=5,178,081 | tokens_seen=203.16M | total_flops=20.78P
+[2026-03-23 14:09:51] INFO     step=320 | epoch=1 | ce_loss=2.560 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.560 | lr=0.0500 | ms_per_step=126.5 | flops_per_sec=5.30E+14 | tokens_per_sec=5,179,048 | tokens_seen=209.72M | total_flops=21.46P
+[2026-03-23 14:09:52] INFO     step=330 | epoch=1 | ce_loss=2.700 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.700 | lr=0.0500 | ms_per_step=126.5 | flops_per_sec=5.30E+14 | tokens_per_sec=5,180,027 | tokens_seen=216.27M | total_flops=22.13P
+[2026-03-23 14:09:54] INFO     step=340 | epoch=1 | ce_loss=2.595 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.595 | lr=0.0500 | ms_per_step=126.5 | flops_per_sec=5.30E+14 | tokens_per_sec=5,181,444 | tokens_seen=222.82M | total_flops=22.80P
+[2026-03-23 14:09:55] INFO     step=350 | epoch=1 | ce_loss=2.630 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.630 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.30E+14 | tokens_per_sec=5,182,844 | tokens_seen=229.38M | total_flops=23.47P
+[2026-03-23 14:09:57] INFO     step=360 | epoch=1 | ce_loss=2.560 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.560 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.30E+14 | tokens_per_sec=5,183,664 | tokens_seen=235.93M | total_flops=24.14P
+[2026-03-23 14:09:58] INFO     step=370 | epoch=1 | ce_loss=2.630 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.630 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.30E+14 | tokens_per_sec=5,184,424 | tokens_seen=242.48M | total_flops=24.81P
+[2026-03-23 14:10:00] INFO     step=380 | epoch=1 | ce_loss=2.586 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.586 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.31E+14 | tokens_per_sec=5,185,519 | tokens_seen=249.04M | total_flops=25.48P
+[2026-03-23 14:10:01] INFO     step=390 | epoch=1 | ce_loss=2.538 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.538 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.31E+14 | tokens_per_sec=5,185,938 | tokens_seen=255.59M | total_flops=26.15P
+[2026-03-23 14:10:03] INFO     step=400 | epoch=1 | ce_loss=2.534 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.534 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.30E+14 | tokens_per_sec=5,184,905 | tokens_seen=262.14M | total_flops=26.82P
+[2026-03-23 14:10:04] INFO     step=410 | epoch=1 | ce_loss=2.566 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.566 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.31E+14 | tokens_per_sec=5,186,006 | tokens_seen=268.70M | total_flops=27.49P
+[2026-03-23 14:10:06] INFO     step=420 | epoch=1 | ce_loss=2.548 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.548 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.31E+14 | tokens_per_sec=5,186,526 | tokens_seen=275.25M | total_flops=28.16P
+[2026-03-23 14:10:07] INFO     step=430 | epoch=1 | ce_loss=2.591 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.591 | lr=0.0500 | ms_per_step=126.4 | flops_per_sec=5.31E+14 | tokens_per_sec=5,186,532 | tokens_seen=281.80M | total_flops=28.83P
+[2026-03-23 14:10:09] INFO     step=440 | epoch=1 | ce_loss=2.481 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.481 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,187,298 | tokens_seen=288.36M | total_flops=29.50P
+[2026-03-23 14:10:10] INFO     step=450 | epoch=1 | ce_loss=2.546 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.546 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,187,855 | tokens_seen=294.91M | total_flops=30.17P
+[2026-03-23 14:10:12] INFO     step=460 | epoch=1 | ce_loss=2.511 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.511 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,188,591 | tokens_seen=301.47M | total_flops=30.84P
+[2026-03-23 14:10:13] INFO     step=470 | epoch=1 | ce_loss=2.536 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.536 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,189,469 | tokens_seen=308.02M | total_flops=31.51P
+[2026-03-23 14:10:15] INFO     step=480 | epoch=1 | ce_loss=2.470 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.470 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,190,303 | tokens_seen=314.57M | total_flops=32.18P
+[2026-03-23 14:10:16] INFO     step=490 | epoch=1 | ce_loss=2.468 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.468 | lr=0.0500 | ms_per_step=126.3 | flops_per_sec=5.31E+14 | tokens_per_sec=5,190,741 | tokens_seen=321.13M | total_flops=32.85P
+[2026-03-23 14:10:17] INFO     step=500 | epoch=1 | ce_loss=2.478 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.478 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,191,081 | tokens_seen=327.68M | total_flops=33.52P
+[2026-03-23 14:10:19] INFO     step=510 | epoch=1 | ce_loss=2.471 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.471 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,191,663 | tokens_seen=334.23M | total_flops=34.19P
+[2026-03-23 14:10:20] INFO     step=520 | epoch=1 | ce_loss=2.499 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.499 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,192,520 | tokens_seen=340.79M | total_flops=34.87P
+[2026-03-23 14:10:22] INFO     step=530 | epoch=1 | ce_loss=2.398 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.398 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,193,240 | tokens_seen=347.34M | total_flops=35.54P
+[2026-03-23 14:10:23] INFO     step=540 | epoch=1 | ce_loss=2.438 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.438 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,193,829 | tokens_seen=353.89M | total_flops=36.21P
+[2026-03-23 14:10:24] INFO     step=550 | epoch=1 | ce_loss=2.474 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.474 | lr=0.0500 | ms_per_step=126.2 | flops_per_sec=5.31E+14 | tokens_per_sec=5,194,411 | tokens_seen=360.45M | total_flops=36.88P
+[2026-03-23 14:10:26] INFO     step=560 | epoch=1 | ce_loss=2.430 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.430 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,195,407 | tokens_seen=367.00M | total_flops=37.55P
+[2026-03-23 14:10:27] INFO     step=570 | epoch=1 | ce_loss=2.448 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.448 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,196,005 | tokens_seen=373.56M | total_flops=38.22P
+[2026-03-23 14:10:29] INFO     step=580 | epoch=1 | ce_loss=2.453 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.453 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,196,795 | tokens_seen=380.11M | total_flops=38.89P
+[2026-03-23 14:10:30] INFO     step=590 | epoch=1 | ce_loss=2.377 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.377 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,197,565 | tokens_seen=386.66M | total_flops=39.56P
+[2026-03-23 14:10:32] INFO     step=600 | epoch=1 | ce_loss=2.441 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.441 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,181 | tokens_seen=393.22M | total_flops=40.23P
+[2026-03-23 14:10:33] INFO     step=610 | epoch=1 | ce_loss=2.470 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.470 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,941 | tokens_seen=399.77M | total_flops=40.90P
+[2026-03-23 14:10:34] INFO     step=620 | epoch=1 | ce_loss=2.429 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.429 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,829 | tokens_seen=406.32M | total_flops=41.57P
+[2026-03-23 14:10:36] INFO     step=630 | epoch=1 | ce_loss=2.420 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.420 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,986 | tokens_seen=412.88M | total_flops=42.24P
+[2026-03-23 14:10:37] INFO     step=640 | epoch=1 | ce_loss=2.416 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.416 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,199,594 | tokens_seen=419.43M | total_flops=42.91P
+[2026-03-23 14:10:39] INFO     step=650 | epoch=1 | ce_loss=2.395 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.395 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,199,472 | tokens_seen=425.98M | total_flops=43.58P
+[2026-03-23 14:10:40] INFO     step=660 | epoch=1 | ce_loss=2.371 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.371 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,199,800 | tokens_seen=432.54M | total_flops=44.25P
+[2026-03-23 14:10:42] INFO     step=670 | epoch=1 | ce_loss=2.400 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.400 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,020 | tokens_seen=439.09M | total_flops=44.92P
+[2026-03-23 14:10:43] INFO     step=680 | epoch=1 | ce_loss=2.364 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.364 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,055 | tokens_seen=445.64M | total_flops=45.59P
+[2026-03-23 14:10:44] INFO     step=690 | epoch=1 | ce_loss=2.364 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.364 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,702 | tokens_seen=452.20M | total_flops=46.26P
+[2026-03-23 14:10:46] INFO     step=700 | epoch=1 | ce_loss=2.361 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.361 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,345 | tokens_seen=458.75M | total_flops=46.93P
+[2026-03-23 14:10:47] INFO     step=710 | epoch=1 | ce_loss=2.403 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.403 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,199,299 | tokens_seen=465.31M | total_flops=47.60P
+[2026-03-23 14:10:49] INFO     step=720 | epoch=1 | ce_loss=2.436 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.436 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,197,545 | tokens_seen=471.86M | total_flops=48.27P
+[2026-03-23 14:10:50] INFO     step=730 | epoch=1 | ce_loss=2.418 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.418 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,197,604 | tokens_seen=478.41M | total_flops=48.95P
+[2026-03-23 14:10:51] INFO     step=740 | epoch=1 | ce_loss=2.326 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.326 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,014 | tokens_seen=484.97M | total_flops=49.62P
+[2026-03-23 14:10:53] INFO     step=750 | epoch=1 | ce_loss=2.415 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.415 | lr=0.0500 | ms_per_step=126.1 | flops_per_sec=5.32E+14 | tokens_per_sec=5,198,492 | tokens_seen=491.52M | total_flops=50.29P
+[2026-03-23 14:10:54] INFO     step=760 | epoch=1 | ce_loss=2.343 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.343 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,199,235 | tokens_seen=498.07M | total_flops=50.96P
+[2026-03-23 14:10:56] INFO     step=770 | epoch=1 | ce_loss=2.424 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.424 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,085 | tokens_seen=504.63M | total_flops=51.63P
+[2026-03-23 14:10:57] INFO     step=780 | epoch=1 | ce_loss=2.354 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.354 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,767 | tokens_seen=511.18M | total_flops=52.30P
+[2026-03-23 14:10:58] INFO     step=790 | epoch=1 | ce_loss=2.356 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.356 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,200,989 | tokens_seen=517.73M | total_flops=52.97P
+[2026-03-23 14:11:00] INFO     step=800 | epoch=1 | ce_loss=2.377 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.377 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,201,489 | tokens_seen=524.29M | total_flops=53.64P
+[2026-03-23 14:11:01] INFO     step=810 | epoch=1 | ce_loss=2.360 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.360 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,202,287 | tokens_seen=530.84M | total_flops=54.31P
+[2026-03-23 14:11:03] INFO     step=820 | epoch=1 | ce_loss=2.386 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.386 | lr=0.0500 | ms_per_step=126.0 | flops_per_sec=5.32E+14 | tokens_per_sec=5,202,906 | tokens_seen=537.40M | total_flops=54.98P
+[2026-03-23 14:11:04] INFO     step=830 | epoch=1 | ce_loss=2.357 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.357 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.32E+14 | tokens_per_sec=5,203,347 | tokens_seen=543.95M | total_flops=55.65P
+[2026-03-23 14:11:05] INFO     step=840 | epoch=1 | ce_loss=2.339 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.339 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.32E+14 | tokens_per_sec=5,203,894 | tokens_seen=550.50M | total_flops=56.32P
+[2026-03-23 14:11:07] INFO     step=850 | epoch=1 | ce_loss=2.414 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.414 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.32E+14 | tokens_per_sec=5,204,476 | tokens_seen=557.06M | total_flops=56.99P
+[2026-03-23 14:11:08] INFO     step=860 | epoch=1 | ce_loss=2.386 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.386 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,204,936 | tokens_seen=563.61M | total_flops=57.66P
+[2026-03-23 14:11:10] INFO     step=870 | epoch=1 | ce_loss=2.335 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.335 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,205,262 | tokens_seen=570.16M | total_flops=58.33P
+[2026-03-23 14:11:11] INFO     step=880 | epoch=1 | ce_loss=2.348 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.348 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,205,734 | tokens_seen=576.72M | total_flops=59.00P
+[2026-03-23 14:11:12] INFO     step=890 | epoch=1 | ce_loss=2.353 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.353 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,206,205 | tokens_seen=583.27M | total_flops=59.67P
+[2026-03-23 14:11:14] INFO     step=900 | epoch=1 | ce_loss=2.380 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.380 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,206,447 | tokens_seen=589.82M | total_flops=60.34P
+[2026-03-23 14:11:15] INFO     step=910 | epoch=1 | ce_loss=2.300 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.300 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,206,780 | tokens_seen=596.38M | total_flops=61.01P
+[2026-03-23 14:11:17] INFO     step=920 | epoch=1 | ce_loss=2.338 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.338 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,207,004 | tokens_seen=602.93M | total_flops=61.68P
+[2026-03-23 14:11:18] INFO     step=930 | epoch=1 | ce_loss=2.324 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.324 | lr=0.0500 | ms_per_step=125.9 | flops_per_sec=5.33E+14 | tokens_per_sec=5,207,457 | tokens_seen=609.48M | total_flops=62.35P
+[2026-03-23 14:11:19] INFO     step=940 | epoch=1 | ce_loss=2.322 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.322 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,207,865 | tokens_seen=616.04M | total_flops=63.03P
+[2026-03-23 14:11:21] INFO     step=950 | epoch=1 | ce_loss=2.311 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.311 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,207,941 | tokens_seen=622.59M | total_flops=63.70P
+[2026-03-23 14:11:22] INFO     step=960 | epoch=1 | ce_loss=2.362 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.362 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,208,335 | tokens_seen=629.15M | total_flops=64.37P
+[2026-03-23 14:11:24] INFO     step=970 | epoch=1 | ce_loss=2.329 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.329 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,208,644 | tokens_seen=635.70M | total_flops=65.04P
+[2026-03-23 14:11:25] INFO     step=980 | epoch=1 | ce_loss=2.357 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.357 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,208,878 | tokens_seen=642.25M | total_flops=65.71P
+[2026-03-23 14:11:26] INFO     step=990 | epoch=1 | ce_loss=2.308 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.308 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,065 | tokens_seen=648.81M | total_flops=66.38P
+[2026-03-23 14:11:28] INFO     step=1000 | epoch=1 | ce_loss=2.286 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.286 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,391 | tokens_seen=655.36M | total_flops=67.05P
+[2026-03-23 14:11:29] INFO     step=1010 | epoch=1 | ce_loss=2.339 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.339 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,788 | tokens_seen=661.91M | total_flops=67.72P
+[2026-03-23 14:11:31] INFO     step=1020 | epoch=1 | ce_loss=2.264 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.264 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,221 | tokens_seen=668.47M | total_flops=68.39P
+[2026-03-23 14:11:32] INFO     step=1030 | epoch=1 | ce_loss=2.255 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.255 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,639 | tokens_seen=675.02M | total_flops=69.06P
+[2026-03-23 14:11:33] INFO     step=1040 | epoch=1 | ce_loss=2.315 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.315 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,980 | tokens_seen=681.57M | total_flops=69.73P
+[2026-03-23 14:11:35] INFO     step=1050 | epoch=1 | ce_loss=2.319 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.319 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,913 | tokens_seen=688.13M | total_flops=70.40P
+[2026-03-23 14:11:36] INFO     step=1060 | epoch=1 | ce_loss=2.289 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.289 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,880 | tokens_seen=694.68M | total_flops=71.07P
+[2026-03-23 14:11:38] INFO     step=1070 | epoch=1 | ce_loss=2.304 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.304 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,993 | tokens_seen=701.24M | total_flops=71.74P
+[2026-03-23 14:11:39] INFO     step=1080 | epoch=1 | ce_loss=2.287 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.287 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,210 | tokens_seen=707.79M | total_flops=72.41P
+[2026-03-23 14:11:41] INFO     step=1090 | epoch=1 | ce_loss=2.392 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.392 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,611 | tokens_seen=714.34M | total_flops=73.08P
+[2026-03-23 14:11:42] INFO     step=1100 | epoch=1 | ce_loss=2.313 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.313 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,774 | tokens_seen=720.90M | total_flops=73.75P
+[2026-03-23 14:11:43] INFO     step=1110 | epoch=1 | ce_loss=2.387 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.387 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,631 | tokens_seen=727.45M | total_flops=74.42P
+[2026-03-23 14:11:45] INFO     step=1120 | epoch=1 | ce_loss=2.315 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.315 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,704 | tokens_seen=734.00M | total_flops=75.09P
+[2026-03-23 14:11:46] INFO     step=1130 | epoch=1 | ce_loss=2.324 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.324 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,312 | tokens_seen=740.56M | total_flops=75.76P
+[2026-03-23 14:11:48] INFO     step=1140 | epoch=1 | ce_loss=2.273 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.273 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,670 | tokens_seen=747.11M | total_flops=76.43P
+[2026-03-23 14:11:49] INFO     step=1150 | epoch=1 | ce_loss=2.367 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.367 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,029 | tokens_seen=753.66M | total_flops=77.11P
+[2026-03-23 14:11:50] INFO     step=1160 | epoch=1 | ce_loss=2.286 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.286 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,307 | tokens_seen=760.22M | total_flops=77.78P
+[2026-03-23 14:11:52] INFO     step=1170 | epoch=1 | ce_loss=2.334 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.334 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,471 | tokens_seen=766.77M | total_flops=78.45P
+[2026-03-23 14:11:53] INFO     step=1180 | epoch=1 | ce_loss=2.282 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.282 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,717 | tokens_seen=773.32M | total_flops=79.12P
+[2026-03-23 14:11:55] INFO     step=1190 | epoch=1 | ce_loss=2.307 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.307 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,721 | tokens_seen=779.88M | total_flops=79.79P
+[2026-03-23 14:11:56] INFO     step=1200 | epoch=1 | ce_loss=2.288 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.288 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,773 | tokens_seen=786.43M | total_flops=80.46P
+[2026-03-23 14:11:57] INFO     step=1210 | epoch=1 | ce_loss=2.318 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.318 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,821 | tokens_seen=792.99M | total_flops=81.13P
+[2026-03-23 14:11:59] INFO     step=1220 | epoch=1 | ce_loss=2.306 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.306 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,628 | tokens_seen=799.54M | total_flops=81.80P
+[2026-03-23 14:12:00] INFO     step=1230 | epoch=1 | ce_loss=2.317 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.317 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,310 | tokens_seen=806.09M | total_flops=82.47P
+[2026-03-23 14:12:02] INFO     step=1240 | epoch=1 | ce_loss=2.342 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.342 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,432 | tokens_seen=812.65M | total_flops=83.14P
+[2026-03-23 14:12:03] INFO     step=1250 | epoch=1 | ce_loss=2.278 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.278 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,387 | tokens_seen=819.20M | total_flops=83.81P
+[2026-03-23 14:12:05] INFO     step=1260 | epoch=1 | ce_loss=2.255 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.255 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,008 | tokens_seen=825.75M | total_flops=84.48P
+[2026-03-23 14:12:06] INFO     step=1270 | epoch=1 | ce_loss=2.267 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.267 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,189 | tokens_seen=832.31M | total_flops=85.15P
+[2026-03-23 14:12:07] INFO     step=1280 | epoch=1 | ce_loss=2.253 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.253 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,208,978 | tokens_seen=838.86M | total_flops=85.82P
+[2026-03-23 14:12:09] INFO     step=1290 | epoch=1 | ce_loss=2.290 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.290 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,216 | tokens_seen=845.41M | total_flops=86.49P
+[2026-03-23 14:12:10] INFO     step=1300 | epoch=1 | ce_loss=2.295 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.295 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,530 | tokens_seen=851.97M | total_flops=87.16P
+[2026-03-23 14:12:12] INFO     step=1310 | epoch=1 | ce_loss=2.316 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.316 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,627 | tokens_seen=858.52M | total_flops=87.83P
+[2026-03-23 14:12:13] INFO     step=1320 | epoch=1 | ce_loss=2.231 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.231 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,209,839 | tokens_seen=865.08M | total_flops=88.50P
+[2026-03-23 14:12:14] INFO     step=1330 | epoch=1 | ce_loss=2.312 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.312 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,093 | tokens_seen=871.63M | total_flops=89.17P
+[2026-03-23 14:12:16] INFO     step=1340 | epoch=1 | ce_loss=2.271 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.271 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,484 | tokens_seen=878.18M | total_flops=89.84P
+[2026-03-23 14:12:17] INFO     step=1350 | epoch=1 | ce_loss=2.262 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.262 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,210,799 | tokens_seen=884.74M | total_flops=90.51P
+[2026-03-23 14:12:19] INFO     step=1360 | epoch=1 | ce_loss=2.302 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.302 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,134 | tokens_seen=891.29M | total_flops=91.19P
+[2026-03-23 14:12:20] INFO     step=1370 | epoch=1 | ce_loss=2.250 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.250 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,358 | tokens_seen=897.84M | total_flops=91.86P
+[2026-03-23 14:12:21] INFO     step=1380 | epoch=1 | ce_loss=2.261 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.261 | lr=0.0500 | ms_per_step=125.8 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,381 | tokens_seen=904.40M | total_flops=92.53P
+[2026-03-23 14:12:23] INFO     step=1390 | epoch=1 | ce_loss=2.290 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.290 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,720 | tokens_seen=910.95M | total_flops=93.20P
+[2026-03-23 14:12:24] INFO     step=1400 | epoch=1 | ce_loss=2.262 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.262 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,211,857 | tokens_seen=917.50M | total_flops=93.87P
+[2026-03-23 14:12:26] INFO     step=1410 | epoch=1 | ce_loss=2.232 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.232 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,212,187 | tokens_seen=924.06M | total_flops=94.54P
+[2026-03-23 14:12:27] INFO     step=1420 | epoch=1 | ce_loss=2.262 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.262 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,212,509 | tokens_seen=930.61M | total_flops=95.21P
+[2026-03-23 14:12:28] INFO     step=1430 | epoch=1 | ce_loss=2.254 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.254 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,212,736 | tokens_seen=937.16M | total_flops=95.88P
+[2026-03-23 14:12:30] INFO     step=1440 | epoch=1 | ce_loss=2.210 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.210 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,081 | tokens_seen=943.72M | total_flops=96.55P
+[2026-03-23 14:12:31] INFO     step=1450 | epoch=1 | ce_loss=2.296 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.296 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,193 | tokens_seen=950.27M | total_flops=97.22P
+[2026-03-23 14:12:33] INFO     step=1460 | epoch=1 | ce_loss=2.246 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.246 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,474 | tokens_seen=956.83M | total_flops=97.89P
+[2026-03-23 14:12:34] INFO     step=1470 | epoch=1 | ce_loss=2.231 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.231 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,751 | tokens_seen=963.38M | total_flops=98.56P
+[2026-03-23 14:12:35] INFO     step=1480 | epoch=1 | ce_loss=2.178 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.178 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,971 | tokens_seen=969.93M | total_flops=99.23P
+[2026-03-23 14:12:37] INFO     step=1490 | epoch=1 | ce_loss=2.308 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.308 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,171 | tokens_seen=976.49M | total_flops=99.90P
+[2026-03-23 14:12:38] INFO     step=1500 | epoch=1 | ce_loss=2.235 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.235 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,305 | tokens_seen=983.04M | total_flops=100.57P
+[2026-03-23 14:12:40] INFO     step=1510 | epoch=1 | ce_loss=2.294 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.294 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,487 | tokens_seen=989.59M | total_flops=101.24P
+[2026-03-23 14:12:41] INFO     step=1520 | epoch=1 | ce_loss=2.235 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.235 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,643 | tokens_seen=996.15M | total_flops=101.91P
+[2026-03-23 14:12:42] INFO     step=1530 | epoch=1 | ce_loss=2.266 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.266 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,214,769 | tokens_seen=1.00B | total_flops=102.58P
+[2026-03-23 14:12:44] INFO     step=1540 | epoch=1 | ce_loss=2.270 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.270 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,214,925 | tokens_seen=1.01B | total_flops=103.25P
+[2026-03-23 14:12:45] INFO     step=1550 | epoch=1 | ce_loss=2.222 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.222 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,214,897 | tokens_seen=1.02B | total_flops=103.92P
+[2026-03-23 14:12:47] INFO     step=1560 | epoch=1 | ce_loss=2.287 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.287 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,358 | tokens_seen=1.02B | total_flops=104.60P
+[2026-03-23 14:12:48] INFO     step=1570 | epoch=1 | ce_loss=2.280 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.280 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,839 | tokens_seen=1.03B | total_flops=105.27P
+[2026-03-23 14:12:49] INFO     step=1580 | epoch=1 | ce_loss=2.203 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.203 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,779 | tokens_seen=1.04B | total_flops=105.94P
+[2026-03-23 14:12:51] INFO     step=1590 | epoch=1 | ce_loss=2.227 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.227 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,213,991 | tokens_seen=1.04B | total_flops=106.61P
+[2026-03-23 14:12:52] INFO     step=1600 | epoch=1 | ce_loss=2.250 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.250 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,141 | tokens_seen=1.05B | total_flops=107.28P
+[2026-03-23 14:12:54] INFO     step=1610 | epoch=1 | ce_loss=2.242 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.242 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,475 | tokens_seen=1.06B | total_flops=107.95P
+[2026-03-23 14:12:55] INFO     step=1620 | epoch=1 | ce_loss=2.287 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.287 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.33E+14 | tokens_per_sec=5,214,626 | tokens_seen=1.06B | total_flops=108.62P
+[2026-03-23 14:12:56] INFO     step=1630 | epoch=1 | ce_loss=2.225 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.225 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,214,846 | tokens_seen=1.07B | total_flops=109.29P
+[2026-03-23 14:12:58] INFO     step=1640 | epoch=1 | ce_loss=2.275 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.275 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,215,087 | tokens_seen=1.07B | total_flops=109.96P
+[2026-03-23 14:12:59] INFO     step=1650 | epoch=1 | ce_loss=2.238 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.238 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,215,313 | tokens_seen=1.08B | total_flops=110.63P
+[2026-03-23 14:13:01] INFO     step=1660 | epoch=1 | ce_loss=2.208 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.208 | lr=0.0500 | ms_per_step=125.7 | flops_per_sec=5.34E+14 | tokens_per_sec=5,215,591 | tokens_seen=1.09B | total_flops=111.30P
+[2026-03-23 14:13:02] INFO     step=1670 | epoch=1 | ce_loss=2.296 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.296 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,215,782 | tokens_seen=1.09B | total_flops=111.97P
+[2026-03-23 14:13:03] INFO     step=1680 | epoch=1 | ce_loss=2.243 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.243 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,216,131 | tokens_seen=1.10B | total_flops=112.64P
+[2026-03-23 14:13:05] INFO     step=1690 | epoch=1 | ce_loss=2.211 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.211 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,216,477 | tokens_seen=1.11B | total_flops=113.31P
+[2026-03-23 14:13:06] INFO     step=1700 | epoch=1 | ce_loss=2.285 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.285 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,216,722 | tokens_seen=1.11B | total_flops=113.98P
+[2026-03-23 14:13:08] INFO     step=1710 | epoch=1 | ce_loss=2.246 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.246 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,216,885 | tokens_seen=1.12B | total_flops=114.65P
+[2026-03-23 14:13:09] INFO     step=1720 | epoch=1 | ce_loss=2.283 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.283 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,217,048 | tokens_seen=1.13B | total_flops=115.32P
+[2026-03-23 14:13:10] INFO     step=1730 | epoch=1 | ce_loss=2.263 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.263 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,217,204 | tokens_seen=1.13B | total_flops=115.99P
+[2026-03-23 14:13:12] INFO     step=1740 | epoch=1 | ce_loss=2.236 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.236 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,217,401 | tokens_seen=1.14B | total_flops=116.66P
+[2026-03-23 14:13:13] INFO     step=1750 | epoch=1 | ce_loss=2.264 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.264 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,217,733 | tokens_seen=1.15B | total_flops=117.33P
+[2026-03-23 14:13:15] INFO     step=1760 | epoch=1 | ce_loss=2.231 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.231 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,217,947 | tokens_seen=1.15B | total_flops=118.00P
+[2026-03-23 14:13:16] INFO     step=1770 | epoch=1 | ce_loss=2.199 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.199 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,218,180 | tokens_seen=1.16B | total_flops=118.68P
+[2026-03-23 14:13:17] INFO     step=1780 | epoch=1 | ce_loss=2.292 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.292 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,218,313 | tokens_seen=1.17B | total_flops=119.35P
+[2026-03-23 14:13:19] INFO     step=1790 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,218,588 | tokens_seen=1.17B | total_flops=120.02P
+[2026-03-23 14:13:20] INFO     step=1800 | epoch=1 | ce_loss=2.201 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.201 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,218,810 | tokens_seen=1.18B | total_flops=120.69P
+[2026-03-23 14:13:22] INFO     step=1810 | epoch=1 | ce_loss=2.294 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.294 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,083 | tokens_seen=1.19B | total_flops=121.36P
+[2026-03-23 14:13:23] INFO     step=1820 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,243 | tokens_seen=1.19B | total_flops=122.03P
+[2026-03-23 14:13:24] INFO     step=1830 | epoch=1 | ce_loss=2.258 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.258 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,345 | tokens_seen=1.20B | total_flops=122.70P
+[2026-03-23 14:13:26] INFO     step=1840 | epoch=1 | ce_loss=2.234 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.234 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,567 | tokens_seen=1.21B | total_flops=123.37P
+[2026-03-23 14:13:27] INFO     step=1850 | epoch=1 | ce_loss=2.235 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.235 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,933 | tokens_seen=1.21B | total_flops=124.04P
+[2026-03-23 14:13:29] INFO     step=1860 | epoch=1 | ce_loss=2.186 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.186 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,124 | tokens_seen=1.22B | total_flops=124.71P
+[2026-03-23 14:13:30] INFO     step=1870 | epoch=1 | ce_loss=2.207 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.207 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,341 | tokens_seen=1.23B | total_flops=125.38P
+[2026-03-23 14:13:31] INFO     step=1880 | epoch=1 | ce_loss=2.239 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.239 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,586 | tokens_seen=1.23B | total_flops=126.05P
+[2026-03-23 14:13:33] INFO     step=1890 | epoch=1 | ce_loss=2.264 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.264 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,757 | tokens_seen=1.24B | total_flops=126.72P
+[2026-03-23 14:13:34] INFO     step=1900 | epoch=1 | ce_loss=2.208 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.208 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,759 | tokens_seen=1.25B | total_flops=127.39P
+[2026-03-23 14:13:36] INFO     step=1910 | epoch=1 | ce_loss=2.202 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.202 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,620 | tokens_seen=1.25B | total_flops=128.06P
+[2026-03-23 14:13:37] INFO     step=1920 | epoch=1 | ce_loss=2.179 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.179 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,632 | tokens_seen=1.26B | total_flops=128.73P
+[2026-03-23 14:13:39] INFO     step=1930 | epoch=1 | ce_loss=2.208 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.208 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,653 | tokens_seen=1.26B | total_flops=129.40P
+[2026-03-23 14:13:40] INFO     step=1940 | epoch=1 | ce_loss=2.218 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.218 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,708 | tokens_seen=1.27B | total_flops=130.07P
+[2026-03-23 14:13:41] INFO     step=1950 | epoch=1 | ce_loss=2.207 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.207 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,702 | tokens_seen=1.28B | total_flops=130.74P
+[2026-03-23 14:13:43] INFO     step=1960 | epoch=1 | ce_loss=2.241 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.241 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,752 | tokens_seen=1.28B | total_flops=131.41P
+[2026-03-23 14:13:44] INFO     step=1970 | epoch=1 | ce_loss=2.225 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.225 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,525 | tokens_seen=1.29B | total_flops=132.08P
+[2026-03-23 14:13:46] INFO     step=1980 | epoch=1 | ce_loss=2.232 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.232 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,075 | tokens_seen=1.30B | total_flops=132.76P
+[2026-03-23 14:13:47] INFO     step=1990 | epoch=1 | ce_loss=2.262 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.262 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,001 | tokens_seen=1.30B | total_flops=133.43P
+[2026-03-23 14:13:48] INFO     step=2000 | epoch=1 | ce_loss=2.210 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.210 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,953 | tokens_seen=1.31B | total_flops=134.10P
+[2026-03-23 14:13:50] INFO     step=2010 | epoch=1 | ce_loss=2.225 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.225 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,915 | tokens_seen=1.32B | total_flops=134.77P
+[2026-03-23 14:13:51] INFO     step=2020 | epoch=1 | ce_loss=2.178 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.178 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,786 | tokens_seen=1.32B | total_flops=135.44P
+[2026-03-23 14:13:53] INFO     step=2030 | epoch=1 | ce_loss=2.269 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.269 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,587 | tokens_seen=1.33B | total_flops=136.11P
+[2026-03-23 14:13:54] INFO     step=2040 | epoch=1 | ce_loss=2.232 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.232 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,681 | tokens_seen=1.34B | total_flops=136.78P
+[2026-03-23 14:13:55] INFO     step=2050 | epoch=1 | ce_loss=2.257 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.257 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,773 | tokens_seen=1.34B | total_flops=137.45P
+[2026-03-23 14:13:57] INFO     step=2060 | epoch=1 | ce_loss=2.221 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.221 | lr=0.0500 | ms_per_step=125.6 | flops_per_sec=5.34E+14 | tokens_per_sec=5,219,900 | tokens_seen=1.35B | total_flops=138.12P
+[2026-03-23 14:13:58] INFO     step=2070 | epoch=1 | ce_loss=2.245 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.245 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,017 | tokens_seen=1.36B | total_flops=138.79P
+[2026-03-23 14:14:00] INFO     step=2080 | epoch=1 | ce_loss=2.183 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.183 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,160 | tokens_seen=1.36B | total_flops=139.46P
+[2026-03-23 14:14:01] INFO     step=2090 | epoch=1 | ce_loss=2.241 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.241 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,222 | tokens_seen=1.37B | total_flops=140.13P
+[2026-03-23 14:14:02] INFO     step=2100 | epoch=1 | ce_loss=2.209 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.209 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,192 | tokens_seen=1.38B | total_flops=140.80P
+[2026-03-23 14:14:04] INFO     step=2110 | epoch=1 | ce_loss=2.144 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.144 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,286 | tokens_seen=1.38B | total_flops=141.47P
+[2026-03-23 14:14:05] INFO     step=2120 | epoch=1 | ce_loss=2.205 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.205 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,422 | tokens_seen=1.39B | total_flops=142.14P
+[2026-03-23 14:14:07] INFO     step=2130 | epoch=1 | ce_loss=2.184 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.184 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,460 | tokens_seen=1.40B | total_flops=142.81P
+[2026-03-23 14:14:08] INFO     step=2140 | epoch=1 | ce_loss=2.227 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.227 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,522 | tokens_seen=1.40B | total_flops=143.48P
+[2026-03-23 14:14:10] INFO     step=2150 | epoch=1 | ce_loss=2.265 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.265 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,598 | tokens_seen=1.41B | total_flops=144.15P
+[2026-03-23 14:14:11] INFO     step=2160 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,513 | tokens_seen=1.42B | total_flops=144.82P
+[2026-03-23 14:14:12] INFO     step=2170 | epoch=1 | ce_loss=2.215 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.215 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,513 | tokens_seen=1.42B | total_flops=145.49P
+[2026-03-23 14:14:14] INFO     step=2180 | epoch=1 | ce_loss=2.234 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.234 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,515 | tokens_seen=1.43B | total_flops=146.16P
+[2026-03-23 14:14:15] INFO     step=2190 | epoch=1 | ce_loss=2.237 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.237 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,481 | tokens_seen=1.44B | total_flops=146.84P
+[2026-03-23 14:14:17] INFO     step=2200 | epoch=1 | ce_loss=2.274 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.274 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,429 | tokens_seen=1.44B | total_flops=147.51P
+[2026-03-23 14:14:18] INFO     step=2210 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,452 | tokens_seen=1.45B | total_flops=148.18P
+[2026-03-23 14:14:19] INFO     step=2220 | epoch=1 | ce_loss=2.134 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.134 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,579 | tokens_seen=1.45B | total_flops=148.85P
+[2026-03-23 14:14:21] INFO     step=2230 | epoch=1 | ce_loss=2.227 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.227 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,651 | tokens_seen=1.46B | total_flops=149.52P
+[2026-03-23 14:14:22] INFO     step=2240 | epoch=1 | ce_loss=2.236 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.236 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,725 | tokens_seen=1.47B | total_flops=150.19P
+[2026-03-23 14:14:24] INFO     step=2250 | epoch=1 | ce_loss=2.247 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.247 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,760 | tokens_seen=1.47B | total_flops=150.86P
+[2026-03-23 14:14:25] INFO     step=2260 | epoch=1 | ce_loss=2.238 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.238 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,824 | tokens_seen=1.48B | total_flops=151.53P
+[2026-03-23 14:14:26] INFO     step=2270 | epoch=1 | ce_loss=2.182 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.182 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,817 | tokens_seen=1.49B | total_flops=152.20P
+[2026-03-23 14:14:28] INFO     step=2280 | epoch=1 | ce_loss=2.265 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.265 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,838 | tokens_seen=1.49B | total_flops=152.87P
+[2026-03-23 14:14:29] INFO     step=2290 | epoch=1 | ce_loss=2.220 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.220 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,220,811 | tokens_seen=1.50B | total_flops=153.54P
+[2026-03-23 14:14:31] INFO     step=2300 | epoch=1 | ce_loss=2.274 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.274 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,004 | tokens_seen=1.51B | total_flops=154.21P
+[2026-03-23 14:14:32] INFO     step=2310 | epoch=1 | ce_loss=2.199 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.199 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,095 | tokens_seen=1.51B | total_flops=154.88P
+[2026-03-23 14:14:33] INFO     step=2320 | epoch=1 | ce_loss=2.225 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.225 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,131 | tokens_seen=1.52B | total_flops=155.55P
+[2026-03-23 14:14:35] INFO     step=2330 | epoch=1 | ce_loss=2.223 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.223 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,278 | tokens_seen=1.53B | total_flops=156.22P
+[2026-03-23 14:14:36] INFO     step=2340 | epoch=1 | ce_loss=2.183 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.183 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,391 | tokens_seen=1.53B | total_flops=156.89P
+[2026-03-23 14:14:38] INFO     step=2350 | epoch=1 | ce_loss=2.211 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.211 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,588 | tokens_seen=1.54B | total_flops=157.56P
+[2026-03-23 14:14:39] INFO     step=2360 | epoch=1 | ce_loss=2.245 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.245 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,707 | tokens_seen=1.55B | total_flops=158.23P
+[2026-03-23 14:14:40] INFO     step=2370 | epoch=1 | ce_loss=2.202 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.202 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,850 | tokens_seen=1.55B | total_flops=158.90P
+[2026-03-23 14:14:42] INFO     step=2380 | epoch=1 | ce_loss=2.240 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.240 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,989 | tokens_seen=1.56B | total_flops=159.57P
+[2026-03-23 14:14:43] INFO     step=2390 | epoch=1 | ce_loss=2.232 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.232 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,154 | tokens_seen=1.57B | total_flops=160.24P
+[2026-03-23 14:14:45] INFO     step=2400 | epoch=1 | ce_loss=2.220 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.220 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,960 | tokens_seen=1.57B | total_flops=160.92P
+[2026-03-23 14:14:46] INFO     step=2410 | epoch=1 | ce_loss=2.272 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.272 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,813 | tokens_seen=1.58B | total_flops=161.59P
+[2026-03-23 14:14:48] INFO     step=2420 | epoch=1 | ce_loss=2.174 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.174 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,981 | tokens_seen=1.59B | total_flops=162.26P
+[2026-03-23 14:14:49] INFO     step=2430 | epoch=1 | ce_loss=2.227 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.227 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,066 | tokens_seen=1.59B | total_flops=162.93P
+[2026-03-23 14:14:50] INFO     step=2440 | epoch=1 | ce_loss=2.216 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.216 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,114 | tokens_seen=1.60B | total_flops=163.60P
+[2026-03-23 14:14:52] INFO     step=2450 | epoch=1 | ce_loss=2.256 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.256 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,138 | tokens_seen=1.61B | total_flops=164.27P
+[2026-03-23 14:14:53] INFO     step=2460 | epoch=1 | ce_loss=2.207 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.207 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,202 | tokens_seen=1.61B | total_flops=164.94P
+[2026-03-23 14:14:55] INFO     step=2470 | epoch=1 | ce_loss=2.184 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.184 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,308 | tokens_seen=1.62B | total_flops=165.61P
+[2026-03-23 14:14:56] INFO     step=2480 | epoch=1 | ce_loss=2.198 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.198 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,375 | tokens_seen=1.63B | total_flops=166.28P
+[2026-03-23 14:14:57] INFO     step=2490 | epoch=1 | ce_loss=2.177 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.177 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,450 | tokens_seen=1.63B | total_flops=166.95P
+[2026-03-23 14:14:59] INFO     step=2500 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,322 | tokens_seen=1.64B | total_flops=167.62P
+[2026-03-23 14:15:00] INFO     step=2510 | epoch=1 | ce_loss=2.160 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.160 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,153 | tokens_seen=1.64B | total_flops=168.29P
+[2026-03-23 14:15:02] INFO     step=2520 | epoch=1 | ce_loss=2.223 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.223 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,049 | tokens_seen=1.65B | total_flops=168.96P
+[2026-03-23 14:15:03] INFO     step=2530 | epoch=1 | ce_loss=2.227 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.227 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,812 | tokens_seen=1.66B | total_flops=169.63P
+[2026-03-23 14:15:04] INFO     step=2540 | epoch=1 | ce_loss=2.226 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.226 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,755 | tokens_seen=1.66B | total_flops=170.30P
+[2026-03-23 14:15:06] INFO     step=2550 | epoch=1 | ce_loss=2.201 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.201 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,648 | tokens_seen=1.67B | total_flops=170.97P
+[2026-03-23 14:15:07] INFO     step=2560 | epoch=1 | ce_loss=2.200 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.200 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,585 | tokens_seen=1.68B | total_flops=171.64P
+[2026-03-23 14:15:09] INFO     step=2570 | epoch=1 | ce_loss=2.216 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.216 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,537 | tokens_seen=1.68B | total_flops=172.31P
+[2026-03-23 14:15:10] INFO     step=2580 | epoch=1 | ce_loss=2.184 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.184 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,454 | tokens_seen=1.69B | total_flops=172.98P
+[2026-03-23 14:15:12] INFO     step=2590 | epoch=1 | ce_loss=2.188 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.188 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,390 | tokens_seen=1.70B | total_flops=173.65P
+[2026-03-23 14:15:13] INFO     step=2600 | epoch=1 | ce_loss=2.166 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.166 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,429 | tokens_seen=1.70B | total_flops=174.33P
+[2026-03-23 14:15:14] INFO     step=2610 | epoch=1 | ce_loss=2.233 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.233 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,437 | tokens_seen=1.71B | total_flops=175.00P
+[2026-03-23 14:15:16] INFO     step=2620 | epoch=1 | ce_loss=2.148 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.148 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,253 | tokens_seen=1.72B | total_flops=175.67P
+[2026-03-23 14:15:17] INFO     step=2630 | epoch=1 | ce_loss=2.176 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.176 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,109 | tokens_seen=1.72B | total_flops=176.34P
+[2026-03-23 14:15:19] INFO     step=2640 | epoch=1 | ce_loss=2.159 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.159 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,219 | tokens_seen=1.73B | total_flops=177.01P
+[2026-03-23 14:15:20] INFO     step=2650 | epoch=1 | ce_loss=2.187 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.187 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,312 | tokens_seen=1.74B | total_flops=177.68P
+[2026-03-23 14:15:21] INFO     step=2660 | epoch=1 | ce_loss=2.212 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.212 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,294 | tokens_seen=1.74B | total_flops=178.35P
+[2026-03-23 14:15:23] INFO     step=2670 | epoch=1 | ce_loss=2.199 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.199 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,418 | tokens_seen=1.75B | total_flops=179.02P
+[2026-03-23 14:15:24] INFO     step=2680 | epoch=1 | ce_loss=2.232 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.232 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,432 | tokens_seen=1.76B | total_flops=179.69P
+[2026-03-23 14:15:26] INFO     step=2690 | epoch=1 | ce_loss=2.192 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.192 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,540 | tokens_seen=1.76B | total_flops=180.36P
+[2026-03-23 14:15:27] INFO     step=2700 | epoch=1 | ce_loss=2.214 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.214 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,640 | tokens_seen=1.77B | total_flops=181.03P
+[2026-03-23 14:15:28] INFO     step=2710 | epoch=1 | ce_loss=2.127 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.127 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,755 | tokens_seen=1.78B | total_flops=181.70P
+[2026-03-23 14:15:30] INFO     step=2720 | epoch=1 | ce_loss=2.213 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.213 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,776 | tokens_seen=1.78B | total_flops=182.37P
+[2026-03-23 14:15:31] INFO     step=2730 | epoch=1 | ce_loss=2.158 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.158 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,767 | tokens_seen=1.79B | total_flops=183.04P
+[2026-03-23 14:15:33] INFO     step=2740 | epoch=1 | ce_loss=2.166 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.166 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,792 | tokens_seen=1.80B | total_flops=183.71P
+[2026-03-23 14:15:34] INFO     step=2750 | epoch=1 | ce_loss=2.200 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.200 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,840 | tokens_seen=1.80B | total_flops=184.38P
+[2026-03-23 14:15:35] INFO     step=2760 | epoch=1 | ce_loss=2.189 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.189 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,927 | tokens_seen=1.81B | total_flops=185.05P
+[2026-03-23 14:15:37] INFO     step=2770 | epoch=1 | ce_loss=2.218 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.218 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,963 | tokens_seen=1.82B | total_flops=185.72P
+[2026-03-23 14:15:38] INFO     step=2780 | epoch=1 | ce_loss=2.229 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.229 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,844 | tokens_seen=1.82B | total_flops=186.39P
+[2026-03-23 14:15:40] INFO     step=2790 | epoch=1 | ce_loss=2.188 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.188 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,890 | tokens_seen=1.83B | total_flops=187.06P
+[2026-03-23 14:15:41] INFO     step=2800 | epoch=1 | ce_loss=2.137 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.137 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,969 | tokens_seen=1.84B | total_flops=187.73P
+[2026-03-23 14:15:42] INFO     step=2810 | epoch=1 | ce_loss=2.189 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.189 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,855 | tokens_seen=1.84B | total_flops=188.41P
+[2026-03-23 14:15:44] INFO     step=2820 | epoch=1 | ce_loss=2.141 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.141 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,925 | tokens_seen=1.85B | total_flops=189.08P
+[2026-03-23 14:15:45] INFO     step=2830 | epoch=1 | ce_loss=2.183 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.183 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,662 | tokens_seen=1.85B | total_flops=189.75P
+[2026-03-23 14:15:47] INFO     step=2840 | epoch=1 | ce_loss=2.133 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.133 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,692 | tokens_seen=1.86B | total_flops=190.42P
+[2026-03-23 14:15:48] INFO     step=2850 | epoch=1 | ce_loss=2.202 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.202 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,676 | tokens_seen=1.87B | total_flops=191.09P
+[2026-03-23 14:15:49] INFO     step=2860 | epoch=1 | ce_loss=2.236 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.236 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,764 | tokens_seen=1.87B | total_flops=191.76P
+[2026-03-23 14:15:51] INFO     step=2870 | epoch=1 | ce_loss=2.193 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.193 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,858 | tokens_seen=1.88B | total_flops=192.43P
+[2026-03-23 14:15:52] INFO     step=2880 | epoch=1 | ce_loss=2.177 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.177 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,914 | tokens_seen=1.89B | total_flops=193.10P
+[2026-03-23 14:15:54] INFO     step=2890 | epoch=1 | ce_loss=2.148 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.148 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,985 | tokens_seen=1.89B | total_flops=193.77P
+[2026-03-23 14:15:55] INFO     step=2900 | epoch=1 | ce_loss=2.190 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.190 | lr=0.0500 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,940 | tokens_seen=1.90B | total_flops=194.44P
+[2026-03-23 14:15:56] INFO     step=2910 | epoch=1 | ce_loss=2.219 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.219 | lr=0.0496 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,876 | tokens_seen=1.91B | total_flops=195.11P
+[2026-03-23 14:15:58] INFO     step=2920 | epoch=1 | ce_loss=2.210 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.210 | lr=0.0492 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,922 | tokens_seen=1.91B | total_flops=195.78P
+[2026-03-23 14:15:59] INFO     step=2930 | epoch=1 | ce_loss=2.139 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.139 | lr=0.0488 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,900 | tokens_seen=1.92B | total_flops=196.45P
+[2026-03-23 14:16:01] INFO     step=2940 | epoch=1 | ce_loss=2.188 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.188 | lr=0.0484 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,945 | tokens_seen=1.93B | total_flops=197.12P
+[2026-03-23 14:16:02] INFO     step=2950 | epoch=1 | ce_loss=2.194 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.194 | lr=0.0481 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,950 | tokens_seen=1.93B | total_flops=197.79P
+[2026-03-23 14:16:03] INFO     step=2960 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0477 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,221,901 | tokens_seen=1.94B | total_flops=198.46P
+[2026-03-23 14:16:05] INFO     step=2970 | epoch=1 | ce_loss=2.201 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.201 | lr=0.0473 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,004 | tokens_seen=1.95B | total_flops=199.13P
+[2026-03-23 14:16:06] INFO     step=2980 | epoch=1 | ce_loss=2.225 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.225 | lr=0.0469 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,074 | tokens_seen=1.95B | total_flops=199.80P
+[2026-03-23 14:16:08] INFO     step=2990 | epoch=1 | ce_loss=2.157 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.157 | lr=0.0465 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,187 | tokens_seen=1.96B | total_flops=200.47P
+[2026-03-23 14:16:09] INFO     step=3000 | epoch=1 | ce_loss=2.176 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.176 | lr=0.0461 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,198 | tokens_seen=1.97B | total_flops=201.14P
+[2026-03-23 14:16:10] INFO     step=3010 | epoch=1 | ce_loss=2.151 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.151 | lr=0.0457 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,123 | tokens_seen=1.97B | total_flops=201.81P
+[2026-03-23 14:16:12] INFO     step=3020 | epoch=1 | ce_loss=2.235 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.235 | lr=0.0453 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,078 | tokens_seen=1.98B | total_flops=202.49P
+[2026-03-23 14:16:13] INFO     step=3030 | epoch=1 | ce_loss=2.169 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.169 | lr=0.0449 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,162 | tokens_seen=1.99B | total_flops=203.16P
+[2026-03-23 14:16:15] INFO     step=3040 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0445 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,108 | tokens_seen=1.99B | total_flops=203.83P
+[2026-03-23 14:16:16] INFO     step=3050 | epoch=1 | ce_loss=2.210 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.210 | lr=0.0441 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,104 | tokens_seen=2.00B | total_flops=204.50P
+[2026-03-23 14:16:18] INFO     step=3060 | epoch=1 | ce_loss=2.144 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.144 | lr=0.0437 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,072 | tokens_seen=2.01B | total_flops=205.17P
+[2026-03-23 14:16:19] INFO     step=3070 | epoch=1 | ce_loss=2.164 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.164 | lr=0.0433 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,109 | tokens_seen=2.01B | total_flops=205.84P
+[2026-03-23 14:16:20] INFO     step=3080 | epoch=1 | ce_loss=2.185 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.185 | lr=0.0429 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,046 | tokens_seen=2.02B | total_flops=206.51P
+[2026-03-23 14:16:22] INFO     step=3090 | epoch=1 | ce_loss=2.162 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.162 | lr=0.0425 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,088 | tokens_seen=2.03B | total_flops=207.18P
+[2026-03-23 14:16:23] INFO     step=3100 | epoch=1 | ce_loss=2.150 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.150 | lr=0.0421 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,121 | tokens_seen=2.03B | total_flops=207.85P
+[2026-03-23 14:16:25] INFO     step=3110 | epoch=1 | ce_loss=2.182 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.182 | lr=0.0417 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,178 | tokens_seen=2.04B | total_flops=208.52P
+[2026-03-23 14:16:26] INFO     step=3120 | epoch=1 | ce_loss=2.142 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.142 | lr=0.0413 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,276 | tokens_seen=2.04B | total_flops=209.19P
+[2026-03-23 14:16:27] INFO     step=3130 | epoch=1 | ce_loss=2.172 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.172 | lr=0.0409 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,275 | tokens_seen=2.05B | total_flops=209.86P
+[2026-03-23 14:16:29] INFO     step=3140 | epoch=1 | ce_loss=2.145 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.145 | lr=0.0405 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,371 | tokens_seen=2.06B | total_flops=210.53P
+[2026-03-23 14:16:30] INFO     step=3150 | epoch=1 | ce_loss=2.186 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.186 | lr=0.0401 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,457 | tokens_seen=2.06B | total_flops=211.20P
+[2026-03-23 14:16:32] INFO     step=3160 | epoch=1 | ce_loss=2.138 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.138 | lr=0.0397 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,531 | tokens_seen=2.07B | total_flops=211.87P
+[2026-03-23 14:16:33] INFO     step=3170 | epoch=1 | ce_loss=2.237 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.237 | lr=0.0393 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,620 | tokens_seen=2.08B | total_flops=212.54P
+[2026-03-23 14:16:34] INFO     step=3180 | epoch=1 | ce_loss=2.215 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.215 | lr=0.0389 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,722 | tokens_seen=2.08B | total_flops=213.21P
+[2026-03-23 14:16:36] INFO     step=3190 | epoch=1 | ce_loss=2.124 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.124 | lr=0.0385 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,808 | tokens_seen=2.09B | total_flops=213.88P
+[2026-03-23 14:16:37] INFO     step=3200 | epoch=1 | ce_loss=2.163 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.163 | lr=0.0382 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,917 | tokens_seen=2.10B | total_flops=214.55P
+[2026-03-23 14:16:39] INFO     step=3210 | epoch=1 | ce_loss=2.216 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.216 | lr=0.0378 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,995 | tokens_seen=2.10B | total_flops=215.22P
+[2026-03-23 14:16:40] INFO     step=3220 | epoch=1 | ce_loss=2.177 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.177 | lr=0.0374 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,090 | tokens_seen=2.11B | total_flops=215.89P
+[2026-03-23 14:16:41] INFO     step=3230 | epoch=1 | ce_loss=2.163 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.163 | lr=0.0370 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,089 | tokens_seen=2.12B | total_flops=216.57P
+[2026-03-23 14:16:43] INFO     step=3240 | epoch=1 | ce_loss=2.212 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.212 | lr=0.0366 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,106 | tokens_seen=2.12B | total_flops=217.24P
+[2026-03-23 14:16:44] INFO     step=3250 | epoch=1 | ce_loss=2.144 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.144 | lr=0.0362 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,080 | tokens_seen=2.13B | total_flops=217.91P
+[2026-03-23 14:16:46] INFO     step=3260 | epoch=1 | ce_loss=2.131 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.131 | lr=0.0358 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,817 | tokens_seen=2.14B | total_flops=218.58P
+[2026-03-23 14:16:47] INFO     step=3270 | epoch=1 | ce_loss=2.210 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.210 | lr=0.0354 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,698 | tokens_seen=2.14B | total_flops=219.25P
+[2026-03-23 14:16:48] INFO     step=3280 | epoch=1 | ce_loss=2.128 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.128 | lr=0.0350 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,784 | tokens_seen=2.15B | total_flops=219.92P
+[2026-03-23 14:16:50] INFO     step=3290 | epoch=1 | ce_loss=2.185 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.185 | lr=0.0346 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,821 | tokens_seen=2.16B | total_flops=220.59P
+[2026-03-23 14:16:51] INFO     step=3300 | epoch=1 | ce_loss=2.120 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.120 | lr=0.0342 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,846 | tokens_seen=2.16B | total_flops=221.26P
+[2026-03-23 14:16:53] INFO     step=3310 | epoch=1 | ce_loss=2.163 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.163 | lr=0.0338 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,923 | tokens_seen=2.17B | total_flops=221.93P
+[2026-03-23 14:16:54] INFO     step=3320 | epoch=1 | ce_loss=2.131 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.131 | lr=0.0334 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,983 | tokens_seen=2.18B | total_flops=222.60P
+[2026-03-23 14:16:55] INFO     step=3330 | epoch=1 | ce_loss=2.137 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.137 | lr=0.0330 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,054 | tokens_seen=2.18B | total_flops=223.27P
+[2026-03-23 14:16:57] INFO     step=3340 | epoch=1 | ce_loss=2.176 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.176 | lr=0.0326 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,049 | tokens_seen=2.19B | total_flops=223.94P
+[2026-03-23 14:16:58] INFO     step=3350 | epoch=1 | ce_loss=2.194 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.194 | lr=0.0322 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,120 | tokens_seen=2.20B | total_flops=224.61P
+[2026-03-23 14:17:00] INFO     step=3360 | epoch=1 | ce_loss=2.128 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.128 | lr=0.0318 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,193 | tokens_seen=2.20B | total_flops=225.28P
+[2026-03-23 14:17:01] INFO     step=3370 | epoch=1 | ce_loss=2.128 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.128 | lr=0.0314 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,251 | tokens_seen=2.21B | total_flops=225.95P
+[2026-03-23 14:17:02] INFO     step=3380 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0310 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,296 | tokens_seen=2.22B | total_flops=226.62P
+[2026-03-23 14:17:04] INFO     step=3390 | epoch=1 | ce_loss=2.180 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.180 | lr=0.0306 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,229 | tokens_seen=2.22B | total_flops=227.29P
+[2026-03-23 14:17:05] INFO     step=3400 | epoch=1 | ce_loss=2.166 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.166 | lr=0.0302 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,133 | tokens_seen=2.23B | total_flops=227.96P
+[2026-03-23 14:17:07] INFO     step=3410 | epoch=1 | ce_loss=2.176 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.176 | lr=0.0298 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,216 | tokens_seen=2.23B | total_flops=228.63P
+[2026-03-23 14:17:08] INFO     step=3420 | epoch=1 | ce_loss=2.171 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.171 | lr=0.0294 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,306 | tokens_seen=2.24B | total_flops=229.30P
+[2026-03-23 14:17:09] INFO     step=3430 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0290 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,348 | tokens_seen=2.25B | total_flops=229.97P
+[2026-03-23 14:17:11] INFO     step=3440 | epoch=1 | ce_loss=2.190 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.190 | lr=0.0286 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,404 | tokens_seen=2.25B | total_flops=230.65P
+[2026-03-23 14:17:12] INFO     step=3450 | epoch=1 | ce_loss=2.180 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.180 | lr=0.0282 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,406 | tokens_seen=2.26B | total_flops=231.32P
+[2026-03-23 14:17:14] INFO     step=3460 | epoch=1 | ce_loss=2.151 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.151 | lr=0.0278 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,488 | tokens_seen=2.27B | total_flops=231.99P
+[2026-03-23 14:17:15] INFO     step=3470 | epoch=1 | ce_loss=2.201 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.201 | lr=0.0274 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,488 | tokens_seen=2.27B | total_flops=232.66P
+[2026-03-23 14:17:16] INFO     step=3480 | epoch=1 | ce_loss=2.150 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.150 | lr=0.0270 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,557 | tokens_seen=2.28B | total_flops=233.33P
+[2026-03-23 14:17:18] INFO     step=3490 | epoch=1 | ce_loss=2.165 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.165 | lr=0.0266 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,618 | tokens_seen=2.29B | total_flops=234.00P
+[2026-03-23 14:17:19] INFO     step=3500 | epoch=1 | ce_loss=2.179 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.179 | lr=0.0262 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,686 | tokens_seen=2.29B | total_flops=234.67P
+[2026-03-23 14:17:21] INFO     step=3510 | epoch=1 | ce_loss=2.113 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.113 | lr=0.0258 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,707 | tokens_seen=2.30B | total_flops=235.34P
+[2026-03-23 14:17:22] INFO     step=3520 | epoch=1 | ce_loss=2.159 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.159 | lr=0.0254 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,779 | tokens_seen=2.31B | total_flops=236.01P
+[2026-03-23 14:17:23] INFO     step=3530 | epoch=1 | ce_loss=2.170 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.170 | lr=0.0250 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,728 | tokens_seen=2.31B | total_flops=236.68P
+[2026-03-23 14:17:25] INFO     step=3540 | epoch=1 | ce_loss=2.135 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.135 | lr=0.0246 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,573 | tokens_seen=2.32B | total_flops=237.35P
+[2026-03-23 14:17:26] INFO     step=3550 | epoch=1 | ce_loss=2.208 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.208 | lr=0.0242 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,409 | tokens_seen=2.33B | total_flops=238.02P
+[2026-03-23 14:17:28] INFO     step=3560 | epoch=1 | ce_loss=2.217 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.217 | lr=0.0238 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,321 | tokens_seen=2.33B | total_flops=238.69P
+[2026-03-23 14:17:29] INFO     step=3570 | epoch=1 | ce_loss=2.183 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.183 | lr=0.0234 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,388 | tokens_seen=2.34B | total_flops=239.36P
+[2026-03-23 14:17:30] INFO     step=3580 | epoch=1 | ce_loss=2.195 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.195 | lr=0.0230 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,504 | tokens_seen=2.35B | total_flops=240.03P
+[2026-03-23 14:17:32] INFO     step=3590 | epoch=1 | ce_loss=2.183 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.183 | lr=0.0226 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,604 | tokens_seen=2.35B | total_flops=240.70P
+[2026-03-23 14:17:33] INFO     step=3600 | epoch=1 | ce_loss=2.166 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.166 | lr=0.0222 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,718 | tokens_seen=2.36B | total_flops=241.37P
+[2026-03-23 14:17:35] INFO     step=3610 | epoch=1 | ce_loss=2.209 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.209 | lr=0.0218 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,840 | tokens_seen=2.37B | total_flops=242.04P
+[2026-03-23 14:17:36] INFO     step=3620 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0214 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,906 | tokens_seen=2.37B | total_flops=242.71P
+[2026-03-23 14:17:37] INFO     step=3630 | epoch=1 | ce_loss=2.190 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.190 | lr=0.0210 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,224,021 | tokens_seen=2.38B | total_flops=243.38P
+[2026-03-23 14:17:39] INFO     step=3640 | epoch=1 | ce_loss=2.090 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.090 | lr=0.0206 | ms_per_step=125.4 | flops_per_sec=5.34E+14 | tokens_per_sec=5,224,175 | tokens_seen=2.39B | total_flops=244.06P
+[2026-03-23 14:17:40] INFO     step=3650 | epoch=1 | ce_loss=2.159 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.159 | lr=0.0202 | ms_per_step=125.4 | flops_per_sec=5.34E+14 | tokens_per_sec=5,224,185 | tokens_seen=2.39B | total_flops=244.73P
+[2026-03-23 14:17:42] INFO     step=3660 | epoch=1 | ce_loss=2.182 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.182 | lr=0.0198 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,224,040 | tokens_seen=2.40B | total_flops=245.40P
+[2026-03-23 14:17:43] INFO     step=3670 | epoch=1 | ce_loss=2.151 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.151 | lr=0.0194 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,990 | tokens_seen=2.41B | total_flops=246.07P
+[2026-03-23 14:17:44] INFO     step=3680 | epoch=1 | ce_loss=2.158 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.158 | lr=0.0190 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,868 | tokens_seen=2.41B | total_flops=246.74P
+[2026-03-23 14:17:46] INFO     step=3690 | epoch=1 | ce_loss=2.153 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.153 | lr=0.0186 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,462 | tokens_seen=2.42B | total_flops=247.41P
+[2026-03-23 14:17:47] INFO     step=3700 | epoch=1 | ce_loss=2.170 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.170 | lr=0.0181 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,482 | tokens_seen=2.42B | total_flops=248.08P
+[2026-03-23 14:17:49] INFO     step=3710 | epoch=1 | ce_loss=2.162 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.162 | lr=0.0177 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,507 | tokens_seen=2.43B | total_flops=248.75P
+[2026-03-23 14:17:50] INFO     step=3720 | epoch=1 | ce_loss=2.147 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.147 | lr=0.0173 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,480 | tokens_seen=2.44B | total_flops=249.42P
+[2026-03-23 14:17:51] INFO     step=3730 | epoch=1 | ce_loss=2.168 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.168 | lr=0.0169 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,479 | tokens_seen=2.44B | total_flops=250.09P
+[2026-03-23 14:17:53] INFO     step=3740 | epoch=1 | ce_loss=2.205 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.205 | lr=0.0165 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,534 | tokens_seen=2.45B | total_flops=250.76P
+[2026-03-23 14:17:54] INFO     step=3750 | epoch=1 | ce_loss=2.177 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.177 | lr=0.0161 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,574 | tokens_seen=2.46B | total_flops=251.43P
+[2026-03-23 14:17:56] INFO     step=3760 | epoch=1 | ce_loss=2.164 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.164 | lr=0.0157 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,588 | tokens_seen=2.46B | total_flops=252.10P
+[2026-03-23 14:17:57] INFO     step=3770 | epoch=1 | ce_loss=2.187 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.187 | lr=0.0153 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,571 | tokens_seen=2.47B | total_flops=252.77P
+[2026-03-23 14:17:59] INFO     step=3780 | epoch=1 | ce_loss=2.185 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.185 | lr=0.0149 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,595 | tokens_seen=2.48B | total_flops=253.44P
+[2026-03-23 14:18:00] INFO     step=3790 | epoch=1 | ce_loss=2.146 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.146 | lr=0.0145 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,541 | tokens_seen=2.48B | total_flops=254.11P
+[2026-03-23 14:18:01] INFO     step=3800 | epoch=1 | ce_loss=2.110 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.110 | lr=0.0141 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,461 | tokens_seen=2.49B | total_flops=254.78P
+[2026-03-23 14:18:03] INFO     step=3810 | epoch=1 | ce_loss=2.169 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.169 | lr=0.0137 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,488 | tokens_seen=2.50B | total_flops=255.45P
+[2026-03-23 14:18:04] INFO     step=3820 | epoch=1 | ce_loss=2.140 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.140 | lr=0.0133 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,483 | tokens_seen=2.50B | total_flops=256.12P
+[2026-03-23 14:18:06] INFO     step=3830 | epoch=1 | ce_loss=2.174 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.174 | lr=0.0129 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,443 | tokens_seen=2.51B | total_flops=256.79P
+[2026-03-23 14:18:07] INFO     step=3840 | epoch=1 | ce_loss=2.145 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.145 | lr=0.0125 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,437 | tokens_seen=2.52B | total_flops=257.46P
+[2026-03-23 14:18:08] INFO     step=3850 | epoch=1 | ce_loss=2.139 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.139 | lr=0.0121 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,407 | tokens_seen=2.52B | total_flops=258.14P
+[2026-03-23 14:18:10] INFO     step=3860 | epoch=1 | ce_loss=2.149 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.149 | lr=0.0117 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,423 | tokens_seen=2.53B | total_flops=258.81P
+[2026-03-23 14:18:11] INFO     step=3870 | epoch=1 | ce_loss=2.114 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.114 | lr=0.0113 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,327 | tokens_seen=2.54B | total_flops=259.48P
+[2026-03-23 14:18:13] INFO     step=3880 | epoch=1 | ce_loss=2.174 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.174 | lr=0.0109 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,203 | tokens_seen=2.54B | total_flops=260.15P
+[2026-03-23 14:18:14] INFO     step=3890 | epoch=1 | ce_loss=2.187 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.187 | lr=0.0104 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,185 | tokens_seen=2.55B | total_flops=260.82P
+[2026-03-23 14:18:15] INFO     step=3900 | epoch=1 | ce_loss=2.204 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.204 | lr=0.0100 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,231 | tokens_seen=2.56B | total_flops=261.49P
+[2026-03-23 14:18:17] INFO     step=3910 | epoch=1 | ce_loss=2.153 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.153 | lr=0.0096 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,235 | tokens_seen=2.56B | total_flops=262.16P
+[2026-03-23 14:18:18] INFO     step=3920 | epoch=1 | ce_loss=2.179 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.179 | lr=0.0092 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,207 | tokens_seen=2.57B | total_flops=262.83P
+[2026-03-23 14:18:20] INFO     step=3930 | epoch=1 | ce_loss=2.185 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.185 | lr=0.0088 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,196 | tokens_seen=2.58B | total_flops=263.50P
+[2026-03-23 14:18:21] INFO     step=3940 | epoch=1 | ce_loss=2.202 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.202 | lr=0.0084 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,051 | tokens_seen=2.58B | total_flops=264.17P
+[2026-03-23 14:18:23] INFO     step=3950 | epoch=1 | ce_loss=2.117 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.117 | lr=0.0080 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,984 | tokens_seen=2.59B | total_flops=264.84P
+[2026-03-23 14:18:24] INFO     step=3960 | epoch=1 | ce_loss=2.132 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.132 | lr=0.0076 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,885 | tokens_seen=2.60B | total_flops=265.51P
+[2026-03-23 14:18:25] INFO     step=3970 | epoch=1 | ce_loss=2.133 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.133 | lr=0.0072 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,859 | tokens_seen=2.60B | total_flops=266.18P
+[2026-03-23 14:18:27] INFO     step=3980 | epoch=1 | ce_loss=2.221 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.221 | lr=0.0068 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,920 | tokens_seen=2.61B | total_flops=266.85P
+[2026-03-23 14:18:28] INFO     step=3990 | epoch=1 | ce_loss=2.191 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.191 | lr=0.0064 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,994 | tokens_seen=2.61B | total_flops=267.52P
+[2026-03-23 14:18:30] INFO     step=4000 | epoch=1 | ce_loss=2.134 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.134 | lr=0.0060 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,003 | tokens_seen=2.62B | total_flops=268.19P
+[2026-03-23 14:18:31] INFO     step=4010 | epoch=1 | ce_loss=2.141 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.141 | lr=0.0056 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,969 | tokens_seen=2.63B | total_flops=268.86P
+[2026-03-23 14:18:32] INFO     step=4020 | epoch=1 | ce_loss=2.166 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.166 | lr=0.0052 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,984 | tokens_seen=2.63B | total_flops=269.53P
+[2026-03-23 14:18:34] INFO     step=4030 | epoch=1 | ce_loss=2.196 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.196 | lr=0.0048 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,966 | tokens_seen=2.64B | total_flops=270.20P
+[2026-03-23 14:18:35] INFO     step=4040 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0044 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,982 | tokens_seen=2.65B | total_flops=270.87P
+[2026-03-23 14:18:37] INFO     step=4050 | epoch=1 | ce_loss=2.123 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.123 | lr=0.0040 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,027 | tokens_seen=2.65B | total_flops=271.54P
+[2026-03-23 14:18:38] INFO     step=4060 | epoch=1 | ce_loss=2.169 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.169 | lr=0.0036 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,046 | tokens_seen=2.66B | total_flops=272.22P
+[2026-03-23 14:18:39] INFO     step=4070 | epoch=1 | ce_loss=2.200 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.200 | lr=0.0031 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,097 | tokens_seen=2.67B | total_flops=272.89P
+[2026-03-23 14:18:41] INFO     step=4080 | epoch=1 | ce_loss=2.157 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.157 | lr=0.0027 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,141 | tokens_seen=2.67B | total_flops=273.56P
+[2026-03-23 14:18:42] INFO     step=4090 | epoch=1 | ce_loss=2.155 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.155 | lr=0.0023 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,099 | tokens_seen=2.68B | total_flops=274.23P
+[2026-03-23 14:18:44] INFO     step=4100 | epoch=1 | ce_loss=2.114 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.114 | lr=0.0019 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,140 | tokens_seen=2.69B | total_flops=274.90P
+[2026-03-23 14:18:45] INFO     step=4110 | epoch=1 | ce_loss=2.161 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.161 | lr=0.0015 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,223,084 | tokens_seen=2.69B | total_flops=275.57P
+[2026-03-23 14:18:46] INFO     step=4120 | epoch=1 | ce_loss=2.187 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.187 | lr=0.0011 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,865 | tokens_seen=2.70B | total_flops=276.24P
+[2026-03-23 14:18:48] INFO     step=4130 | epoch=1 | ce_loss=2.170 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.170 | lr=0.0007 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,841 | tokens_seen=2.71B | total_flops=276.91P
+[2026-03-23 14:18:49] INFO     step=4140 | epoch=1 | ce_loss=2.098 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.098 | lr=0.0003 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,880 | tokens_seen=2.71B | total_flops=277.58P
+[2026-03-23 14:18:50] INFO     Reached training limit during epoch 1
+[2026-03-23 14:18:50] INFO     Saved model checkpoint to artifacts/checkpoint/step_4147_final_model
+[2026-03-23 14:18:50] INFO     step=4147 | epoch=1 | ce_loss=2.143 | gpu_peak_allocated_gb=15.79 | gpu_peak_reserved_gb=16.26 | gpu_reserved_gb=16.26 | loss=2.143 | lr=2.11E-05 | ms_per_step=125.5 | flops_per_sec=5.34E+14 | tokens_per_sec=5,222,801 | tokens_seen=2.72B | total_flops=278.05P
+[2026-03-23 14:18:50] INFO     Training complete: 4,147 steps, 2.72B tokens in 10m0.1s
+[2026-03-23 14:18:50] INFO     Stage complete: pre_training at step 4147
+[2026-03-23 14:18:50] INFO     Distributed training destroyed
+[2026-03-23 14:18:50] INFO     Training complete
+[2026-03-23 14:18:50] INFO     Distributed training destroyed
+[2026-03-23 14:18:50] INFO     Training complete
+[2026-03-23 14:18:51] INFO     Distributed training destroyed
+[2026-03-23 14:18:51] INFO     Training complete
+[2026-03-23 14:18:51] INFO     Distributed training destroyed
+[2026-03-23 14:18:51] INFO     Training complete
+[2026-03-23 14:18:51] INFO     Distributed training destroyed
+[2026-03-23 14:18:51] INFO     Training complete
+[2026-03-23 14:18:51] INFO     Distributed training destroyed
+[2026-03-23 14:18:51] INFO     Training complete
+[2026-03-23 14:18:51] INFO     Distributed training destroyed
+[2026-03-23 14:18:51] INFO     Training complete
+W0323 14:18:56.458000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13428 closing signal SIGTERM
+W0323 14:18:56.460000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13429 closing signal SIGTERM
+W0323 14:18:56.460000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13430 closing signal SIGTERM
+W0323 14:18:56.461000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13431 closing signal SIGTERM
+W0323 14:18:56.461000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13433 closing signal SIGTERM
+W0323 14:18:56.462000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13434 closing signal SIGTERM
+W0323 14:18:56.462000 13425 torch/distributed/elastic/multiprocessing/api.py:1010] Sending process 13435 closing signal SIGTERM
+E0323 14:18:57.131000 13425 torch/distributed/elastic/multiprocessing/api.py:984] failed (exitcode: -9) local_rank: 4 (pid: 13432) of binary: /usr/bin/python3.12
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 991, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 982, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 317, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+=======================================================
+composer.train FAILED
+-------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 0 (local_rank: 0)
+  exitcode  : -15 (pid: 13428)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 13428
+[2]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 1 (local_rank: 1)
+  exitcode  : -9 (pid: 13429)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13429
+[3]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 2 (local_rank: 2)
+  exitcode  : -9 (pid: 13430)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13430
+[4]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 3 (local_rank: 3)
+  exitcode  : -9 (pid: 13431)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13431
+[5]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 5 (local_rank: 5)
+  exitcode  : -9 (pid: 13433)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13433
+[6]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 6 (local_rank: 6)
+  exitcode  : -9 (pid: 13434)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13434
+[7]:
+  time      : 2026-03-23_14:18:57
+  host      : 02b47b459ca1
+  rank      : 7 (local_rank: 7)
+  exitcode  : -9 (pid: 13435)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13435
+-------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-03-23_14:18:56
+  host      : 02b47b459ca1
+  rank      : 4 (local_rank: 4)
+  exitcode  : -9 (pid: 13432)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 13432
+=======================================================
+Checkpoint found - training succeeded
+Running quantization (schemes=int6,int8,nvfp4)...
+[2026-03-23 14:19:01] INFO     Loading checkpoint: artifacts/checkpoint/step_4147_final_model
+[2026-03-23 14:19:01] INFO     Loading checkpoint from artifacts/checkpoint/step_4147_final_model
+[2026-03-23 14:19:01] INFO     Loaded model from artifacts/checkpoint/step_4147_final_model (17,051,208 parameters)
+[2026-03-23 14:19:01] INFO     Quantizing to int6
+[2026-03-23 14:19:02] INFO     int6 (zlib): compressed=12,785,595 bytes serialized=13,370,171 bytes payload=13,311,120 bytes
+[2026-03-23 14:19:03] INFO     int6 roundtrip verified
+[2026-03-23 14:19:03] INFO     Quantizing to int8
+[2026-03-23 14:19:04] INFO     int8 (zlib): compressed=12,261,433 bytes serialized=17,759,611 bytes payload=17,702,032 bytes
+[2026-03-23 14:19:04] INFO     int8 roundtrip verified
+[2026-03-23 14:19:04] INFO     Quantizing to nvfp4
+[2026-03-23 14:19:05] INFO     nvfp4 (zlib): compressed=9,429,146 bytes serialized=10,030,411 bytes payload=9,958,768 bytes
+[2026-03-23 14:19:05] INFO     nvfp4 roundtrip verified
+[2026-03-23 14:19:05] INFO     Report saved to artifacts/quant_report.json
+Running evaluation (8 GPU(s))...
+[2026-03-23 14:19:15] INFO     Initializing distributed: rank=1, world_size=8, local_rank=1, backend=nccl
+[W323 14:19:15.235155542 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:15.235173219 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:15] INFO     Initializing distributed: rank=4, world_size=8, local_rank=4, backend=nccl
+[W323 14:19:15.406433984 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:15.406451930 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:15] INFO     Initializing distributed: rank=7, world_size=8, local_rank=7, backend=nccl
+[W323 14:19:15.671770935 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:15.671790303 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:15] INFO     Initializing distributed: rank=2, world_size=8, local_rank=2, backend=nccl
+[W323 14:19:15.738300930 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:15.738322192 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:16] INFO     Initializing distributed: rank=0, world_size=8, local_rank=0, backend=nccl
+[W323 14:19:16.091264886 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:16.091285146 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:16] INFO     Initializing distributed: rank=6, world_size=8, local_rank=6, backend=nccl
+[W323 14:19:16.132248244 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:16.132269375 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:16] INFO     Initializing distributed: rank=3, world_size=8, local_rank=3, backend=nccl
+[W323 14:19:16.134229919 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:16.134253504 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:16] INFO     Initializing distributed: rank=5, world_size=8, local_rank=5, backend=nccl
+[W323 14:19:16.165460202 Utils.hpp:137] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W323 14:19:16.165481764 ProcessGroupNCCL.cpp:929] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[2026-03-23 14:19:16] INFO     Distributed initialized: rank 0 of 8
+[2026-03-23 14:19:16] INFO     Eval config: checkpoints=full=artifacts/checkpoint, step_4147_final_model_int6, step_4147_final_model_int8, step_4147_final_model_nvfp4 device=cuda:0 sequence_length=1024 batch_size=64 world_size=8
+[2026-03-23 14:19:16] INFO     Tokenizer: /workspace/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+[2026-03-23 14:19:16] INFO     Validation data: /workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin
+[2026-03-23 14:19:17] INFO     Loaded tokens=62.02M sequences=60.6K vocab_size=1024
+[2026-03-23 14:19:17] INFO     Loading full-precision checkpoint
+[2026-03-23 14:19:17] INFO     Loading checkpoint from artifacts/checkpoint/step_4147_final_model
+[2026-03-23 14:19:17] INFO     Loaded model from artifacts/checkpoint/step_4147_final_model (17,051,208 parameters)
+[2026-03-23 14:19:17] INFO     Running full-precision evaluation
+[2026-03-23 14:19:24] INFO     Full-precision eval complete: val_loss=2.155 val_bpb=1.276 in 7.4s
+[2026-03-23 14:19:24] INFO     Loading int6 checkpoint: step_4147_final_model_int6
+[2026-03-23 14:19:24] INFO     Running int6 evaluation (device=cuda:0)
+[2026-03-23 14:19:31] INFO     int6 eval complete: val_bpb=1.358 compressed_bytes=12,785,595 in 6.9s
+[2026-03-23 14:19:31] INFO     Loading int8 checkpoint: step_4147_final_model_int8
+[2026-03-23 14:19:31] INFO     Running int8 evaluation (device=cuda:0)
+[2026-03-23 14:19:38] INFO     int8 eval complete: val_bpb=1.357 compressed_bytes=12,261,433 in 6.9s
+[2026-03-23 14:19:38] INFO     Loading nvfp4 checkpoint: step_4147_final_model_nvfp4
+[2026-03-23 14:19:38] INFO     Running nvfp4 evaluation (device=cuda:0)
+[2026-03-23 14:19:45] INFO     nvfp4 eval complete: val_bpb=1.730 compressed_bytes=9,429,146 in 6.9s
+[2026-03-23 14:19:45] INFO     Report saved to artifacts/eval_report.json
+[rank0]:[W323 14:19:46.085530056 ProcessGroupNCCL.cpp:1553] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+Hardware: 8x_rtx_pro_6000
+Archiving artifacts to: artifacts_8x_rtx_pro_6000_4
+Compressing checkpoint...
+Checkpoint compressed to checkpoint.tar.gz
+Artifacts moved to artifacts_8x_rtx_pro_6000_4
+Updated /workspace/golf-research/RESULTS.md with 8 result(s)
+[main 6ebc2fb] Add baseline results (8x_rtx_pro_6000)
+ 9 files changed, 5487 insertions(+), 15 deletions(-)
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint.tar.gz
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/console.log
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/eval_report.json
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/experiment.yaml
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/metrics.jsonl
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/overrides.yaml
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/quant_report.json
+ create mode 100644 experiments/baseline/artifacts_8x_rtx_pro_6000_4/system.json
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+To https://github.com/kingsleyfaulkner/golf-research.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/kingsleyfaulkner/golf-research.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+Done - results committed and pushed
+Quantizing: baseline (artifacts_8x_rtx_pro_6000_4, schemes=mxfp4, uncompressed)
+[2026-03-23 20:28:31] INFO     Loading checkpoint: /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-23 20:28:31] INFO     Loading checkpoint from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-23 20:28:31] INFO     Loaded model from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model (17,051,208 parameters)
+[2026-03-23 20:28:31] INFO     Quantizing to mxfp4
+[2026-03-23 20:28:33] INFO     mxfp4 (zstd): compressed=8,650,536 bytes serialized=11,113,787 bytes payload=11,056,272 bytes
+[2026-03-23 20:28:33] INFO     mxfp4 roundtrip verified
+[2026-03-23 20:28:33] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/quant_report.json
+Quantizing: baseline (artifacts_8x_rtx_pro_6000_4, schemes=int6,int8,mxfp4,nvfp4, uncompressed)
+[2026-03-24 07:29:45] INFO     Loading checkpoint: /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-24 07:29:45] INFO     Loading checkpoint from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model_mxfp4
+Traceback (most recent call last):
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 758, in <module>
+    main()
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 729, in main
+    model = Model.from_checkpoint(checkpoint_path, device="cpu", max_step=step)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/composer/src/composer/nn/architecture/model.py", line 149, in from_checkpoint
+    state_dict = torch.load(checkpoint_file, weights_only=False, map_location="cpu")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/torch/serialization.py", line 1573, in load
+    return _legacy_load(
+           ^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/torch/serialization.py", line 1822, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_pickle.UnpicklingError: invalid load key, '\xb5'.
+Quantizing: baseline (artifacts_8x_rtx_pro_6000_4, schemes=int6,int8,mxfp4,nvfp4, uncompressed)
+[2026-03-24 09:31:25] INFO     Loading checkpoint: /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-24 09:31:25] INFO     Loading checkpoint from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model_mxfp4
+Traceback (most recent call last):
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 761, in <module>
+    main()
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/scripts/quant.py", line 729, in main
+    model = Model.from_checkpoint(checkpoint_path, device="cpu", max_step=step)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/composer/src/composer/nn/architecture/model.py", line 149, in from_checkpoint
+    state_dict = torch.load(checkpoint_file, weights_only=False, map_location="cpu")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/torch/serialization.py", line 1573, in load
+    return _legacy_load(
+           ^^^^^^^^^^^^^
+  File "/home/kingsley/projects/golf-research/.venv/lib/python3.12/site-packages/torch/serialization.py", line 1822, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_pickle.UnpicklingError: invalid load key, '\xb5'.
+Quantizing: baseline (artifacts_8x_rtx_pro_6000_4, schemes=int6,int8,mxfp4,nvfp4, uncompressed)
+[2026-03-24 09:31:53] INFO     Loading checkpoint: /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-24 09:31:53] INFO     Loading checkpoint from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model
+[2026-03-24 09:31:53] INFO     Loaded model from /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/checkpoint/step_4147_final_model (17,051,208 parameters)
+[2026-03-24 09:31:53] INFO     Quantizing to int6
+[2026-03-24 09:31:54] INFO     int6 (zstd): compressed=12,358,075 bytes serialized=13,370,107 bytes payload=13,311,120 bytes
+[2026-03-24 09:31:55] INFO     int6 roundtrip verified
+[2026-03-24 09:31:55] INFO     Quantizing to int8
+[2026-03-24 09:32:02] INFO     int8 (zstd): compressed=11,420,198 bytes serialized=17,759,611 bytes payload=17,702,032 bytes
+[2026-03-24 09:32:02] INFO     int8 roundtrip verified
+[2026-03-24 09:32:02] INFO     Quantizing to mxfp4
+[2026-03-24 09:32:04] INFO     mxfp4 (zstd): compressed=8,539,725 bytes serialized=11,113,787 bytes payload=11,056,272 bytes
+[2026-03-24 09:32:04] INFO     mxfp4 roundtrip verified
+[2026-03-24 09:32:04] INFO     Quantizing to nvfp4
+[2026-03-24 09:32:05] INFO     nvfp4 (zstd): compressed=8,683,246 bytes serialized=10,030,347 bytes payload=9,958,768 bytes
+[2026-03-24 09:32:05] INFO     nvfp4 roundtrip verified
+[2026-03-24 09:32:05] INFO     Report saved to /home/kingsley/projects/golf-research/experiments/baseline/artifacts_8x_rtx_pro_6000_4/quant_report.json

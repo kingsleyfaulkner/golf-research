@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-03-23T14:54:33.459192+00:00",
+  "val_tokens_evaluated": 62021632,
+  "vocab_size": 1024,
+  "checkpoint": "artifacts/checkpoint",
+  "val_loss": 2.1298749207537075,
+  "val_bpb": 1.26143189812758,
+  "eval_time_seconds": 8.22,
+  "quant": {
+    "int6": {
+      "scheme": "int6",
+      "compressed_bytes": 16136941,
+      "val_bpb": 1.311109375032294,
+      "val_loss": 2.2137532596023815,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 7.72
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 15441949,
+      "val_bpb": 1.3117290494408538,
+      "val_loss": 2.214799553884129,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 7.71
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressed_bytes": 11094087,
+      "val_bpb": 1.6422263783075164,
+      "val_loss": 2.772830449705032,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 7.69
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressed_bytes": 11327720,
+      "val_bpb": 1.828493890535861,
+      "val_loss": 3.0873353416736116,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 7.71
+    }
+  }
+}
