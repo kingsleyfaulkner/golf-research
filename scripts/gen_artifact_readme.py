@@ -89,7 +89,7 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     W, H = 760, 400
     ML, MR, MT, MB = 65, 70, 20, 50  # MR wide enough for right axis
     BASE_COLOR = "#64748b"   # solid slate for baseline
-    EXP_COLOR  = "#86efac"   # pale green for experiment
+    EXP_COLOR  = "#16a34a"   # green for experiment
     DIFF_COLOR = "#2563eb"   # prominent blue for diff
 
     pw = W - ML - MR
