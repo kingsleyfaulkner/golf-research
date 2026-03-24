@@ -81,9 +81,15 @@ def read_all_metrics(path):
 
 
 def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
-    """Return SVG string for loss vs runtime (minutes) on a log-y scale."""
-    W, H = 720, 400
-    ML, MR, MT, MB = 65, 20, 20, 50
+    """Return SVG string for loss vs runtime (minutes) on a log-y scale.
+
+    When baseline_metrics are provided, a second right-hand axis shows the
+    loss difference (experiment − baseline) as the prominent series.
+    """
+    W, H = 760, 400
+    ML, MR, MT, MB = 65, 70, 20, 50  # MR wide enough for right axis
+    LOSS_COLOR = "#94a3b8"   # muted slate for loss curves
+    DIFF_COLOR = "#2563eb"   # prominent blue for diff
 
     pw = W - ML - MR
     ph = H - MT - MB
@@ -104,6 +110,17 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
                 pass
         return pts
 
+    def interp_loss(pts, x):
+        """Linear interpolation of loss at time x."""
+        if not pts or x < pts[0][0] or x > pts[-1][0]:
+            return None
+        for i in range(len(pts) - 1):
+            x0, y0 = pts[i]
+            x1, y1 = pts[i + 1]
+            if x0 <= x <= x1:
+                return y0 if x1 == x0 else y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+        return None
+
     exp_pts = to_points(exp_metrics)
     base_pts = to_points(baseline_metrics) if baseline_metrics else []
 
@@ -121,8 +138,6 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     # Pad log-scale bounds slightly
     log_lo = math.floor(math.log10(y_min_data) * 4) / 4 - 0.1
     log_hi = math.ceil(math.log10(y_max_data) * 4) / 4 + 0.1
-    y_min = 10**log_lo
-    y_max = 10**log_hi
 
     def sx(x):
         if x_max == x_min:
@@ -133,15 +148,15 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
         frac = (math.log10(y) - log_lo) / (log_hi - log_lo)
         return MT + (1 - frac) * ph
 
-    def polyline(pts):
-        return " ".join(f"{sx(x):.1f},{sy(y):.1f}" for x, y in pts)
+    def polyline(pts, scale_y):
+        return " ".join(f"{sx(x):.1f},{scale_y(y):.1f}" for x, y in pts)
 
     # Y ticks at 1, 2, 3, 5 per decade
     y_ticks = []
     for decade in range(math.floor(math.log10(y_min_data)) - 1, math.ceil(math.log10(y_max_data)) + 2):
         for mult in [1, 2, 3, 5]:
             val = mult * (10**decade)
-            if y_min <= val <= y_max:
+            if 10**log_lo <= val <= 10**log_hi:
                 y_ticks.append((val, mult == 1))
 
     # X ticks — roughly 5-6 ticks
@@ -157,6 +172,51 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
         x_ticks.append(t)
         t += step
 
+    # Compute diff series and right-axis scale
+    diff_pts = []
+    if base_pts:
+        for x, y_exp in exp_pts:
+            y_base = interp_loss(base_pts, x)
+            if y_base is not None:
+                diff_pts.append((x, y_exp - y_base))
+
+    diff_axis = bool(diff_pts)
+    if diff_axis:
+        d_vals = [d[1] for d in diff_pts]
+        d_lo = min(d_vals)
+        d_hi = max(d_vals)
+        pad = max(abs(d_hi - d_lo) * 0.08, abs(d_hi) * 0.05, 1e-6)
+        d_lo -= pad
+        d_hi += pad
+
+        def sy_diff(d):
+            frac = (d - d_lo) / (d_hi - d_lo)
+            return MT + (1 - frac) * ph
+
+        # Nice tick step for diff axis
+        raw_step_d = (d_hi - d_lo) / 5
+        mag_d = 10 ** math.floor(math.log10(abs(raw_step_d))) if raw_step_d != 0 else 1
+        for mult in [1, 2, 2.5, 5, 10]:
+            if raw_step_d <= mult * mag_d:
+                step_d = mult * mag_d
+                break
+        else:
+            step_d = mag_d * 10
+        tick_start_d = math.ceil(d_lo / step_d) * step_d
+        diff_ticks = []
+        td = tick_start_d
+        while td <= d_hi + step_d * 0.01:
+            diff_ticks.append(td)
+            td += step_d
+
+        def fmt_diff(v):
+            if step_d >= 1:
+                return f"{v:.1f}"
+            elif step_d >= 0.01:
+                return f"{v:.2f}"
+            else:
+                return f"{v:.3f}"
+
     svg = []
     svg.append(
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
@@ -164,47 +224,73 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     )
     svg.append(f'<rect x="{ML}" y="{MT}" width="{pw}" height="{ph}" fill="#f9f9f9"/>')
 
-    # Grid lines
+    # Grid lines (from loss axis)
     for val, major in y_ticks:
         yy = sy(val)
-        color = "#ccc" if major else "#e8e8e8"
+        color = "#ddd" if major else "#ececec"
         svg.append(f'<line x1="{ML}" y1="{yy:.1f}" x2="{ML+pw}" y2="{yy:.1f}" stroke="{color}" stroke-width="1"/>')
     for tx in x_ticks:
         xx = sx(tx)
-        svg.append(f'<line x1="{xx:.1f}" y1="{MT}" x2="{xx:.1f}" y2="{MT+ph}" stroke="#e8e8e8" stroke-width="1"/>')
+        svg.append(f'<line x1="{xx:.1f}" y1="{MT}" x2="{xx:.1f}" y2="{MT+ph}" stroke="#ececec" stroke-width="1"/>')
 
-    # Data series
+    # Zero reference line for diff axis
+    if diff_axis and d_lo < 0 < d_hi:
+        y_zero = sy_diff(0)
+        svg.append(
+            f'<line x1="{ML}" y1="{y_zero:.1f}" x2="{ML+pw}" y2="{y_zero:.1f}" '
+            f'stroke="{DIFF_COLOR}" stroke-width="0.75" stroke-dasharray="3,3" opacity="0.4"/>'
+        )
+
+    # Loss curves (muted)
     if base_pts:
         svg.append(
-            f'<polyline points="{polyline(base_pts)}" fill="none" '
-            f'stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            f'<polyline points="{polyline(base_pts, sy)}" fill="none" '
+            f'stroke="{LOSS_COLOR}" stroke-width="1.5" stroke-dasharray="5,3"/>'
         )
     if exp_pts:
         svg.append(
-            f'<polyline points="{polyline(exp_pts)}" fill="none" '
-            f'stroke="#2563eb" stroke-width="2"/>'
+            f'<polyline points="{polyline(exp_pts, sy)}" fill="none" '
+            f'stroke="{LOSS_COLOR}" stroke-width="1.5"/>'
+        )
+
+    # Diff curve (prominent)
+    if diff_axis:
+        svg.append(
+            f'<polyline points="{polyline(diff_pts, sy_diff)}" fill="none" '
+            f'stroke="{DIFF_COLOR}" stroke-width="2.5"/>'
         )
 
     # Axes border
-    svg.append(f'<rect x="{ML}" y="{MT}" width="{pw}" height="{ph}" fill="none" stroke="#555" stroke-width="1.5"/>')
+    svg.append(f'<rect x="{ML}" y="{MT}" width="{pw}" height="{ph}" fill="none" stroke="#888" stroke-width="1.5"/>')
 
-    # Y tick marks and labels
+    # Left Y axis ticks and labels (loss, muted)
     for val, major in y_ticks:
         yy = sy(val)
         if major:
             label = f"{val:.0f}" if val >= 10 else (f"{val:.1f}" if val >= 1 else f"{val:.2f}")
-            svg.append(f'<line x1="{ML-5}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="#555" stroke-width="1.5"/>')
+            svg.append(f'<line x1="{ML-5}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{LOSS_COLOR}" stroke-width="1.5"/>')
             svg.append(
                 f'<text x="{ML-8}" y="{yy:.1f}" text-anchor="end" dominant-baseline="middle" '
-                f'font-size="11" font-family="monospace,sans-serif">{label}</text>'
+                f'font-size="11" font-family="monospace,sans-serif" fill="{LOSS_COLOR}">{label}</text>'
             )
         else:
-            svg.append(f'<line x1="{ML-3}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="#888" stroke-width="1"/>')
+            svg.append(f'<line x1="{ML-3}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{LOSS_COLOR}" stroke-width="1" opacity="0.6"/>')
+
+    # Right Y axis ticks and labels (diff, prominent)
+    if diff_axis:
+        rx = ML + pw
+        for td in diff_ticks:
+            yy = sy_diff(td)
+            svg.append(f'<line x1="{rx}" y1="{yy:.1f}" x2="{rx+5}" y2="{yy:.1f}" stroke="{DIFF_COLOR}" stroke-width="1.5"/>')
+            svg.append(
+                f'<text x="{rx+8}" y="{yy:.1f}" text-anchor="start" dominant-baseline="middle" '
+                f'font-size="11" font-family="monospace,sans-serif" fill="{DIFF_COLOR}">{fmt_diff(td)}</text>'
+            )
 
     # X tick marks and labels
     for tx in x_ticks:
         xx = sx(tx)
-        svg.append(f'<line x1="{xx:.1f}" y1="{MT+ph}" x2="{xx:.1f}" y2="{MT+ph+5}" stroke="#555" stroke-width="1.5"/>')
+        svg.append(f'<line x1="{xx:.1f}" y1="{MT+ph}" x2="{xx:.1f}" y2="{MT+ph+5}" stroke="#888" stroke-width="1.5"/>')
         svg.append(
             f'<text x="{xx:.1f}" y="{MT+ph+18}" text-anchor="middle" '
             f'font-size="11" font-family="monospace,sans-serif">{tx:.0f}</text>'
@@ -218,31 +304,48 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     cy = MT + ph // 2
     svg.append(
         f'<text transform="rotate(-90,16,{cy})" x="16" y="{cy}" text-anchor="middle" '
-        f'font-size="13" font-family="sans-serif">Loss (log scale)</text>'
+        f'font-size="13" font-family="sans-serif" fill="{LOSS_COLOR}">Train loss (log scale)</text>'
     )
-
-    # Legend (only when baseline is shown)
-    if base_pts:
-        lx = ML + pw - 115
-        ly = MT + 12
+    if diff_axis:
+        rx_label = W - 8
         svg.append(
-            f'<rect x="{lx-5}" y="{ly-6}" width="120" height="46" '
+            f'<text transform="rotate(90,{rx_label},{cy})" x="{rx_label}" y="{cy}" text-anchor="middle" '
+            f'font-size="13" font-family="sans-serif" fill="{DIFF_COLOR}">Train loss diff (exp − base)</text>'
+        )
+
+    # Legend
+    lx = ML + 12
+    ly = MT + 12
+    if diff_axis:
+        legend_items = [
+            (LOSS_COLOR, "1.5", "5,3", "Baseline train loss"),
+            (LOSS_COLOR, "1.5", None, "Experiment train loss"),
+            (DIFF_COLOR, "2.5", None, "Train loss diff"),
+        ]
+    elif base_pts:
+        legend_items = [
+            (LOSS_COLOR, "1.5", "5,3", "Baseline train loss"),
+            (LOSS_COLOR, "1.5", None, "Experiment train loss"),
+        ]
+    else:
+        legend_items = []
+
+    if legend_items:
+        box_h = len(legend_items) * 18 + 8
+        svg.append(
+            f'<rect x="{lx-5}" y="{ly-6}" width="140" height="{box_h}" '
             f'fill="white" fill-opacity="0.85" stroke="#ddd" stroke-width="1" rx="3"/>'
         )
-        svg.append(
-            f'<line x1="{lx}" y1="{ly+5}" x2="{lx+22}" y2="{ly+5}" '
-            f'stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,3"/>'
-        )
-        svg.append(
-            f'<text x="{lx+27}" y="{ly+9}" font-size="11" font-family="sans-serif">Baseline</text>'
-        )
-        svg.append(
-            f'<line x1="{lx}" y1="{ly+24}" x2="{lx+22}" y2="{ly+24}" '
-            f'stroke="#2563eb" stroke-width="2"/>'
-        )
-        svg.append(
-            f'<text x="{lx+27}" y="{ly+28}" font-size="11" font-family="sans-serif">Experiment</text>'
-        )
+        for i, (color, sw, dash, label) in enumerate(legend_items):
+            iy = ly + 5 + i * 18
+            dash_attr = f' stroke-dasharray="{dash}"' if dash else ""
+            svg.append(
+                f'<line x1="{lx}" y1="{iy}" x2="{lx+22}" y2="{iy}" '
+                f'stroke="{color}" stroke-width="{sw}"{dash_attr}/>'
+            )
+            svg.append(
+                f'<text x="{lx+27}" y="{iy+4}" font-size="11" font-family="sans-serif" fill="{color}">{label}</text>'
+            )
 
     svg.append("</svg>")
     return "\n".join(svg)
@@ -317,9 +420,9 @@ def main():
     # Loss chart
     if svg_content:
         lines.append("")
-        lines.append("## Loss Curve")
+        lines.append("## Train Loss Curve")
         lines.append("")
-        lines.append("![Loss vs runtime (log scale)](loss_chart.svg)")
+        lines.append("![Train loss vs runtime (log scale)](loss_chart.svg)")
 
     # Comparison vs baseline (before quant details)
     if experiment_name != "baseline" and eval_report:

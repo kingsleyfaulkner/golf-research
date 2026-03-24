@@ -72,9 +72,9 @@ training.pre_training.batch_size: 80
 - **Val loss:** 2.1551
 - **Val BPB:** 1.2764
 
-## Loss Curve
+## Train Loss Curve
 
-![Loss vs runtime (log scale)](loss_chart.svg)
+![Train loss vs runtime (log scale)](loss_chart.svg)
 
 ## Quantization
 
