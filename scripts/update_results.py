@@ -14,8 +14,10 @@ Usage:
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -282,9 +284,37 @@ def generate_markdown(results: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def regenerate_artifact_readmes(root: Path) -> None:
+    """Call gen_artifact_readme for every artifact_* directory."""
+    spec = importlib.util.spec_from_file_location(
+        "gen_artifact_readme", root / "scripts" / "gen_artifact_readme.py"
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    experiments_dir = root / "experiments"
+    for experiment_dir in sorted(experiments_dir.iterdir()):
+        if not experiment_dir.is_dir():
+            continue
+        for artifact_dir in sorted(experiment_dir.iterdir()):
+            if not artifact_dir.is_dir() or not artifact_dir.name.startswith("artifacts_"):
+                continue
+            old_argv = sys.argv
+            try:
+                sys.argv = ["gen_artifact_readme.py", str(artifact_dir), str(experiment_dir), str(root)]
+                mod.main()
+            finally:
+                sys.argv = old_argv
+            print(f"  Regenerated {artifact_dir.relative_to(root)}")
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     experiments_dir = root / "experiments"
+
+    print("Regenerating artifact READMEs and charts...")
+    regenerate_artifact_readmes(root)
+
     results = collect_results(experiments_dir)
     if not results:
         print("No artifact folders found")
