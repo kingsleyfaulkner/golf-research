@@ -88,7 +88,8 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     """
     W, H = 760, 400
     ML, MR, MT, MB = 65, 70, 20, 50  # MR wide enough for right axis
-    LOSS_COLOR = "#94a3b8"   # muted slate for loss curves
+    BASE_COLOR = "#64748b"   # solid slate for baseline
+    EXP_COLOR  = "#86efac"   # pale green for experiment
     DIFF_COLOR = "#2563eb"   # prominent blue for diff
 
     pw = W - ML - MR
@@ -245,12 +246,12 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     if base_pts:
         svg.append(
             f'<polyline points="{polyline(base_pts, sy)}" fill="none" '
-            f'stroke="{LOSS_COLOR}" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            f'stroke="{BASE_COLOR}" stroke-width="1.5" stroke-dasharray="5,3"/>'
         )
     if exp_pts:
         svg.append(
             f'<polyline points="{polyline(exp_pts, sy)}" fill="none" '
-            f'stroke="{LOSS_COLOR}" stroke-width="1.5"/>'
+            f'stroke="{EXP_COLOR}" stroke-width="1.5"/>'
         )
 
     # Diff curve (prominent)
@@ -268,13 +269,13 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
         yy = sy(val)
         if major:
             label = f"{val:.0f}" if val >= 10 else (f"{val:.1f}" if val >= 1 else f"{val:.2f}")
-            svg.append(f'<line x1="{ML-5}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{LOSS_COLOR}" stroke-width="1.5"/>')
+            svg.append(f'<line x1="{ML-5}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{BASE_COLOR}" stroke-width="1.5"/>')
             svg.append(
                 f'<text x="{ML-8}" y="{yy:.1f}" text-anchor="end" dominant-baseline="middle" '
-                f'font-size="11" font-family="monospace,sans-serif" fill="{LOSS_COLOR}">{label}</text>'
+                f'font-size="11" font-family="monospace,sans-serif" fill="{BASE_COLOR}">{label}</text>'
             )
         else:
-            svg.append(f'<line x1="{ML-3}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{LOSS_COLOR}" stroke-width="1" opacity="0.6"/>')
+            svg.append(f'<line x1="{ML-3}" y1="{yy:.1f}" x2="{ML}" y2="{yy:.1f}" stroke="{BASE_COLOR}" stroke-width="1" opacity="0.6"/>')
 
     # Right Y axis ticks and labels (diff, prominent)
     if diff_axis:
@@ -304,7 +305,7 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     cy = MT + ph // 2
     svg.append(
         f'<text transform="rotate(-90,16,{cy})" x="16" y="{cy}" text-anchor="middle" '
-        f'font-size="13" font-family="sans-serif" fill="{LOSS_COLOR}">Train loss (log scale)</text>'
+        f'font-size="13" font-family="sans-serif" fill="{BASE_COLOR}">Train loss (log scale)</text>'
     )
     if diff_axis:
         rx_label = W - 8
@@ -318,14 +319,14 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     ly = MT + 12
     if diff_axis:
         legend_items = [
-            (LOSS_COLOR, "1.5", "5,3", "Baseline train loss"),
-            (LOSS_COLOR, "1.5", None, "Experiment train loss"),
-            (DIFF_COLOR, "2.5", None, "Train loss diff"),
+            (BASE_COLOR, "1.5", "5,3", "Baseline train loss"),
+            (EXP_COLOR,  "1.5", None,  "Experiment train loss"),
+            (DIFF_COLOR, "2.5", None,  "Train loss diff"),
         ]
     elif base_pts:
         legend_items = [
-            (LOSS_COLOR, "1.5", "5,3", "Baseline train loss"),
-            (LOSS_COLOR, "1.5", None, "Experiment train loss"),
+            (BASE_COLOR, "1.5", "5,3", "Baseline train loss"),
+            (EXP_COLOR,  "1.5", None,  "Experiment train loss"),
         ]
     else:
         legend_items = []
