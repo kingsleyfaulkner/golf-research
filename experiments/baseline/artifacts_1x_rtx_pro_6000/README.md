@@ -66,6 +66,10 @@ The OpenAI reference baseline achieves **1.2244 BPB** on the validation set (8xH
 - **Val loss:** 2.6324
 - **Val BPB:** 1.5591
 
+## Loss Curve
+
+![Loss vs runtime (log scale)](loss_chart.svg)
+
 ## Quantization
 
 | | int6 | int8 | mxfp4 | nvfp4 |
