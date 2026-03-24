@@ -87,7 +87,7 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
     loss difference (experiment − baseline) as the prominent series.
     """
     W, H = 760, 400
-    ML, MR, MT, MB = 65, 70, 20, 50  # MR wide enough for right axis
+    ML, MR, MT, MB = 65, 85, 20, 50  # MR wide enough for right axis + title
     BASE_COLOR = "#64748b"   # solid slate for baseline
     EXP_COLOR  = "#16a34a"   # green for experiment
     DIFF_COLOR = "#2563eb"   # prominent blue for diff
@@ -308,7 +308,7 @@ def generate_loss_chart_svg(exp_metrics, baseline_metrics=None):
         f'font-size="13" font-family="sans-serif" fill="{BASE_COLOR}">Train loss (log scale)</text>'
     )
     if diff_axis:
-        rx_label = W - MR + 22
+        rx_label = W - 14  # past tick labels, flush to SVG right edge
         svg.append(
             f'<text transform="rotate(90,{rx_label},{cy})" x="{rx_label}" y="{cy}" text-anchor="middle" '
             f'font-size="13" font-family="sans-serif" fill="{DIFF_COLOR}">Train loss diff (exp − base)</text>'
@@ -446,18 +446,32 @@ def main():
             e_quant = eval_report.get("quant", {})
             shared = sorted(set(b_quant) & set(e_quant))
 
-            cols = ["full"] + shared
+            # Train loss from metrics.jsonl
+            e_metrics = last_metrics_line(artifact_dir / "metrics.jsonl")
+            b_metrics = last_metrics_line(baseline_artifact / "metrics.jsonl")
+            e_loss = (e_metrics.get("ce_loss") or e_metrics.get("loss")) if e_metrics else None
+            b_loss = (b_metrics.get("ce_loss") or b_metrics.get("loss")) if b_metrics else None
+
+            cols = ["train loss", "full"] + shared
             lines.append("")
             lines.append("| | " + " | ".join(cols) + " |")
             lines.append("| :--- | " + " | ".join(["---:" for _ in cols]) + " |")
-            exp_row = f"| **Experiment** | {fmt(e_bpb)} |"
-            base_row = f"| **Baseline** | {fmt(b_bpb)} |"
-            if e_bpb is not None and b_bpb is not None:
-                d = e_bpb - b_bpb
+            exp_row = f"| **Experiment** | {fmt(e_loss)} | {fmt(e_bpb)} |"
+            base_row = f"| **Baseline** | {fmt(b_loss)} | {fmt(b_bpb)} |"
+            # Delta for train loss
+            if e_loss is not None and b_loss is not None:
+                d = e_loss - b_loss
                 sign = "+" if d >= 0 else ""
                 delta_row = f"| **Delta** | {sign}{d:.4f} |"
             else:
                 delta_row = "| **Delta** | - |"
+            # Delta for full bpb
+            if e_bpb is not None and b_bpb is not None:
+                d = e_bpb - b_bpb
+                sign = "+" if d >= 0 else ""
+                delta_row += f" {sign}{d:.4f} |"
+            else:
+                delta_row += " - |"
             for s in shared:
                 eb = e_quant[s].get("val_bpb")
                 bb = b_quant[s].get("val_bpb")

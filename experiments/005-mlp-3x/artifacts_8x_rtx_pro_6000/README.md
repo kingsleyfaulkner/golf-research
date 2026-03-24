@@ -38,9 +38,9 @@ training.pre_training.batch_size: 80
 - **Val loss:** 2.1299
 - **Val BPB:** 1.2614
 
-## Train Loss Curve
+## Loss Curve
 
-![Train loss vs runtime (log scale)](loss_chart.svg)
+![Loss vs runtime (log scale)](loss_chart.svg)
 
 ## vs Baseline ([artifacts_8x_rtx_pro_6000_4](../../baseline/artifacts_8x_rtx_pro_6000_4))
 
