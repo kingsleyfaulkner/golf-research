@@ -426,8 +426,11 @@ def main():
 
     if metrics:
         steps = metrics.get("global_step", "-")
+        tokens_seen = metrics.get("tokens_seen")
         loss = fmt(metrics.get("ce_loss") or metrics.get("loss"))
         lines.append(f"- **Steps:** {steps}")
+        if tokens_seen is not None:
+            lines.append(f"- **Tokens:** {tokens_seen / 1_000_000:.1f}M")
         lines.append(f"- **Train loss:** {loss}")
 
     if eval_report:

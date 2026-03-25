@@ -42,6 +42,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 ## Results
 
 - **Steps:** 560
+- **Tokens:** 73.4M
 - **Train loss:** 2.6489
 - **Val loss:** 2.6374
 - **Val BPB:** 1.5620

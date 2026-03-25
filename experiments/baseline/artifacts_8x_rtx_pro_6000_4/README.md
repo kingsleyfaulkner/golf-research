@@ -68,6 +68,7 @@ training.pre_training.batch_size: 80
 ## Results
 
 - **Steps:** 4147
+- **Tokens:** 2717.8M
 - **Train loss:** 2.1428
 - **Val loss:** 2.1551
 - **Val BPB:** 1.2764
