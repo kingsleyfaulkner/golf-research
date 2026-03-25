@@ -66,27 +66,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **train.yaml:**
 
 ```diff
-@@ -2,19 +2,10 @@
- model_name: baseline
- training:
-   pre_training:
--    # Global batch = max(gpus, 8) * batch_size * sequence_length tokens.
--    # At the reference 8 GPUs this is 524,288 tokens; with more GPUs the
--    # global batch scales up rather than accumulating.
--    # GradientAccumulation auto-computes micro-batching from world_size:
--    #   1 GPU  -> grad_accum = 8 (8 micro-batches of 64 seqs)
--    #   8 GPUs -> grad_accum = 1 (no accumulation needed)
-     gpus: !env WORLD_SIZE:1
-     batch_size: 64
-     sequence_length: !expr "model.context_length"
-     total_batch_tokens: !expr "max(self.gpus, 8) * self.batch_size * self.sequence_length"
--    # 10-minute wallclock cap matching the challenge constraint.
--    # Combined with max_steps as a safety limit - training stops when
--    # either condition is met first.
-     max_wallclock_seconds: 600
-     warmup_steps: 10
-     model_trainer:
-@@ -23,7 +14,7 @@
+@@ -14,7 +14,7 @@
            LayerWise:
              default_optimizer:
                Muon:
@@ -95,7 +75,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
                  momentum: 0.95
                  nesterov: true
                  ns_steps: 5
-@@ -41,25 +32,16 @@
+@@ -32,14 +32,14 @@
                  patterns: ["embedding.*"]
                  optimizer:
                    Adam:
@@ -111,18 +91,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 +                    lr: 0.02
                      betas: [0.9, 0.95]
                      eps: 1.0e-8
--              # With tied embeddings, the head group shares weights with
--              # embedding via TiedLayers.  If untied, add a head group:
--              # - name: head
--              #   patterns: ["heads.*"]
--              #   optimizer:
--              #     Adam:
--              #       lr: 0.008
--              #       betas: [0.9, 0.95]
--              #       eps: 1.0e-8
          scheduler:
-           WallclockWarmdown:
-             warmdown_steps: 1200
 ```
 
 ## Platform

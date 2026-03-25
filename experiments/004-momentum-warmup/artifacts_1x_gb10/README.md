@@ -63,7 +63,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **train.yaml:**
 
 ```diff
-@@ -24,18 +24,18 @@
+@@ -15,18 +15,18 @@
              default_optimizer:
                Muon:
                  lr: 0.04

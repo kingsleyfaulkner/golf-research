@@ -73,27 +73,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **model.yaml:**
 
 ```diff
-@@ -9,11 +9,9 @@
-         norm: RMSNorm
-     block:
-       SequentialBlock:
--        # Capture post-embedding hidden state as x0 for residual mixing
-         forward_x0:
-           ForwardContext:
-             key: x0
--        # Encoder half: push skip states after each block
-         encoder:
-           RepeatingBlock:
-             num_layers_key: num_encoder_layers
-@@ -48,7 +46,6 @@
-                 ForwardContext:
-                   key: skip_stack
-                   push: true
--        # Decoder half: pop skip states before each block
-         decoder:
-           RepeatingBlock:
-             num_layers_key: num_decoder_layers
-@@ -100,14 +97,13 @@
+@@ -97,7 +97,7 @@
      DecoderTransformer:
        context_length: 1024
        vocab_size: 1024
@@ -102,13 +82,6 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
        hidden_size: !expr "self.num_attention_heads * self.head_dim"
        num_attention_heads: 8
        num_key_value_heads: 4
-       head_dim: 64
-       mlp_mult: 2
-       intermediate_size: !expr "self.mlp_mult * self.hidden_size"
--      # Encoder-decoder layer split
-       num_encoder_layers: !expr "self.num_layers // 2"
-       num_decoder_layers: !expr "self.num_layers - self.num_encoder_layers"
- predictors:
 ```
 
 ## Platform

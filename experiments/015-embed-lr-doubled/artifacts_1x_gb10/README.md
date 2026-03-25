@@ -64,7 +64,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **train.yaml:**
 
 ```diff
-@@ -41,7 +41,7 @@
+@@ -32,7 +32,7 @@
                  patterns: ["embedding.*"]
                  optimizer:
                    Adam:

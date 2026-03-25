@@ -59,7 +59,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **train.yaml:**
 
 ```diff
-@@ -29,6 +29,8 @@
+@@ -20,6 +20,8 @@
                  ns_steps: 5
                  weight_decay: 0.0
                  features:

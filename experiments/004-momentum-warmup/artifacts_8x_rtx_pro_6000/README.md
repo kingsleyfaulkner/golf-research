@@ -61,7 +61,7 @@ training.pre_training.batch_size: 80
 **train.yaml:**
 
 ```diff
-@@ -24,18 +24,18 @@
+@@ -15,18 +15,18 @@
              default_optimizer:
                Muon:
                  lr: 0.04

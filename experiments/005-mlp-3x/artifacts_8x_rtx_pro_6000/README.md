@@ -65,15 +65,15 @@ training.pre_training.batch_size: 80
 **model.yaml:**
 
 ```diff
-@@ -105,7 +105,7 @@
+@@ -102,7 +102,7 @@
        num_attention_heads: 8
        num_key_value_heads: 4
        head_dim: 64
 -      mlp_mult: 2
 +      mlp_mult: 3
        intermediate_size: !expr "self.mlp_mult * self.hidden_size"
-       # Encoder-decoder layer split
        num_encoder_layers: !expr "self.num_layers // 2"
+       num_decoder_layers: !expr "self.num_layers - self.num_encoder_layers"
 ```
 
 ## Platform

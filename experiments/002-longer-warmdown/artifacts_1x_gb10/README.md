@@ -60,8 +60,8 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 **train.yaml:**
 
 ```diff
-@@ -62,7 +62,7 @@
-               #       eps: 1.0e-8
+@@ -44,7 +44,7 @@
+                     eps: 1.0e-8
          scheduler:
            WallclockWarmdown:
 -            warmdown_steps: 1200
