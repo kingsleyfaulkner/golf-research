@@ -62,6 +62,7 @@ The OpenAI reference baseline achieves **1.2244 BPB** on the validation set (8xH
 ## Results
 
 - **Steps:** 320
+- **Tokens:** 167.8M
 - **Train loss:** 2.6495
 - **Val loss:** 2.6324
 - **Val BPB:** 1.5591

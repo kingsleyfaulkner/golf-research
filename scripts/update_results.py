@@ -91,6 +91,20 @@ def get_steps(metrics_path: Path) -> int | None:
     return record.get("global_step")
 
 
+def get_tokens(metrics_path: Path) -> int | None:
+    """Read the final tokens_seen count from metrics.jsonl."""
+    last_line = None
+    with open(metrics_path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                last_line = line
+    if last_line is None:
+        return None
+    record = json.loads(last_line)
+    return record.get("tokens_seen")
+
+
 def get_run_datetime(artifacts_dir: Path) -> str | None:
     """Extract the run date/time from eval_report.json or file timestamps."""
     eval_path = artifacts_dir / "eval_report.json"
@@ -139,6 +153,7 @@ def collect_results(root: Path) -> list[dict]:
                 "gpu_heading": format_gpu_heading(gpu_tag),
                 "rel_path": rel_path,
                 "steps": None,
+                "tokens": None,
                 "loss": None,
                 "val_loss": None,
                 "val_bpb": None,
@@ -151,6 +166,7 @@ def collect_results(root: Path) -> list[dict]:
             if metrics_path.exists():
                 entry["loss"] = get_final_loss(metrics_path)
                 entry["steps"] = get_steps(metrics_path)
+                entry["tokens"] = get_tokens(metrics_path)
 
             eval_path = artifacts_dir / "eval_report.json"
             if eval_path.exists():
@@ -213,6 +229,13 @@ def fmt(value, precision=4) -> str:
     return str(value)
 
 
+def fmt_tokens(value) -> str:
+    """Format token count in millions (e.g. 88.5M)."""
+    if value is None:
+        return "-"
+    return f"{value / 1_000_000:.1f}M"
+
+
 def fmt_bpb_with_size(bpb: float | None, compressed_bytes: int | None) -> str:
     """Format BPB with green/red size indicator based on 16MB limit."""
     if bpb is None and compressed_bytes is not None:
@@ -252,8 +275,8 @@ def generate_markdown(results: list[dict]) -> str:
         lines.append("")
 
         # Build header
-        header_cols = ["Experiment", "Date", "Steps", "Loss", "Val Loss", "Val BPB"]
-        align_cols = [":---", ":---", "---:", "---:", "---:", "---:"]
+        header_cols = ["Experiment", "Date", "Steps", "Tokens", "Loss", "Val Loss", "Val BPB"]
+        align_cols = [":---", ":---", "---:", "---:", "---:", "---:", "---:"]
         for qk in quant_keys:
             header_cols.append(f"{qk} BPB")
             align_cols.append("---:")
@@ -269,6 +292,7 @@ def generate_markdown(results: list[dict]) -> str:
                 r["experiment"],
                 r["run_date"] or "-",
                 fmt(r["steps"]),
+                fmt_tokens(r["tokens"]),
                 fmt(r["loss"]),
                 fmt(r["val_loss"]),
                 fmt(r["val_bpb"]),
