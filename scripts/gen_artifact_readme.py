@@ -536,8 +536,8 @@ def main():
                         [
                             "bash",
                             "-c",
-                            f"diff -u <(grep -v '^#' '{base_f}' | grep -v '^$') "
-                            f"<(grep -v '^#' '{exp_f}' | grep -v '^$')",
+                            f"diff -u <(grep -v '^[[:space:]]*#' '{base_f}' | grep -v '^$') "
+                            f"<(grep -v '^[[:space:]]*#' '{exp_f}' | grep -v '^$')",
                         ],
                         capture_output=True,
                         text=True,
