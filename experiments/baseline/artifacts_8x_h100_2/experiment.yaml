@@ -1,0 +1,208 @@
+model:
+  type: DecoderTransformer
+  embedding:
+    type: TokenEmbedding
+    norm:
+      type: RMSNorm
+    init_method: normal
+    init_std: 0.005
+  block:
+    type: SequentialBlock
+    layers:
+      forward_x0:
+        type: ForwardContext
+        key: x0
+      encoder:
+        type: RepeatingBlock
+        block:
+          type: SequentialBlock
+          layers:
+            resid_mix:
+              type: AddContext
+              context_key: x0
+              hidden_weight: vector
+              context_weight: vector
+            block:
+              type: Residual
+              layers:
+                residual_attention:
+                  type: SequentialBlock
+                  layers:
+                    ln_1:
+                      type: RMSNorm
+                    attn:
+                      type: CausalGroupedQueryAttention
+                      features:
+                      - type: QKNorm
+                      - type: RoPE
+                        rope_theta: 10000
+                        rotation: forwards
+                      - type: AttentionScale
+                        q: 1.5
+                    attn_scale:
+                      type: VectorScale
+                residual_feedforward:
+                  type: SequentialBlock
+                  layers:
+                    ln_2:
+                      type: RMSNorm
+                    mlp:
+                      type: FFN
+                      activation: ReLU2
+                    mlp_scale:
+                      type: VectorScale
+            push_skip:
+              type: ForwardContext
+              key: skip_stack
+              push: true
+        num_layers_key: num_encoder_layers
+      decoder:
+        type: RepeatingBlock
+        block:
+          type: SequentialBlock
+          layers:
+            pop_skip:
+              type: AddContext
+              context_key: skip_stack
+              pop: true
+              context_weight: vector
+            resid_mix:
+              type: AddContext
+              context_key: x0
+              hidden_weight: vector
+              context_weight: vector
+            block:
+              type: Residual
+              layers:
+                residual_attention:
+                  type: SequentialBlock
+                  layers:
+                    ln_1:
+                      type: RMSNorm
+                    attn:
+                      type: CausalGroupedQueryAttention
+                      features:
+                      - type: QKNorm
+                      - type: RoPE
+                        rope_theta: 10000
+                        rotation: forwards
+                      - type: AttentionScale
+                        q: 1.5
+                    attn_scale:
+                      type: VectorScale
+                residual_feedforward:
+                  type: SequentialBlock
+                  layers:
+                    ln_2:
+                      type: RMSNorm
+                    mlp:
+                      type: FFN
+                      activation: ReLU2
+                    mlp_scale:
+                      type: VectorScale
+        num_layers_key: num_decoder_layers
+      norm:
+        type: RMSNorm
+  heads:
+    clm:
+      type: CausalLMHead
+      features:
+      - type: SoftCap
+        limit: 30.0
+        activation: Tanh
+  features:
+  - type: TiedLayers
+    layers:
+      heads.clm.head.weight: embedding.tok_emb.weight
+  head_dim: 64
+  learnable_scale: false
+  context_length: 1024
+  vocab_size: 1024
+  num_layers: 9
+  hidden_size: 512
+  num_attention_heads: 8
+  num_key_value_heads: 4
+  mlp_mult: 2
+  intermediate_size: 1024
+  num_encoder_layers: 4
+  num_decoder_layers: 5
+training:
+  model_trainer:
+    type: DecoderTransformerTrainer
+    optimizer:
+      type: LayerWise
+      default_optimizer:
+        type: Muon
+        lr: 0.04
+        momentum: 0.95
+        nesterov: true
+        ns_steps: 5
+        weight_decay: 0.0
+        features:
+        - type: HyperparameterSchedule
+          parameter: momentum
+          initial: 0.85
+          final: 0.95
+          scheduler:
+            type: LinearWarmup
+            warmup_steps: 500
+      groups:
+      - name: embedding
+        patterns:
+        - embedding.*
+        optimizer:
+          type: Adam
+          lr: 0.05
+          betas: tuple
+          eps: 1.0e-08
+      - name: block_scalars
+        max_ndim: 1
+        optimizer:
+          type: Adam
+          lr: 0.04
+          betas: tuple
+          eps: 1.0e-08
+    scheduler:
+      type: WallclockWarmdown
+      warmdown_steps: 1200
+      decay_type: linear
+    compile:
+      dynamic: false
+      fullgraph: true
+    features:
+    - type: CompileDiagnostics
+    - type: Autocast
+      dtype: bfloat16
+    - type: CUDABackend
+      flash_sdp: true
+      mem_efficient_sdp: false
+      math_sdp: false
+      cudnn_sdp: false
+  data:
+    type: TokenizedDataset
+    path: /workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_train_*.bin
+    shuffle: true
+    bin_header_bytes: 1024
+  features:
+  - type: SystemDiagnostics
+    diagnostics_file: artifacts/system.json
+  - type: ConfigSnapshot
+    config_file: artifacts/experiment.yaml
+  - type: GradientAccumulation
+  - type: SpeedMonitor
+  - type: MemoryProfiler
+  - type: Checkpointer
+    checkpoint_path: artifacts/checkpoint
+    max_checkpoints: 1
+    model_only: true
+  - type: MetricsLogger
+    metrics_file: artifacts/metrics.jsonl
+  - type: ConsoleLogger
+    interval: 10
+  max_wallclock_seconds: 600.0
+  total_batch_tokens: 2097152
+  seed: 1034993360
+  warmup_steps: 10
+  gpus: 8
+  batch_size: 256
+  sequence_length: 1024

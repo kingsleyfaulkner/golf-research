@@ -1,0 +1,7 @@
+/CLAUDE.md
+.claude/
+.idea/
+__pycache__/
+/checkpoints/
+**/checkpoint/
+**/eval_report_backup.json

@@ -1,0 +1,5 @@
+name: parameter-golf
+type: runpod-network-volume
+infra: runpod/US/US-NE-1
+size: 60Gi
+use_existing: true

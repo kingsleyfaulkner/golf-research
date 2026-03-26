@@ -1,0 +1,66 @@
+name: golf-experiment
+
+resources:
+  cloud: runpod
+  disk_size: 15
+  image_id: docker:runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
+
+volumes:
+  /workspace: parameter-golf
+
+envs:
+  GITHUB_TOKEN: null
+  HUGGING_FACE_HUB_TOKEN: null
+  GIT_USER_EMAIL: null
+  GIT_USER_NAME: null
+  EXTRA_SET_ARGS: ""
+  EXPERIMENT: "baseline"
+  COMPOSER_BRANCH: "parameter-golf"
+  GOLF_BRANCH: "main"
+
+setup: |
+  set -euo pipefail
+  git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+  git config --global user.email "${GIT_USER_EMAIL}"
+  git config --global user.name "${GIT_USER_NAME}"
+  git config --global pull.rebase true
+
+  # Clone or pull composer
+  if [ -d /workspace/composer ]; then
+    cd /workspace/composer && git fetch && git checkout ${COMPOSER_BRANCH} && git pull
+  else
+    git clone -b ${COMPOSER_BRANCH} https://github.com/daystrom-ai/composer.git /workspace/composer
+  fi
+  export COMPOSER_BRANCH_REF=$(cd /workspace/composer && git rev-parse --short HEAD)
+
+  # Clone or pull golf-research (handles squashed history by resetting to remote)
+  if [ -d /workspace/golf-research ]; then
+    cd /workspace/golf-research && git fetch origin
+    git checkout ${GOLF_BRANCH}
+    git reset --hard origin/${GOLF_BRANCH}
+  else
+    git clone -b ${GOLF_BRANCH} https://github.com/kingsleyfaulkner/golf-research.git /workspace/golf-research
+  fi
+  export COMPOSER_GOLF_BRANCH_REF=$(cd /workspace/golf-research && git rev-parse --short HEAD)
+
+  # Clone parameter-golf repo and download data if not present
+  if [ ! -d /workspace/parameter-golf ]; then
+    git clone https://github.com/openai/parameter-golf.git /workspace/parameter-golf
+  fi
+
+  if [ ! -d /workspace/parameter-golf/data/datasets/fineweb10B_sp1024 ] || \
+     [ ! -d /workspace/parameter-golf/data/tokenizers ]; then
+    pip install numpy sentencepiece huggingface-hub datasets tqdm
+    cd /workspace/parameter-golf && python3 data/cached_challenge_fineweb.py --variant sp1024
+    rm -rf /workspace/.cache
+  fi
+
+  # Install composer and golf-research dependencies
+  pip uninstall -y torchvision torchaudio
+  cd /workspace/composer && pip install -e .
+  pip install zstandard
+  # pip cache purge
+
+run: |
+  cd /workspace/golf-research
+  ./scripts/run_experiment.sh ${EXPERIMENT} ${EXTRA_SET_ARGS}
