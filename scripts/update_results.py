@@ -258,12 +258,10 @@ def generate_markdown(results: list[dict]) -> str:
     for r in results:
         groups.setdefault(r["gpu_heading"], []).append(r)
 
-    # Collect all quant levels across all results (e.g. "int4", "int6", "int8")
     all_quant_keys: set[str] = set()
     for r in results:
         all_quant_keys.update(r["quant_results"].keys())
-    # Sort by numeric suffix
-    quant_keys = sorted(all_quant_keys, key=lambda k: int(re.sub(r"\D", "", k) or "0"))
+    quant_keys = sorted(all_quant_keys)
 
     lines = ["# Results", ""]
 

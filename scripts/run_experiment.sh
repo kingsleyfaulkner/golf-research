@@ -265,14 +265,14 @@ print(f'{world_size}x_{name}')
             echo "Run failed — branch pushed but no PR created"
         fi
 
-        git checkout main 2>/dev/null || git checkout -
+        git checkout -f main 2>/dev/null || git checkout -f -
     else
         echo "Skipping git push (--no-push)"
     fi
 }
 
 # Trap errors: archive whatever exists with _failed suffix
-trap 'echo "ERROR: Experiment failed at line $LINENO"; archive_and_push "_failed"; cd "$ROOT_DIR"; git checkout main 2>/dev/null || true' ERR
+trap 'echo "ERROR: Experiment failed at line $LINENO"; archive_and_push "_failed"; cd "$ROOT_DIR"; git checkout -f main 2>/dev/null || true' ERR
 
 # Enable exit-on-error now that the trap is set
 set -euo pipefail
