@@ -128,14 +128,10 @@ cd "$EXPERIMENT_DIR"
 if command -v nvidia-smi &>/dev/null; then
     GPU_NAME=$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)
     case "$GPU_NAME" in
-        # *H100*|*H200*)
-        #     AUTO_ARGS=("--set" "training.pre_training.batch_size=256")
-        #     echo "Detected $GPU_NAME — batch_size=256"
-        #     ;;
-        # *RTX*PRO*6000*|*RTX*6000*)
-        #     AUTO_ARGS=("--set" "training.pre_training.batch_size=80")
-        #     echo "Detected $GPU_NAME — batch_size=80"
-        #     ;;
+        *H100*|*H200*)
+            AUTO_ARGS=("--set" "training.pre_training.batch_size=256")
+            echo "Detected $GPU_NAME — batch_size=256"
+            ;;
         *GB10*)
             AUTO_ARGS=("--set" "training.pre_training.batch_size=16")
             echo "Detected $GPU_NAME — batch_size=16"
