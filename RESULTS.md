@@ -25,7 +25,6 @@
 | Experiment | Date | Steps | Tokens | Loss | Val Loss | Val BPB | mxfp4 BPB | nvfp4 BPB | int6 BPB | int8 BPB | Artifacts |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
 | baseline | 2026-03-25 23:32 | 1635 | 857.2M | 2.2619 | 2.2595 | 1.3382 | 🟢 1.5032 (8.6M) | 🟢 1.4611 (9.2M) | 🟢 1.3680 (11.1M) | 🟢 1.3397 (15.3M) | [artifacts](experiments/baseline/artifacts_2x_rtx_pro_6000_2) |
-| baseline | 2026-03-24 21:31 | 610 | 319.8M | 2.4345 | 2.4411 | 1.4458 | 🟢 1.5158 (8.6M) | 🟢 1.4964 (9.2M) | 🟢 1.4598 (9.6M) | 🟢 1.4466 (13.7M) | [artifacts](experiments/baseline/artifacts_2x_rtx_pro_6000) |
 
 ## 8x H100
 
