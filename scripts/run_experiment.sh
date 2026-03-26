@@ -216,7 +216,7 @@ print(f'{world_size}x_{name}')
         # Compress only the full-precision checkpoint (quant files are ephemeral)
         local CHECKPOINT_DIR="$ARTIFACTS_DIR/checkpoint"
         if [[ -d "$CHECKPOINT_DIR" ]]; then
-            find "$CHECKPOINT_DIR" -type f | grep -E '_(int[0-9]+|mxfp[0-9]+|nvfp[0-9]+)$' | xargs rm -f 2>/dev/null
+            find "$CHECKPOINT_DIR" -type f | grep -E '_(int[0-9]+|mxfp[0-9]+|nvfp[0-9]+)$' | xargs rm -f 2>/dev/null || true
             echo "Compressing checkpoint..."
             tar -czf "$ARTIFACTS_DIR/checkpoint.tar.gz" -C "$ARTIFACTS_DIR" checkpoint
             rm -rf "$CHECKPOINT_DIR"
