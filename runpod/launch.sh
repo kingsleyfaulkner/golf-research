@@ -20,26 +20,45 @@ EXPERIMENT="baseline"
 EPHEMERAL=false
 INTERACTIVE=false
 EXTRA_FLAGS=()
-SET_ARGS=()
+EXPERIMENT_ARGS=()
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --retry-until-up|--retry) EXTRA_FLAGS+=("--retry-until-up"); shift ;;
         --ephemeral) EPHEMERAL=true; shift ;;
         --interactive|-i) INTERACTIVE=true; shift ;;
-        --set) SET_ARGS+=("--set" "$2"); shift 2 ;;
+        --set) EXPERIMENT_ARGS+=("--set" "$2"); shift 2 ;;
+        --quant-schemes) EXPERIMENT_ARGS+=("--quant-schemes" "$2"); shift 2 ;;
+        --max-eval-batches) EXPERIMENT_ARGS+=("--max-eval-batches" "$2"); shift 2 ;;
+        --no-train) EXPERIMENT_ARGS+=("--no-train"); shift ;;
+        --no-eval) EXPERIMENT_ARGS+=("--no-eval"); shift ;;
+        --no-quant) EXPERIMENT_ARGS+=("--no-quant"); shift ;;
+        --no-push) EXPERIMENT_ARGS+=("--no-push"); shift ;;
         *) if [[ -z "$ACCELERATORS" ]]; then ACCELERATORS="$1"; else EXPERIMENT="$1"; fi; shift ;;
     esac
 done
 
 if [[ -z "$ACCELERATORS" ]]; then
-    echo "Usage: $0 <accelerators> [experiment] [--retry] [--ephemeral] [--interactive]"
+    echo "Usage: $0 <accelerators> [experiment] [options]"
+    echo ""
+    echo "Options:"
+    echo "  --retry              Retry until resources available"
+    echo "  --ephemeral          No network volume (fresh disk)"
+    echo "  --interactive, -i    SSH access, manual teardown"
+    echo "  --set key=value      Override training config"
+    echo "  --quant-schemes S,S  Quant schemes (default: int6,int8,mxfp4,nvfp4)"
+    echo "  --max-eval-batches N Limit eval to N batches"
+    echo "  --no-train           Skip training"
+    echo "  --no-eval            Skip evaluation"
+    echo "  --no-quant           Skip quantization"
+    echo "  --no-push            Skip git commit and push"
     echo ""
     echo "Examples:"
     echo "  $0 RTXPRO6000:2 baseline"
     echo "  $0 H100-SXM:8 baseline --retry"
     echo "  $0 H100-SXM:8 baseline --ephemeral --retry"
-    echo "  $0 RTXPRO6000:2 --interactive    # setup only, SSH in manually"
+    echo "  $0 RTXPRO6000:2 baseline --no-quant --no-eval"
+    echo "  $0 RTXPRO6000:2 --interactive"
     exit 1
 fi
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -66,7 +85,7 @@ fi
 
 ENV_FLAGS=(
     --env EXPERIMENT="${EXPERIMENT}"
-    --env EXTRA_SET_ARGS="${SET_ARGS[*]}"
+    --env EXPERIMENT_ARGS="${EXPERIMENT_ARGS[*]}"
     --env GITHUB_TOKEN="${GITHUB_TOKEN}"
     --env HUGGING_FACE_HUB_TOKEN="${HUGGING_FACE_HUB_TOKEN:-}"
     --env GIT_USER_EMAIL="$(git config user.email)"
