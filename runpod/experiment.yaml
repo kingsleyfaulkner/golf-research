@@ -36,8 +36,9 @@ setup: |
   # Clone or pull golf-research (handles squashed history by resetting to remote)
   if [ -d /workspace/golf-research ]; then
     cd /workspace/golf-research && git fetch origin
-    git checkout ${GOLF_BRANCH}
+    git checkout -f ${GOLF_BRANCH}
     git reset --hard origin/${GOLF_BRANCH}
+    git clean -fd
   else
     git clone -b ${GOLF_BRANCH} https://github.com/kingsleyfaulkner/golf-research.git /workspace/golf-research
   fi
