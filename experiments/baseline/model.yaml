@@ -29,6 +29,7 @@ architecture:
       TokenEmbedding:
         init_method: normal
         init_std: 0.005
+        dtype: bfloat16
         norm: RMSNorm
 
     block:
@@ -124,6 +125,7 @@ architecture:
     features:
       - TiedLayers:
           heads.clm.head.weight: embedding.tok_emb.weight
+      - CachedRoPE
 
 models:
   baseline:

@@ -104,7 +104,7 @@ training:
     data:
       TokenizedDataset:
         path: /workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_train_*.bin
-        shuffle: true
+        shuffle: false
         bin_header_bytes: 1024
 
     features:
