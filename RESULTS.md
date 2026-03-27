@@ -5,7 +5,7 @@
 | Experiment | Date | Steps | Tokens | Loss | Val Loss | Val BPB | int6 BPB | int8 BPB | mxfp4 BPB | nvfp4 BPB | Artifacts |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
 | 008-lower-lr | 2026-03-25 16:08 | 678 | 88.9M | 2.5614 | 2.5768 | 1.5261 | 🟢 1.5448 (8.3M) | 🟢 1.5278 (12.1M) | 🟢 1.5707 (8.6M) | 🟢 1.5623 (9.2M) | [artifacts](experiments/008-lower-lr/artifacts_1x_gb10) |
-| baseline | 2026-03-25 13:39 | 673 | 88.2M | 2.6172 | 2.5829 | 1.5297 | 🟢 1.5433 (9.8M) | 🟢 1.5305 (13.8M) | 🟢 1.6281 (8.6M) | 🟢 1.6081 (9.2M) | [artifacts](experiments/baseline/artifacts_1x_gb10) |
+| baseline | 2026-03-27 12:28 | 673 | 88.2M | 2.6172 | 2.5829 | 1.5297 | 🟢 1.5433 (9.8M) | 🟢 1.5302 (13.8M) | 🟢 1.6281 (8.6M) | 🟢 1.6081 (9.2M) | [artifacts](experiments/baseline/artifacts_1x_gb10) |
 | 003-grad-clip | 2026-03-25 14:52 | 675 | 88.5M | 2.5856 | 2.5843 | 1.5306 | 🟢 1.5466 (9.7M) | 🟢 1.5319 (13.9M) | 🟢 1.6248 (8.6M) | 🟢 1.6050 (9.2M) | [artifacts](experiments/003-grad-clip/artifacts_1x_gb10) |
 | 002-longer-warmdown | 2026-03-25 14:28 | 677 | 88.7M | 2.5939 | 2.5872 | 1.5323 | 🟢 1.5486 (10.3M) | 🟢 1.5328 (14.0M) | 🟢 1.6451 (8.6M) | 🟢 1.6147 (9.2M) | [artifacts](experiments/002-longer-warmdown/artifacts_1x_gb10) |
 | 005-mlp-3x | 2026-03-25 15:43 | 618 | 81.0M | 2.5710 | 2.5913 | 1.5347 | 🟢 1.5469 (11.9M) | 🔴 1.5355 (17.1M) | 🟢 1.6020 (10.9M) | 🟢 1.5915 (11.7M) | [artifacts](experiments/005-mlp-3x/artifacts_1x_gb10) |
@@ -32,6 +32,7 @@
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
 | baseline | 2026-03-24 20:01 | 2375 | 4980.7M | 2.1258 | 2.1406 | 1.2678 | 🟢 1.2992 (11.2M) | 🟢 1.2695 (15.6M) | 🟢 1.5429 (8.6M) | 🟢 1.4307 (9.2M) | [artifacts](experiments/baseline/artifacts_8x_h100_2) |
 | baseline | 2026-03-27 18:52 | 4895 | 2566.4M | 2.1459 | 2.1554 | 1.2766 | 🟢 1.3667 (11.4M) | 🟢 1.3661 (11.4M) | 🟢 2.1749 (8.6M) | 🟢 2.4115 (8.7M) | [artifacts](experiments/baseline/artifacts_8x_h100) |
+| baseline | 2026-03-27 23:46 | 11366 | 5959.1M | 3.1928 | 3.1337 | 1.8560 | 🟢 2.6960 (9.4M) | 🟢 2.7191 (9.4M) | 🟢 5.0251 (7.2M) | 🟢 6.0757 (7.3M) | [artifacts](experiments/baseline/artifacts_8x_h100_3) |
 
 ## 8x RTX PRO 6000
 
