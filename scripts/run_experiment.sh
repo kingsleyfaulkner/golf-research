@@ -136,6 +136,10 @@ if command -v nvidia-smi &>/dev/null; then
             AUTO_ARGS=("--set" "training.pre_training.batch_size=16")
             echo "Detected $GPU_NAME — batch_size=16"
             ;;
+        *RTX*PRO*6000*|*RTX*6000*)
+            AUTO_ARGS=("--set" "training.pre_training.batch_size=80")
+            echo "Detected $GPU_NAME — batch_size=80"
+            ;;
         *)
             AUTO_ARGS=()
             echo "GPU: $GPU_NAME — using default batch_size"

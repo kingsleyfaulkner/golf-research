@@ -58,8 +58,8 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Show zones but don't regenerate")
     parser.add_argument(
         "--prefer-regions",
-        default="US,CA,EU",
-        help="Comma-separated region preference order (default: US,CA,EU)",
+        default="US,CA,EU,AP",
+        help="Comma-separated region preference order (default: US,CA,EU,AP)",
     )
     args = parser.parse_args()
 

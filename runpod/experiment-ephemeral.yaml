@@ -43,4 +43,8 @@ setup: |
 
 run: |
   cd /workspace/golf-research
+  git fetch origin && git checkout -f ${GOLF_BRANCH} && git reset --hard origin/${GOLF_BRANCH}
+  cd /workspace/composer
+  git fetch origin && git checkout -f ${COMPOSER_BRANCH} && git pull
+  cd /workspace/golf-research
   ./scripts/run_experiment.sh ${EXPERIMENT} ${EXPERIMENT_ARGS}

@@ -435,7 +435,7 @@ def main(
     if sequence_length is None:
         sequence_length = defaults.get("sequence_length", 1024)
     if batch_size is None:
-        batch_size = defaults.get("batch_size", 64)
+        batch_size = 64
 
     if report_path is None:
         report_path = "artifacts/eval_report.json"
@@ -480,9 +480,21 @@ def main(
             f" [cyan]vocab_size[/]={vocab_size}"
         )
 
-    # Enable TF32 for eval consistency
+    # Match reference CUDA backends
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
+    if device.type == "cuda":
+        from torch.backends.cuda import (
+            enable_cudnn_sdp,
+            enable_flash_sdp,
+            enable_math_sdp,
+            enable_mem_efficient_sdp,
+        )
+
+        enable_cudnn_sdp(False)
+        enable_flash_sdp(True)
+        enable_mem_efficient_sdp(False)
+        enable_math_sdp(False)
 
     eval_kwargs = dict(
         val_tokens=val_tokens,
@@ -511,17 +523,26 @@ def main(
         }
     )
 
-    # --- Evaluate full-precision model (skip if --schemes filter is set) ---
+    # Compile the model for eval to match reference performance.
+    # Track the raw model separately so load_state_dict works for quant schemes.
     base_model = None
+    compiled_model = None
+
+    # --- Evaluate full-precision model (skip if --schemes filter is set) ---
     if has_full and schemes is None:
         if is_main_process():
             logger.info("[bold]Loading full-precision checkpoint[/]")
-        model = Model.from_checkpoint(full_checkpoint_file, device=device)
+        base_model = Model.from_checkpoint(full_checkpoint_file, device=device)
+        compiled_model = (
+            torch.compile(base_model, dynamic=False, fullgraph=True)
+            if device.type == "cuda"
+            else base_model
+        )
 
         if is_main_process():
             logger.info("[bold]Running full-precision evaluation[/]")
         eval_start = time.perf_counter()
-        val_loss, val_bpb, eval_tokens = evaluate(model=model, **eval_kwargs)
+        val_loss, val_bpb, eval_tokens = evaluate(model=compiled_model, **eval_kwargs)
         eval_time = time.perf_counter() - eval_start
 
         if is_main_process():
@@ -537,7 +558,6 @@ def main(
         report["val_bpb"] = val_bpb
         report["val_tokens_evaluated"] = eval_tokens
         report["eval_time_seconds"] = round(eval_time, 2)
-        base_model = model
 
     # --- Evaluate each quantized checkpoint ---
     if quant_files:
@@ -571,7 +591,6 @@ def main(
 
             if base_model is not None:
                 base_model.load_state_dict(dequantized, strict=True)
-                quant_model = base_model
             else:
                 # Rebuild model from config embedded in the quantized file
                 composer_config = quant_state.get("__composer_config__")
@@ -581,19 +600,22 @@ def main(
 
                     adapter = TypeAdapter(ArchitectureConfigType)
                     arch_config = adapter.validate_python(composer_config)
-                    quant_model = arch_config.build(device="cpu")
+                    base_model = arch_config.build(device="cpu")
                 else:
                     config = TrainingRunConfig.model_validate_yaml_file(train_yaml)
-                    quant_model = config.manifest.get_variant(config.model_name).build(device="cpu")
-                quant_model.load_state_dict(dequantized, strict=True)
-                base_model = quant_model
-
-            quant_model.to(device)
+                    base_model = config.manifest.get_variant(config.model_name).build(device="cpu")
+                base_model.load_state_dict(dequantized, strict=True)
+                base_model.to(device)
+                compiled_model = (
+                    torch.compile(base_model, dynamic=False, fullgraph=True)
+                    if device.type == "cuda"
+                    else base_model
+                )
 
             if is_main_process():
                 logger.info(f"[bold]Running {quant_tag} evaluation[/] (device={device})")
             eval_start = time.perf_counter()
-            q_val_loss, q_val_bpb, q_eval_tokens = evaluate(model=quant_model, **eval_kwargs)
+            q_val_loss, q_val_bpb, q_eval_tokens = evaluate(model=compiled_model, **eval_kwargs)
             q_eval_time = time.perf_counter() - eval_start
 
             if is_main_process():
