@@ -115,8 +115,18 @@ else
 fi
 
 # NCCL workarounds for Blackwell GPUs (RTX PRO 6000 etc.)
-export NCCL_P2P_DISABLE=1
-export NCCL_SHM_DISABLE=1
+# Only apply on Blackwell - these cripple NVLink on H100/A100.
+GPU_NAME=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1)
+case "$GPU_NAME" in
+    *GB10*|*RTX*PRO*6000*|*RTX*6000*|*B200*|*B100*)
+        export NCCL_P2P_DISABLE=1
+        export NCCL_SHM_DISABLE=1
+        echo "Blackwell GPU detected ($GPU_NAME) — applying NCCL workarounds"
+        ;;
+    *)
+        echo "Non-Blackwell GPU ($GPU_NAME) — NCCL defaults"
+        ;;
+esac
 export TORCHINDUCTOR_COMPILE_THREADS=1
 unset NCCL_ASYNC_ERROR_HANDLING
 unset NCCL_AVOID_RECORD_STREAMS
