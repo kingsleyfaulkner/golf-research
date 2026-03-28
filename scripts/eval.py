@@ -381,7 +381,9 @@ def main(
         checkpoint = "artifacts/checkpoint"
     checkpoint_dir = Path(checkpoint)
     # Quant scheme suffixes to detect
-    _QUANT_SUFFIX_RE = re.compile(r"_(int\d+|mxfp\d+|nvfp\d+)$")
+    _QUANT_SUFFIX_RE = re.compile(
+        r"_((int\d+|mxfp\d+|nvfp\d+|turboquip\d+c?r?)(-(?:int\d+|mxfp\d+|nvfp\d+|turboquip\d+c?r?))?)$"
+    )
 
     # Find the non-quantized checkpoint file (resolve to exact path so
     # Model.from_checkpoint doesn't accidentally pick a quant file)

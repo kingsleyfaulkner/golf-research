@@ -83,7 +83,7 @@ tokenizers.default.SentencePiece.model_path: /home/kingsley/github/parameter-gol
 
 | | int6 | int8 | mxfp4 | nvfp4 |
 | :--- | ---: | ---: | ---: | ---: |
-| **BPB** | 1.5433 | 1.5305 | 1.6281 | 1.6081 |
+| **BPB** | 1.5433 | 1.5302 | 1.6281 | 1.6081 |
 | **Size** | 9.8 MB | 13.8 MB | 8.6 MB | 9.2 MB |
 
 ## Platform

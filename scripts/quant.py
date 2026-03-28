@@ -6,15 +6,23 @@ artifacts. Supports multiple quantization schemes:
   - int4..int8: Per-row symmetric integer quantization with bit-packing
   - mxfp4: OCP Microscaling FP4 (E2M1 values, E8M0 block scales, block=32)
   - nvfp4: NVIDIA FP4 (E2M1 values, E4M3 block scales + FP32 tensor scale, block=16)
+  - turboquipN: TurboQuIP N-bit (Randomised Hadamard Transform + symmetric integer)
+  - turboquipNr: TurboQuIP N-bit with 1-bit QJL residual correction
+
+TurboQuIP combines incoherence processing (RHT from QuIP#) with near-optimal scalar
+quantization (TurboQuant) and optional QJL sign-sketch residual correction. The RHT
+spreads weight energy uniformly across coordinates, making simple per-coordinate
+quantization near-optimal. The QJL residual adds 1 bit per weight with zero overhead
+(no quantization constants) for unbiased inner-product correction.
 
 The quantized files are saved inside the checkpoint directory with the
 scheme encoded in the name (e.g. ``step_2823_final_model_int6``,
-``step_2823_final_model_mxfp4``).
+``step_2823_final_model_turboquip4r``).
 
 Usage:
-    python quant.py                             # default int8
-    python quant.py --schemes int6,int8,mxfp4   # multiple schemes
-    python quant.py --schemes mxfp4,nvfp4       # FP4 variants
+    python quant.py                                    # default int8
+    python quant.py --schemes int6,int8,mxfp4          # multiple schemes
+    python quant.py --schemes turboquip4,turboquip3r   # TurboQuIP variants
 """
 
 from __future__ import annotations
@@ -22,6 +30,7 @@ from __future__ import annotations
 import io
 import json
 import logging
+import math
 import os
 import re
 import shutil
@@ -70,11 +79,17 @@ PER_ROW_SCALE_DTYPE = torch.float16
 CLIP_PERCENTILE = 99.99984
 CLIP_Q = CLIP_PERCENTILE / 100.0
 
-# All supported scheme names
+# All supported scheme names (turboquipN / turboquipNr validated dynamically)
 SUPPORTED_SCHEMES = {"int4", "int5", "int6", "int7", "int8", "mxfp4", "nvfp4"}
 
 # intN clamp ranges
 QUANT_RANGES = {4: 7, 5: 15, 6: 31, 7: 63, 8: 127}
+
+# TurboQuIP: extended ranges for 2-3 bit, plus existing intN ranges
+TURBOQUIP_QUANT_RANGES = {2: 1, 3: 3, **QUANT_RANGES}
+TURBOQUIP_RHT_SEED = 0x48414D52
+TURBOQUIP_GPTQ_PERCDAMP = 0.01
+_TURBOQUIP_RE = re.compile(r"^turboquip(\d+)(c?)(r?)$")
 
 # FP4 E2M1 lookup table (indices 0-15, sign bit is MSB)
 FP4_E2M1_LUT = torch.tensor(
@@ -375,16 +390,431 @@ def dequantize_nvfp4_tensor(data: dict[str, Tensor], dtype: torch.dtype) -> Tens
     return values.reshape(-1)[:num_elements].reshape(orig_shape).to(dtype)
 
 
+def _next_pow2(n: int) -> int:
+    if n <= 1:
+        return 1
+    return 1 << (n - 1).bit_length()
+
+
+def _fwht(x: Tensor) -> Tensor:
+    """Normalised Fast Walsh-Hadamard Transform on the last dimension.
+
+    The last dimension must be a power of 2. The transform is self-inverse.
+    """
+    n = x.shape[-1]
+    h = 1
+    while h < n:
+        x = x.reshape(*x.shape[:-1], -1, 2, h)
+        a = x[..., 0, :] + x[..., 1, :]
+        b = x[..., 0, :] - x[..., 1, :]
+        x = torch.stack([a, b], dim=-2).reshape(*x.shape[:-3], n)
+        h *= 2
+    return x * (n**-0.5)
+
+
+def _generate_rht_signs(seed: int, n: int) -> Tensor:
+    gen = torch.Generator().manual_seed(seed)
+    return torch.randint(0, 2, (n,), generator=gen, dtype=torch.float32) * 2 - 1
+
+
+def _rht_forward(W: Tensor, signs: Tensor) -> Tensor:
+    """Forward Randomised Hadamard Transform: W @ H @ diag(signs)."""
+    return _fwht(W) * signs
+
+
+def _rht_inverse(W_tilde: Tensor, signs: Tensor) -> Tensor:
+    """Inverse RHT: W_tilde @ diag(signs) @ H."""
+    return _fwht(W_tilde * signs)
+
+
+def _pack_sign_bits(positive: Tensor) -> Tensor:
+    """Pack a boolean tensor into uint8 (LSB-first bit packing)."""
+    flat = positive.reshape(-1).to(torch.uint8)
+    pad = (-len(flat)) % 8
+    if pad:
+        flat = torch.cat([flat, torch.zeros(pad, dtype=torch.uint8)])
+    flat = flat.reshape(-1, 8)
+    packed = torch.zeros(flat.shape[0], dtype=torch.uint8)
+    for b in range(8):
+        packed |= flat[:, b] << b
+    return packed
+
+
+def _unpack_sign_bits(packed: Tensor, numel: int) -> Tensor:
+    """Unpack uint8 back to float +1/-1 values."""
+    flat = packed.reshape(-1)
+    bits = torch.zeros(len(flat) * 8, dtype=torch.float32)
+    for b in range(8):
+        bits[b::8] = ((flat >> b) & 1).float()
+    return bits[:numel] * 2.0 - 1.0
+
+
+def _parse_turboquip_scheme(scheme: str) -> tuple[int, bool, bool] | None:
+    m = _TURBOQUIP_RE.match(scheme)
+    if not m:
+        return None
+    return int(m.group(1)), bool(m.group(2)), bool(m.group(3))
+
+
+def _is_valid_single_scheme(s: str) -> bool:
+    if s in SUPPORTED_SCHEMES:
+        return True
+    tq = _parse_turboquip_scheme(s)
+    return tq is not None and 2 <= tq[0] <= 8
+
+
+def _parse_compound_scheme(scheme: str) -> tuple[str, str]:
+    """Parse an ``A-B`` compound scheme into (linear_scheme, embed_scheme).
+
+    A single scheme (no dash) applies to both linear and embedding tensors.
+    """
+    parts = scheme.split("-", 1)
+    if len(parts) == 1:
+        return scheme, scheme
+    return parts[0], parts[1]
+
+
+def _is_embedding_tensor(name: str) -> bool:
+    return "emb" in name.lower()
+
+
+def quantize_turboquip_tensor(
+    t: Tensor,
+    bits: int,
+    rht_seed: int,
+    use_residual: bool,
+    hessian: Tensor | None = None,
+) -> dict[str, Any]:
+    """Quantize a tensor using TurboQuIP (RHT + symmetric integer + optional QJL residual).
+
+    Applies a Randomised Hadamard Transform to spread weight energy uniformly across
+    coordinates (incoherence processing), then quantizes with per-row symmetric integers.
+    Optionally adds a 1-bit QJL sign-sketch of the quantization residual for unbiased
+    inner-product correction.
+    """
+    t32 = t.float()
+    orig_shape = list(t.shape)
+    is_1d = t32.ndim == 1
+
+    if is_1d:
+        t32 = t32.unsqueeze(0)
+
+    m, n = t32.shape
+    n_pad = _next_pow2(n)
+
+    if n_pad > n:
+        t32 = torch.nn.functional.pad(t32, (0, n_pad - n))
+
+    signs = _generate_rht_signs(rht_seed, n_pad)
+    w_tilde = _rht_forward(t32, signs)
+
+    quant_range = TURBOQUIP_QUANT_RANGES[bits]
+    if hessian is not None:
+        q, s = _gptq_quantize(w_tilde, hessian, signs, n_pad, quant_range)
+    else:
+        q, s = _quantize_intN_tensor(w_tilde, quant_range)
+
+    result: dict[str, Any] = {
+        "quantized": q,
+        "scales": s,
+        "rht_seed": rht_seed,
+        "orig_shape": orig_shape,
+        "n_pad": n_pad,
+        "bits": bits,
+        "use_residual": use_residual,
+    }
+
+    if use_residual:
+        if s.ndim > 0:
+            w_hat = q.float() * s.float().view(-1, 1)
+        else:
+            w_hat = q.float() * float(s.item())
+
+        residual = w_tilde - w_hat
+        norms = residual.norm(dim=1)
+
+        sign_positive = _fwht(residual) >= 0
+        result["qjl_sign_bits"] = _pack_sign_bits(sign_positive)
+        result["qjl_norms"] = norms.to(torch.float16)
+
+    return result
+
+
+def dequantize_turboquip_tensor(data: dict[str, Any], dtype: torch.dtype) -> Tensor:
+    """Dequantize a TurboQuIP tensor back to the original representation."""
+    q = data["quantized"]
+    s = data["scales"]
+    rht_seed = data["rht_seed"]
+    orig_shape = data["orig_shape"]
+    n_pad = data["n_pad"]
+    use_residual = data["use_residual"]
+
+    if isinstance(s, Tensor) and s.ndim > 0:
+        w_tilde = q.float() * s.float().view(-1, 1)
+    else:
+        s_val = float(s.item()) if isinstance(s, Tensor) else float(s)
+        w_tilde = q.float() * s_val
+
+    if use_residual and "qjl_sign_bits" in data:
+        norms = data["qjl_norms"].float()
+        m, n = w_tilde.shape
+        sign_float = _unpack_sign_bits(data["qjl_sign_bits"], m * n).reshape(m, n)
+        correction = _fwht(sign_float) * (norms.unsqueeze(1) * math.sqrt(math.pi / 2) / n)
+        w_tilde = w_tilde + correction
+
+    signs = _generate_rht_signs(rht_seed, n_pad)
+    w = _rht_inverse(w_tilde, signs)
+
+    n_orig = orig_shape[-1] if len(orig_shape) >= 2 else orig_shape[0]
+    w = w[:, :n_orig]
+
+    if len(orig_shape) == 1:
+        w = w.squeeze(0)
+
+    return w.reshape(orig_shape).to(dtype).contiguous()
+
+
+def _transform_hessian_to_rht(H: Tensor, signs: Tensor, n_pad: int) -> Tensor:
+    """Transform a Hessian to the RHT-rotated coordinate space.
+
+    Given H = E[x x^T] in the original space, computes
+    H_tilde = D @ Had @ H @ Had @ D in the rotated space where D = diag(signs).
+    """
+    n_orig = H.shape[0]
+    H32 = H.float()
+    if n_pad > n_orig:
+        H32 = torch.nn.functional.pad(H32, (0, n_pad - n_orig, 0, n_pad - n_orig))
+    # Had @ H @ Had (apply FWHT to both rows and columns)
+    H_rot = _fwht(H32)  # rows: H @ Had
+    H_rot = _fwht(H_rot.T).T  # cols: Had @ (H @ Had)
+    # D @ ... @ D: multiply by outer product of signs
+    H_rot = H_rot * (signs.unsqueeze(1) * signs.unsqueeze(0))
+    return H_rot
+
+
+def _gptq_quantize(
+    W: Tensor, H_orig: Tensor, rht_signs: Tensor, n_pad: int, quant_range: int
+) -> tuple[Tensor, Tensor]:
+    """GPTQ-style Hessian-guided quantization in the RHT-rotated space.
+
+    Processes columns sequentially, propagating rounding error to subsequent
+    columns weighted by the inverse Hessian. Uses eigenvalue decomposition for
+    robust PSD enforcement - float32 Hessian accumulation can produce slightly
+    negative eigenvalues that would otherwise cause Cholesky failure.
+    """
+    H_rot = _transform_hessian_to_rht(H_orig, rht_signs, n_pad)
+
+    m, n = W.shape
+    W = W.clone().float()
+
+    # Robust PSD enforcement via eigenvalue clamping
+    eigvals, eigvecs = torch.linalg.eigh(H_rot)
+    damp = TURBOQUIP_GPTQ_PERCDAMP * eigvals.abs().mean()
+    eigvals = eigvals.clamp(min=damp)
+
+    # Compute H_inv from clamped eigenvalues (always PD)
+    H_inv = eigvecs @ torch.diag(1.0 / eigvals) @ eigvecs.T
+    # Enforce exact symmetry (numerical noise from matmul)
+    H_inv = (H_inv + H_inv.T) * 0.5
+
+    try:
+        L = torch.linalg.cholesky(H_inv, upper=True)
+    except torch.linalg.LinAlgError:
+        logger.warning("Cholesky failed after eigenvalue clamping, falling back")
+        return _quantize_intN_tensor(W, quant_range)
+
+    clip_abs = (
+        torch.quantile(W.abs(), CLIP_Q, dim=1)
+        if W.numel()
+        else torch.empty((m,), dtype=torch.float32)
+    )
+    scales = (clip_abs / float(quant_range)).clamp_min(1.0 / float(quant_range))
+
+    Q = torch.zeros(m, n, dtype=torch.int8)
+    for j in range(n):
+        w_j = W[:, j]
+        clipped = torch.clamp(w_j, -clip_abs, clip_abs)
+        q_int = torch.clamp(torch.round(clipped / scales), -quant_range, quant_range)
+        Q[:, j] = q_int.to(torch.int8)
+
+        q_deq = q_int * scales
+        err = (w_j - q_deq) / L[j, j]
+
+        if j + 1 < n:
+            W[:, j + 1 :] -= err.unsqueeze(1) * L[j : j + 1, j + 1 :]
+
+    return Q.contiguous(), scales.to(PER_ROW_SCALE_DTYPE).contiguous()
+
+
+def _load_calibration_tokens(path_pattern: str, max_tokens: int = 0) -> Tensor:
+    """Load tokenized data from binary files (uint16) for calibration."""
+    import glob as globmod
+
+    files = sorted(globmod.glob(path_pattern))
+    if not files:
+        raise ValueError(f"No calibration data files matching: {path_pattern}")
+
+    chunks = []
+    total = 0
+    for f in files:
+        data = np.memmap(f, dtype=np.uint16, mode="r")
+        chunks.append(torch.from_numpy(data.astype(np.int64)))
+        total += len(data)
+        if 0 < max_tokens <= total:
+            break
+
+    tokens = torch.cat(chunks)
+    if max_tokens > 0:
+        tokens = tokens[:max_tokens]
+    return tokens
+
+
+def _capture_layer_hessians(
+    model: torch.nn.Module,
+    calibration_tokens: Tensor,
+    seq_len: int,
+    batch_size: int = 8,
+    device: torch.device | str = "cpu",
+) -> dict[str, Tensor]:
+    """Run calibration data through the model and capture per-layer Hessians.
+
+    Registers forward hooks on all ``torch.nn.Linear`` modules to accumulate
+    H = E[x x^T] where x is the flattened layer input.  Returns a dict mapping
+    weight state-dict keys (e.g. ``"encoder.0.attn.qkv.weight"``) to CPU Hessian
+    tensors.
+    """
+    hessians: dict[str, Tensor] = {}
+    nsamples: dict[str, int] = {}
+    handles = []
+
+    for name, module in model.named_modules():
+        if isinstance(module, torch.nn.Linear):
+            weight_key = f"{name}.weight"
+
+            def _make_hook(key: str):
+                def hook(mod, inp, out):
+                    x = inp[0].detach().float()
+                    if x.ndim == 3:
+                        x = x.reshape(-1, x.shape[-1])
+                    h = (x.T @ x).cpu()
+                    if key not in hessians:
+                        hessians[key] = h
+                        nsamples[key] = x.shape[0]
+                    else:
+                        hessians[key] += h
+                        nsamples[key] += x.shape[0]
+
+                return hook
+
+            handles.append(module.register_forward_hook(_make_hook(weight_key)))
+
+    model.eval()
+    total = calibration_tokens.numel()
+    num_seqs = (total - 1) // seq_len
+
+    # Infer vocab_size from embedding layer to clamp out-of-range tokens
+    vocab_size = None
+    for module in model.modules():
+        if isinstance(module, torch.nn.Embedding):
+            vocab_size = module.num_embeddings
+            break
+
+    logger.info(
+        f"[bold]Capturing Hessians:[/] [cyan]sequences[/]={num_seqs}" f" [cyan]seq_len[/]={seq_len}"
+    )
+
+    autocast = torch.autocast(device_type=str(device).split(":")[0], dtype=torch.bfloat16)
+    with torch.no_grad(), autocast:
+        for i in range(0, num_seqs, batch_size):
+            batch_end = min(i + batch_size, num_seqs)
+            batch = torch.stack(
+                [calibration_tokens[j * seq_len : (j + 1) * seq_len] for j in range(i, batch_end)]
+            )
+            if vocab_size is not None:
+                batch = batch.clamp(max=vocab_size - 1)
+            model(batch.to(device))
+
+    for h in handles:
+        h.remove()
+
+    for key in hessians:
+        hessians[key] /= nsamples[key]
+
+    logger.info(f"[bold green]Captured Hessians for {len(hessians)} layers[/]")
+    return hessians
+
+
+def _quantize_tensor_with_scheme(
+    name: str,
+    t: Tensor,
+    eff_scheme: str,
+    hessians: dict[str, Tensor] | None,
+) -> tuple[Any, Tensor | None, dict[str, object] | None, int]:
+    """Quantize a single tensor with the given scheme.
+
+    Returns (quantized_data, scale_or_None, qmeta_or_None, payload_bytes).
+    For intN: quantized_data is a Tensor, scale is set.
+    For dict-based schemes (turboquip/mxfp4/nvfp4): quantized_data is a dict, scale is None.
+    """
+    eff_intN = eff_scheme.startswith("int")
+    eff_tq = _parse_turboquip_scheme(eff_scheme)
+
+    if eff_intN:
+        bits = int(eff_scheme[3:])
+        quant_range = QUANT_RANGES[bits]
+        q, s = _quantize_intN_tensor(t, quant_range)
+        meta: dict[str, object] = {}
+        if s.ndim > 0:
+            meta["scheme"] = "per_row"
+            meta["axis"] = 0
+        if bits < 8:
+            meta["orig_shape"] = list(q.shape)
+            meta["orig_numel"] = int(q.numel())
+        return q, s, meta or None, tensor_nbytes(q) + tensor_nbytes(s)
+
+    if eff_tq is not None:
+        tq_bits, tq_calibrated, tq_residual = eff_tq
+        layer_hessian = hessians.get(name) if hessians else None
+        if tq_calibrated and layer_hessian is None:
+            logger.warning(f"No Hessian for [cyan]{name}[/], using round-to-nearest")
+        data = quantize_turboquip_tensor(
+            t, tq_bits, TURBOQUIP_RHT_SEED, tq_residual, hessian=layer_hessian
+        )
+        payload = tensor_nbytes(data["quantized"]) + tensor_nbytes(data["scales"])
+        if tq_residual:
+            payload += tensor_nbytes(data["qjl_sign_bits"]) + tensor_nbytes(data["qjl_norms"])
+        return data, None, None, payload
+
+    if eff_scheme == "mxfp4":
+        data = quantize_mxfp4_tensor(t)
+        payload = tensor_nbytes(data["blocks"]) + tensor_nbytes(data["scales"])
+        return data, None, None, payload
+
+    if eff_scheme == "nvfp4":
+        data = quantize_nvfp4_tensor(t)
+        payload = (
+            tensor_nbytes(data["blocks"])
+            + tensor_nbytes(data["block_scales"])
+            + tensor_nbytes(data["tensor_scale"])
+        )
+        return data, None, None, payload
+
+    raise ValueError(f"Unknown scheme: {eff_scheme}")
+
+
 def quantize_state_dict(
-    state_dict: dict[str, Tensor], scheme: str = "int8"
+    state_dict: dict[str, Tensor],
+    scheme: str = "int8",
+    hessians: dict[str, Tensor] | None = None,
 ) -> tuple[dict[str, object], dict[str, int]]:
     """Quantize a state dict using the given scheme.
 
-    Schemes: int4-int8 (per-row symmetric integer), mxfp4, nvfp4.
+    Supports single schemes (e.g. ``int8``, ``turboquip4c``) and compound
+    ``A-B`` schemes where A is applied to linear layers and B to embedding
+    tensors (e.g. ``turboquip4c-int6``).
     """
-    is_intN = scheme.startswith("int")
-    bits = int(scheme[3:]) if is_intN else None
-    quant_range = QUANT_RANGES.get(bits) if bits else None
+    linear_scheme, embed_scheme = _parse_compound_scheme(scheme)
+    is_compound = linear_scheme != embed_scheme
 
     quantized: dict[str, Any] = {}
     scales: dict[str, Tensor] = {}
@@ -392,6 +822,7 @@ def quantize_state_dict(
     passthrough: dict[str, Tensor] = {}
     passthrough_orig_dtypes: dict[str, str] = {}
     qmeta: dict[str, dict[str, object]] = {}
+    tensor_schemes: dict[str, str] = {}
     stats = dict.fromkeys(
         (
             "param_count",
@@ -425,40 +856,18 @@ def quantize_state_dict(
         stats["num_float_tensors"] += 1
         orig_dtype = str(t.dtype).removeprefix("torch.")
 
-        if is_intN:
-            q, s = _quantize_intN_tensor(t, quant_range)
-            meta: dict[str, object] = {}
-            if s.ndim > 0:
-                meta["scheme"] = "per_row"
-                meta["axis"] = 0
-            if bits < 8:
-                meta["orig_shape"] = list(q.shape)
-                meta["orig_numel"] = int(q.numel())
-                # q = pack_nbits(q, bits)
-            if meta:
-                qmeta[name] = meta
-            quantized[name] = q
+        eff_scheme = embed_scheme if _is_embedding_tensor(name) else linear_scheme
+        q_data, s, meta, payload = _quantize_tensor_with_scheme(name, t, eff_scheme, hessians)
+
+        quantized[name] = q_data
+        dtypes[name] = orig_dtype
+        if s is not None:
             scales[name] = s
-            dtypes[name] = orig_dtype
-            stats["quantized_payload_bytes"] += tensor_nbytes(q) + tensor_nbytes(s)
-
-        elif scheme == "mxfp4":
-            data = quantize_mxfp4_tensor(t)
-            quantized[name] = data
-            dtypes[name] = orig_dtype
-            payload = tensor_nbytes(data["blocks"]) + tensor_nbytes(data["scales"])
-            stats["quantized_payload_bytes"] += payload
-
-        elif scheme == "nvfp4":
-            data = quantize_nvfp4_tensor(t)
-            quantized[name] = data
-            dtypes[name] = orig_dtype
-            payload = (
-                tensor_nbytes(data["blocks"])
-                + tensor_nbytes(data["block_scales"])
-                + tensor_nbytes(data["tensor_scale"])
-            )
-            stats["quantized_payload_bytes"] += payload
+        if meta is not None:
+            qmeta[name] = meta
+        if is_compound:
+            tensor_schemes[name] = eff_scheme
+        stats["quantized_payload_bytes"] += payload
 
     obj: dict[str, object] = {
         "__quant_format__": scheme,
@@ -467,13 +876,14 @@ def quantize_state_dict(
         "dtypes": dtypes,
         "passthrough": passthrough,
     }
-    if is_intN:
-        obj["__quant_bits__"] = bits
+    if scales:
         obj["scales"] = scales
     if qmeta:
         obj["qmeta"] = qmeta
     if passthrough_orig_dtypes:
         obj["passthrough_orig_dtypes"] = passthrough_orig_dtypes
+    if tensor_schemes:
+        obj["tensor_schemes"] = tensor_schemes
     return obj, stats
 
 
@@ -509,44 +919,60 @@ def _quantize_intN_tensor(t: Tensor, quant_range: int) -> tuple[Tensor, Tensor]:
     return q, scale
 
 
+def _dequantize_single_tensor(
+    name: str,
+    q_data: Any,
+    dtype: torch.dtype,
+    eff_scheme: str,
+    obj: dict[str, object],
+) -> Tensor:
+    """Dequantize a single tensor given its effective scheme."""
+    qmeta = obj.get("qmeta", {})
+
+    if eff_scheme.startswith("int"):
+        q = q_data
+        s = obj["scales"][name]
+        meta = qmeta.get(name, {})
+        if "orig_numel" in meta:
+            q = q.reshape(meta["orig_shape"])
+        if meta.get("scheme") == "per_row" or s.ndim > 0:
+            s = s.to(dtype=torch.float32)
+            return (
+                (q.float() * s.view(q.shape[0], *([1] * (q.ndim - 1)))).to(dtype=dtype).contiguous()
+            )
+        return (q.float() * float(s.item())).to(dtype=dtype).contiguous()
+
+    if eff_scheme.startswith("turboquip"):
+        return dequantize_turboquip_tensor(q_data, dtype)
+
+    if eff_scheme == "mxfp4":
+        return dequantize_mxfp4_tensor(q_data, dtype)
+
+    if eff_scheme == "nvfp4":
+        return dequantize_nvfp4_tensor(q_data, dtype)
+
+    raise ValueError(f"Unknown scheme for dequantization: {eff_scheme}")
+
+
 def dequantize_state_dict(obj: dict[str, object]) -> dict[str, Tensor]:
     """Reconstruct a full-precision state dict from a quantized object.
 
     Dispatches to the appropriate dequantization based on the scheme.
+    Supports compound ``A-B`` schemes via per-tensor scheme metadata.
     """
     scheme = obj.get("__quant_scheme__") or obj.get("__quant_format__", "int8")
-    is_intN = scheme.startswith("int")
-    # bits = obj.get("__quant_bits__", 8) if is_intN else None
+    linear_scheme, embed_scheme = _parse_compound_scheme(scheme)
+    tensor_schemes = obj.get("tensor_schemes", {})
+    passthrough_orig_dtypes = obj.get("passthrough_orig_dtypes", {})
 
     out: dict[str, Tensor] = {}
-    qmeta = obj.get("qmeta", {})
-    passthrough_orig_dtypes = obj.get("passthrough_orig_dtypes", {})
 
     for name, q_data in obj["quantized"].items():
         dtype = getattr(torch, obj["dtypes"][name])
-
-        if is_intN:
-            q = q_data
-            s = obj["scales"][name]
-            meta = qmeta.get(name, {})
-            if "orig_numel" in meta:
-                # q = unpack_nbits(q, bits, meta["orig_numel"]).reshape(meta["orig_shape"])
-                q = q.reshape(meta["orig_shape"])
-            if meta.get("scheme") == "per_row" or s.ndim > 0:
-                s = s.to(dtype=torch.float32)
-                out[name] = (
-                    (q.float() * s.view(q.shape[0], *([1] * (q.ndim - 1))))
-                    .to(dtype=dtype)
-                    .contiguous()
-                )
-            else:
-                out[name] = (q.float() * float(s.item())).to(dtype=dtype).contiguous()
-
-        elif scheme == "mxfp4":
-            out[name] = dequantize_mxfp4_tensor(q_data, dtype)
-
-        elif scheme == "nvfp4":
-            out[name] = dequantize_nvfp4_tensor(q_data, dtype)
+        eff_scheme = tensor_schemes.get(name)
+        if eff_scheme is None:
+            eff_scheme = embed_scheme if _is_embedding_tensor(name) else linear_scheme
+        out[name] = _dequantize_single_tensor(name, q_data, dtype, eff_scheme, obj)
 
     for name, t in obj["passthrough"].items():
         out_t = t.detach().to("cpu").contiguous()
@@ -563,10 +989,11 @@ def quantize_one(
     composer_config: dict | None,
     scheme: str,
     output_path: Path,
+    hessians: dict[str, Tensor] | None = None,
 ) -> dict[str, Any]:
     """Quantize at a single scheme. Returns report dict."""
     logger.info(f"[bold]Quantizing to {scheme}[/]")
-    quant_obj, quant_stats = quantize_state_dict(state_dict, scheme=scheme)
+    quant_obj, quant_stats = quantize_state_dict(state_dict, scheme=scheme, hessians=hessians)
 
     if composer_config is not None:
         quant_obj["__composer_config__"] = composer_config
@@ -629,7 +1056,7 @@ def quantize_one(
     default="int8",
     type=str,
     help="Quantization scheme(s), comma-separated (default: int8). "
-    "Supported: int4,int5,int6,int7,int8,mxfp4,nvfp4.",
+    "Supported: int4-int8, mxfp4, nvfp4, turboquipN[c][r] (e.g. turboquip4, turboquip3cr).",
 )
 @click.option(
     "--output-dir",
@@ -638,22 +1065,51 @@ def quantize_one(
     type=click.Path(),
     help="Directory to write quantized files (default: same as checkpoint).",
 )
+@click.option(
+    "--calibration-data",
+    "calibration_data",
+    default=None,
+    type=str,
+    help="Glob pattern for calibration data (uint16 .bin files). "
+    "Required for turboquipNc schemes.",
+)
+@click.option(
+    "--calibration-seqs",
+    "calibration_seqs",
+    default=128,
+    type=int,
+    help="Number of calibration sequences for Hessian capture (default: 128).",
+)
 def main(
     checkpoint: str | None,
     step: int | None,
     schemes: str,
     output_dir: str | None,
+    calibration_data: str | None,
+    calibration_seqs: int,
 ):
     """Quantize a Composer checkpoint."""
     setup_logging()
 
     # Parse schemes
     scheme_list = [s.strip() for s in schemes.split(",")]
+    needs_calibration = False
     for s in scheme_list:
-        if s not in SUPPORTED_SCHEMES:
-            raise click.BadParameter(
-                f"Unsupported scheme: {s}. Must be one of {sorted(SUPPORTED_SCHEMES)}"
-            )
+        linear_s, embed_s = _parse_compound_scheme(s)
+        for part in (linear_s, embed_s):
+            if not _is_valid_single_scheme(part):
+                raise click.BadParameter(
+                    f"Unsupported scheme component: {part!r} (from {s!r}). "
+                    f"Valid: {sorted(SUPPORTED_SCHEMES)} or turboquipN[c][r]"
+                )
+            tq = _parse_turboquip_scheme(part)
+            if tq is not None and tq[1]:
+                needs_calibration = True
+
+    if needs_calibration and calibration_data is None:
+        raise click.BadParameter(
+            "Calibrated TurboQuIP schemes (turboquipNc) require --calibration-data"
+        )
 
     # Resolve checkpoint
     tmp_dir = None
@@ -681,7 +1137,7 @@ def main(
         full_candidates = [
             p
             for p in checkpoint_path.glob("step_*")
-            if not re.search(r"_(int\d+|mxfp\d+|nvfp\d+)$", p.name)
+            if not re.search(r"_(int\d+|mxfp\d+|nvfp\d+|turboquip\d+\w*)$", p.name)
         ]
         if not full_candidates:
             tar_fallback = checkpoint_path.parent / "checkpoint.tar.gz"
@@ -711,7 +1167,7 @@ def main(
         candidates = [
             p
             for p in sorted(checkpoint_path.glob("step_*"))
-            if not re.search(r"_(int\d+|mxfp\d+|nvfp\d+)$", p.name)
+            if not re.search(r"_(int\d+|mxfp\d+|nvfp\d+|turboquip\d+\w*)$", p.name)
         ]
         if not candidates:
             raise click.BadParameter(f"No full-precision checkpoint found in: {checkpoint_path}")
@@ -731,11 +1187,42 @@ def main(
     state_dict = model.state_dict()
     composer_config = state_dict.pop("__composer_config__", None)
 
+    # Capture Hessians for calibrated schemes
+    hessians = None
+    if needs_calibration:
+        cal_device = "cuda" if torch.cuda.is_available() else "cpu"
+        model_cal = model.to(cal_device)
+        cal_tokens = _load_calibration_tokens(
+            calibration_data, max_tokens=calibration_seqs * 1024 + 1
+        )
+        seq_len = 1024
+        if composer_config and "context_length" in str(composer_config):
+            # Try to extract context_length from config
+            try:
+                arch_cfg = list(composer_config.values())[0]
+                if isinstance(arch_cfg, dict):
+                    seq_len = arch_cfg.get("context_length", seq_len)
+            except Exception:
+                pass
+        hessians = _capture_layer_hessians(
+            model_cal, cal_tokens, seq_len=seq_len, device=cal_device
+        )
+        model_cal.cpu()
+        if cal_device == "cuda":
+            torch.cuda.empty_cache()
+
     # Quantize each scheme
     quant = {}
     for scheme in scheme_list:
         out_path = out_dir / f"{resolved_checkpoint.name}_{scheme}"
-        result = quantize_one(model, state_dict, composer_config, scheme, out_path)
+        lin_s, emb_s = _parse_compound_scheme(scheme)
+        tq_lin = _parse_turboquip_scheme(lin_s)
+        tq_emb = _parse_turboquip_scheme(emb_s)
+        needs_h = (tq_lin is not None and tq_lin[1]) or (tq_emb is not None and tq_emb[1])
+        scheme_hessians = hessians if needs_h else None
+        result = quantize_one(
+            model, state_dict, composer_config, scheme, out_path, hessians=scheme_hessians
+        )
         quant[scheme] = result
 
     # Merge into existing quant report (preserve results from previous runs)

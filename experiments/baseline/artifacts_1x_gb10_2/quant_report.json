@@ -1,0 +1,54 @@
+{
+  "quant": {
+    "int4": {
+      "scheme": "int4",
+      "compressor": "zstd",
+      "compressed_bytes": 5491739,
+      "serialized_bytes": 17893111,
+      "param_count": 17650248
+    },
+    "int6": {
+      "scheme": "int6",
+      "compressor": "zstd",
+      "compressed_bytes": 9869415,
+      "serialized_bytes": 17893111,
+      "param_count": 17650248
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressor": "zstd",
+      "compressed_bytes": 10084495,
+      "serialized_bytes": 17891447,
+      "param_count": 17650248
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressor": "zstd",
+      "compressed_bytes": 8471798,
+      "serialized_bytes": 11245623,
+      "param_count": 17650248
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressor": "zstd",
+      "compressed_bytes": 8717980,
+      "serialized_bytes": 10162183,
+      "param_count": 17650248
+    },
+    "turboquip4": {
+      "scheme": "turboquip4",
+      "compressor": "zstd",
+      "compressed_bytes": 5554032,
+      "serialized_bytes": 17892151,
+      "param_count": 17650248
+    },
+    "turboquip4c": {
+      "scheme": "turboquip4c",
+      "compressor": "zstd",
+      "compressed_bytes": 5849916,
+      "serialized_bytes": 17892151,
+      "param_count": 17650248
+    }
+  },
+  "timestamp": "2026-03-28T17:26:55.399000+00:00"
+}
