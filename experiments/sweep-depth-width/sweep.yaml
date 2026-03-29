@@ -1,0 +1,12 @@
+base: baseline
+
+properties:
+  num_layers: [15, 20]
+  mlp_mult: [2, 3, 4, 5]
+
+where:
+  - "mlp_mult <= 3 or num_layers <= 15"
+
+when:
+  - "num_layers >= 20":
+      training.pre_training.batch_size: 32
