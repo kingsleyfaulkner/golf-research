@@ -63,6 +63,7 @@ setup: |
 
   # Login to HuggingFace for artifact uploads
   if [ -n "${HUGGING_FACE_HUB_TOKEN:-}" ]; then
+    export HF_TOKEN="$HUGGING_FACE_HUB_TOKEN"
     huggingface-cli login --token "$HUGGING_FACE_HUB_TOKEN" --add-to-git-credential
   fi
 
