@@ -128,16 +128,16 @@ architecture:
       - CachedRoPE
 
 models:
-  033-layers-15-mlp-3:
+  033-mlp-5:
     DecoderTransformer:
       context_length: 1024
       vocab_size: 1024
-      num_layers: 15
+      num_layers: 9
       hidden_size: !expr "self.num_attention_heads * self.head_dim"
       num_attention_heads: 8
       num_key_value_heads: 4
       head_dim: 64
-      mlp_mult: 3
+      mlp_mult: 5
       intermediate_size: !expr "self.mlp_mult * self.hidden_size"
       # Encoder-decoder layer split
       num_encoder_layers: !expr "self.num_layers // 2"

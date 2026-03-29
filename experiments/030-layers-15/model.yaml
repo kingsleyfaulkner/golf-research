@@ -1,7 +1,11 @@
-# 030: 15 layers (baseline is 9)
-# Estimated ~28.1M params, ~9.6 MB with turboquip4c
+# Parameter Golf
+# https://github.com/openai/parameter-golf
 #
-# The architecture is a GPT-style decoder with:
+# OpenAI's challenge to train the best language model that fits in 16 MB and
+# trains in under 10 minutes on 8xH100 GPUs.  Evaluated by compression on the
+# FineWeb validation set using a tokeniser-agnostic bits-per-byte (BPB) metric.
+#
+# The baseline architecture is a GPT-style decoder with:
 #   - RMSNorm throughout (no learnable scale)
 #   - RoPE positional embeddings (theta=10000)
 #   - QK normalisation per head (RMSNorm, no learnable scale)

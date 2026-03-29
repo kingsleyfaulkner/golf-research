@@ -128,7 +128,7 @@ architecture:
       - CachedRoPE
 
 models:
-  034-layers-20-batch-128:
+  031-layers-20:
     DecoderTransformer:
       context_length: 1024
       vocab_size: 1024

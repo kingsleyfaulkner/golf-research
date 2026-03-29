@@ -16,7 +16,7 @@
 
 manifest: !include model.yaml
 
-model_name: 032-layers-21
+model_name: 033-mlp-5
 
 training:
   pre_training:

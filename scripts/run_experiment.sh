@@ -240,20 +240,15 @@ print(f'{world_size}x_{name}')
         # Upload checkpoint to HuggingFace
         local HF_REPO="k14r/golf-research-artifacts"
         local HF_PATH="experiments/${EXPERIMENT}/$(basename "$TARGET_DIR")/checkpoint.tar.gz"
-        if [[ -f "$TARGET_DIR/checkpoint.tar.gz" ]]; then
-            if command -v huggingface-cli &>/dev/null; then
-                echo "Uploading checkpoint to HuggingFace ($HF_REPO)..."
-                huggingface-cli upload "$HF_REPO" "$TARGET_DIR/checkpoint.tar.gz" "$HF_PATH" || true
-            elif python3 -c "import huggingface_hub" &>/dev/null 2>&1; then
-                echo "Uploading checkpoint to HuggingFace ($HF_REPO)..."
-                python3 -c "
+        if [[ -f "$TARGET_DIR/checkpoint.tar.gz" ]] && python3 -c "import huggingface_hub" &>/dev/null 2>&1; then
+            echo "Uploading checkpoint to HuggingFace ($HF_REPO)..."
+            python3 -c "
 from huggingface_hub import HfApi
 import os
 api = HfApi(token=os.environ.get('HF_TOKEN') or os.environ.get('HUGGING_FACE_HUB_TOKEN'))
 api.upload_file(path_or_fileobj='$TARGET_DIR/checkpoint.tar.gz', path_in_repo='$HF_PATH', repo_id='$HF_REPO')
 print('Upload complete')
 " || true
-            fi
         fi
     fi
 
