@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-03-24T18:32:36.568602+00:00",
+  "val_tokens_evaluated": 62021633,
+  "vocab_size": 1024,
+  "checkpoint": "artifacts/checkpoint",
+  "val_loss": 2.155068302765467,
+  "val_bpb": 1.2763528380295819,
+  "eval_time_seconds": 7.37,
+  "quant": {
+    "int6": {
+      "scheme": "int6",
+      "compressed_bytes": 11386548,
+      "val_bpb": 1.3580279939843338,
+      "val_loss": 2.292973382361829,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 1325.58
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 15712742,
+      "val_bpb": 1.2806155875486682,
+      "val_loss": 2.162265776769124,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 1325.11
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressed_bytes": 9153741,
+      "val_bpb": 1.6003252721629657,
+      "val_loss": 2.7020821871459604,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 1324.52
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressed_bytes": 8650536,
+      "val_bpb": 1.8141088755157326,
+      "val_loss": 3.0630468463759146,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 1325.69
+    }
+  }
+}

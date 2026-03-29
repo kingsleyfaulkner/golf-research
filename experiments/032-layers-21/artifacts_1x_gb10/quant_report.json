@@ -1,0 +1,26 @@
+{
+  "quant": {
+    "turboquip4c": {
+      "scheme": "turboquip4c",
+      "compressor": "zstd",
+      "compressed_bytes": 8775564,
+      "serialized_bytes": 40160787,
+      "param_count": 39698088
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressor": "zstd",
+      "compressed_bytes": 26837003,
+      "serialized_bytes": 40159443,
+      "param_count": 39698088
+    },
+    "turboquip4cr": {
+      "scheme": "turboquip4cr",
+      "compressor": "zstd",
+      "compressed_bytes": 14133439,
+      "serialized_bytes": 45310227,
+      "param_count": 39698088
+    }
+  },
+  "timestamp": "2026-03-28T21:19:20.395521+00:00"
+}

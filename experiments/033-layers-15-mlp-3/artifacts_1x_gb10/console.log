@@ -1,0 +1,314 @@
+Overrides saved to artifacts/overrides.yaml
+Running experiment: 033-layers-15-mlp-3 (1 GPU(s))
+[2026-03-28 20:54:57] INFO     Training stages: ['pre_training']
+[2026-03-28 20:54:57] INFO     Starting stage: pre_training
+[2026-03-28 20:54:57] WARNING  Could not build tokenizer for '033-layers-15-mlp-3': Not found: "/workspace/parameter-golf/data/tokenizers/fineweb_1024_bpe.model": No such file or directory Error #2
+[2026-03-28 20:54:57] INFO     Seed: 1102258133
+[2026-03-28 20:54:57] INFO     GradientAccumulation auto-computed gradient_accumulation_steps=8 (micro_batch_size=16, full_batch_size=128)
+[2026-03-28 20:54:57] INFO     Loaded 80 shards from /home/kingsley/github/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_train_*.bin (8.00B tokens)
+[2026-03-28 20:54:57] INFO     DecoderTransformer params=35.93M non_emb_params=35.41M
+[2026-03-28 20:54:57] INFO     DecoderTransformerTrainer grad_accum=8 compile(dynamic=False, fullgraph=True)
+[2026-03-28 20:54:57] INFO     LayerWiseOptimiser groups=3 params=35,933,304
+[2026-03-28 20:54:57] INFO      - embedding: Adam lr=0.0500 betas=(0.9000, 0.9500) layers=1 params=524,288
+[2026-03-28 20:54:57] INFO      - block_scalars: Adam lr=0.0400 betas=(0.9000, 0.9500) layers=53 params=19,576
+[2026-03-28 20:54:57] INFO      - default: Muon lr=0.0400 momentum=0.9500 layers=90 params=35,389,440 features=[HyperparameterSchedule(parameter=momentum, initial=0.8500, final=0.9500, scheduler=LinearLR(start_factor=1.00E-10, end_factor=1.0000, total_iters=500))]
+[2026-03-28 20:54:57] INFO     WallclockWarmdownScheduler decay_type=linear base_lrs=[0.0500, 0.0400, 0.0400]
+[2026-03-28 20:54:57] INFO     Model trainer features: CompileDiagnostics, Autocast(dtype=bfloat16), CUDABackend(tf32=True, sdp=flash)
+[2026-03-28 20:54:57] INFO     torch.compile diagnostics enabled - stats will be reported after the first training step
+[2026-03-28 20:54:57] INFO     Training features: SystemDiagnostics(console, artifacts/system.json), ConfigSnapshot(artifacts/experiment.yaml), GradientAccumulation(grad_accum=8, micro_batch=16, full_batch=128), SpeedMonitor, MemoryProfiler, Checkpointer, MetricsLogger(artifacts/metrics.jsonl), ConsoleLogger
+[2026-03-28 20:54:57] INFO     Host: spark-2004 cpus=20 ram=119.7GB
+[2026-03-28 20:54:57] INFO     Software: python=3.12.12 pytorch=2.10.0+cu130 cuda=13.0
+[2026-03-28 20:54:57] INFO      - GPU 0: NVIDIA GB10 memory=119.7GB SMs=48 compute=12.1
+[2026-03-28 20:54:57] INFO     Saved resolved config to artifacts/experiment.yaml
+[2026-03-28 20:54:57] INFO     Running 10 warmup steps
+W0328 20:55:02.482000 780173 torch/_inductor/utils.py:1679] [0/0] Not enough SMs to use max_autotune_gemm mode
+[2026-03-28 20:55:12] INFO     Compiled model active
+[2026-03-28 20:55:12] INFO     torch.compile diagnostics | graphs=5 | graph breaks=0
+[2026-03-28 20:55:12] INFO     No graph breaks detected
+[2026-03-28 20:55:12] INFO      - warmup step 1/10 15137ms
+[2026-03-28 20:55:14] INFO     torch.compile step timing | first=630ms (incl. compilation) | second=342ms (compiled)
+[2026-03-28 20:55:14] INFO      - warmup step 2/10 1308ms
+[2026-03-28 20:55:15] INFO      - warmup step 3/10 1309ms
+[2026-03-28 20:55:16] INFO      - warmup step 4/10 1308ms
+[2026-03-28 20:55:18] INFO      - warmup step 5/10 1311ms
+[2026-03-28 20:55:19] INFO      - warmup step 6/10 1313ms
+[2026-03-28 20:55:20] INFO      - warmup step 7/10 1310ms
+[2026-03-28 20:55:22] INFO      - warmup step 8/10 1316ms
+[2026-03-28 20:55:23] INFO      - warmup step 9/10 1308ms
+[2026-03-28 20:55:24] INFO      - warmup step 10/10 1306ms
+[2026-03-28 20:55:24] INFO     Warmup complete in 26993ms
+[2026-03-28 20:55:24] INFO     Starting training total_batch_tokens=131,072 params=35.93M
+[2026-03-28 20:55:24] INFO     Starting epoch 1
+[2026-03-28 20:55:37] INFO     step=10 | epoch=1 | ce_loss=6.559 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=6.559 | lr=0.0414 | ms_per_step=1310.0 | tokens_per_sec=100,057 | tokens_seen=1.31M
+[2026-03-28 20:55:51] INFO     step=20 | epoch=1 | ce_loss=5.370 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=5.370 | lr=0.0288 | ms_per_step=1307.8 | tokens_per_sec=100,226 | tokens_seen=2.62M
+[2026-03-28 20:56:04] INFO     step=30 | epoch=1 | ce_loss=4.662 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=4.662 | lr=0.0246 | ms_per_step=1307.1 | tokens_per_sec=100,279 | tokens_seen=3.93M
+[2026-03-28 20:56:17] INFO     step=40 | epoch=1 | ce_loss=4.464 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=4.464 | lr=0.0224 | ms_per_step=1306.7 | tokens_per_sec=100,307 | tokens_seen=5.24M
+[2026-03-28 20:56:30] INFO     step=50 | epoch=1 | ce_loss=4.274 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=4.274 | lr=0.0209 | ms_per_step=1306.7 | tokens_per_sec=100,304 | tokens_seen=6.55M
+[2026-03-28 20:56:43] INFO     step=60 | epoch=1 | ce_loss=3.998 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.998 | lr=0.0197 | ms_per_step=1306.6 | tokens_per_sec=100,311 | tokens_seen=7.86M
+[2026-03-28 20:56:56] INFO     step=70 | epoch=1 | ce_loss=3.884 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.884 | lr=0.0188 | ms_per_step=1306.6 | tokens_per_sec=100,317 | tokens_seen=9.18M
+[2026-03-28 20:57:09] INFO     step=80 | epoch=1 | ce_loss=3.654 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.654 | lr=0.0180 | ms_per_step=1306.7 | tokens_per_sec=100,305 | tokens_seen=10.49M
+[2026-03-28 20:57:22] INFO     step=90 | epoch=1 | ce_loss=3.671 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.671 | lr=0.0173 | ms_per_step=1306.8 | tokens_per_sec=100,299 | tokens_seen=11.80M
+[2026-03-28 20:57:35] INFO     step=100 | epoch=1 | ce_loss=3.751 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.751 | lr=0.0166 | ms_per_step=1306.9 | tokens_per_sec=100,295 | tokens_seen=13.11M
+[2026-03-28 20:57:48] INFO     step=110 | epoch=1 | ce_loss=3.504 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.504 | lr=0.0160 | ms_per_step=1307.0 | tokens_per_sec=100,281 | tokens_seen=14.42M
+[2026-03-28 20:58:01] INFO     step=120 | epoch=1 | ce_loss=3.446 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.446 | lr=0.0154 | ms_per_step=1306.9 | tokens_per_sec=100,289 | tokens_seen=15.73M
+[2026-03-28 20:58:15] INFO     step=130 | epoch=1 | ce_loss=3.410 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.410 | lr=0.0149 | ms_per_step=1307.0 | tokens_per_sec=100,286 | tokens_seen=17.04M
+[2026-03-28 20:58:28] INFO     step=140 | epoch=1 | ce_loss=3.327 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.327 | lr=0.0143 | ms_per_step=1307.1 | tokens_per_sec=100,278 | tokens_seen=18.35M
+[2026-03-28 20:58:41] INFO     step=150 | epoch=1 | ce_loss=3.372 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.372 | lr=0.0138 | ms_per_step=1307.0 | tokens_per_sec=100,286 | tokens_seen=19.66M
+[2026-03-28 20:58:54] INFO     step=160 | epoch=1 | ce_loss=3.312 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.312 | lr=0.0133 | ms_per_step=1307.1 | tokens_per_sec=100,278 | tokens_seen=20.97M
+[2026-03-28 20:59:07] INFO     step=170 | epoch=1 | ce_loss=3.343 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.343 | lr=0.0128 | ms_per_step=1307.0 | tokens_per_sec=100,287 | tokens_seen=22.28M
+[2026-03-28 20:59:20] INFO     step=180 | epoch=1 | ce_loss=3.299 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.299 | lr=0.0123 | ms_per_step=1307.0 | tokens_per_sec=100,284 | tokens_seen=23.59M
+[2026-03-28 20:59:33] INFO     step=190 | epoch=1 | ce_loss=3.269 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.269 | lr=0.0119 | ms_per_step=1306.9 | tokens_per_sec=100,293 | tokens_seen=24.90M
+[2026-03-28 20:59:46] INFO     step=200 | epoch=1 | ce_loss=3.214 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.214 | lr=0.0114 | ms_per_step=1306.9 | tokens_per_sec=100,290 | tokens_seen=26.21M
+[2026-03-28 20:59:59] INFO     step=210 | epoch=1 | ce_loss=3.079 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.079 | lr=0.0109 | ms_per_step=1307.0 | tokens_per_sec=100,285 | tokens_seen=27.53M
+[2026-03-28 21:00:12] INFO     step=220 | epoch=1 | ce_loss=3.111 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.111 | lr=0.0105 | ms_per_step=1307.0 | tokens_per_sec=100,285 | tokens_seen=28.84M
+[2026-03-28 21:00:26] INFO     step=230 | epoch=1 | ce_loss=3.018 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.018 | lr=0.0100 | ms_per_step=1307.0 | tokens_per_sec=100,284 | tokens_seen=30.15M
+[2026-03-28 21:00:39] INFO     step=240 | epoch=1 | ce_loss=3.002 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.002 | lr=0.0096 | ms_per_step=1307.0 | tokens_per_sec=100,285 | tokens_seen=31.46M
+[2026-03-28 21:00:52] INFO     step=250 | epoch=1 | ce_loss=2.974 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.974 | lr=0.0091 | ms_per_step=1307.0 | tokens_per_sec=100,285 | tokens_seen=32.77M
+[2026-03-28 21:01:05] INFO     step=260 | epoch=1 | ce_loss=2.910 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.910 | lr=0.0086 | ms_per_step=1307.0 | tokens_per_sec=100,281 | tokens_seen=34.08M
+[2026-03-28 21:01:18] INFO     step=270 | epoch=1 | ce_loss=3.026 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.026 | lr=0.0082 | ms_per_step=1307.1 | tokens_per_sec=100,278 | tokens_seen=35.39M
+[2026-03-28 21:01:31] INFO     step=280 | epoch=1 | ce_loss=2.974 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.974 | lr=0.0078 | ms_per_step=1307.2 | tokens_per_sec=100,269 | tokens_seen=36.70M
+[2026-03-28 21:01:44] INFO     step=290 | epoch=1 | ce_loss=2.942 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.942 | lr=0.0073 | ms_per_step=1307.2 | tokens_per_sec=100,268 | tokens_seen=38.01M
+[2026-03-28 21:01:57] INFO     step=300 | epoch=1 | ce_loss=2.906 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.906 | lr=0.0069 | ms_per_step=1307.2 | tokens_per_sec=100,266 | tokens_seen=39.32M
+[2026-03-28 21:02:10] INFO     step=310 | epoch=1 | ce_loss=2.911 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.911 | lr=0.0064 | ms_per_step=1307.2 | tokens_per_sec=100,265 | tokens_seen=40.63M
+[2026-03-28 21:02:23] INFO     step=320 | epoch=1 | ce_loss=2.884 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.884 | lr=0.0060 | ms_per_step=1307.2 | tokens_per_sec=100,267 | tokens_seen=41.94M
+[2026-03-28 21:02:37] INFO     step=330 | epoch=1 | ce_loss=2.822 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.822 | lr=0.0056 | ms_per_step=1307.2 | tokens_per_sec=100,270 | tokens_seen=43.25M
+[2026-03-28 21:02:50] INFO     step=340 | epoch=1 | ce_loss=2.754 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.754 | lr=0.0051 | ms_per_step=1307.3 | tokens_per_sec=100,262 | tokens_seen=44.56M
+[2026-03-28 21:03:03] INFO     step=350 | epoch=1 | ce_loss=2.754 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.754 | lr=0.0047 | ms_per_step=1307.3 | tokens_per_sec=100,260 | tokens_seen=45.88M
+[2026-03-28 21:03:16] INFO     step=360 | epoch=1 | ce_loss=2.827 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.827 | lr=0.0043 | ms_per_step=1307.3 | tokens_per_sec=100,259 | tokens_seen=47.19M
+[2026-03-28 21:03:29] INFO     step=370 | epoch=1 | ce_loss=2.826 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.826 | lr=0.0038 | ms_per_step=1307.3 | tokens_per_sec=100,262 | tokens_seen=48.50M
+[2026-03-28 21:03:42] INFO     step=380 | epoch=1 | ce_loss=3.182 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=3.182 | lr=0.0034 | ms_per_step=1307.3 | tokens_per_sec=100,262 | tokens_seen=49.81M
+[2026-03-28 21:03:55] INFO     step=390 | epoch=1 | ce_loss=2.827 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.827 | lr=0.0030 | ms_per_step=1307.3 | tokens_per_sec=100,264 | tokens_seen=51.12M
+[2026-03-28 21:04:08] INFO     step=400 | epoch=1 | ce_loss=2.820 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.820 | lr=0.0025 | ms_per_step=1307.3 | tokens_per_sec=100,264 | tokens_seen=52.43M
+[2026-03-28 21:04:21] INFO     step=410 | epoch=1 | ce_loss=2.790 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.790 | lr=0.0021 | ms_per_step=1307.2 | tokens_per_sec=100,265 | tokens_seen=53.74M
+[2026-03-28 21:04:34] INFO     step=420 | epoch=1 | ce_loss=2.844 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.844 | lr=0.0017 | ms_per_step=1307.2 | tokens_per_sec=100,266 | tokens_seen=55.05M
+[2026-03-28 21:04:48] INFO     step=430 | epoch=1 | ce_loss=2.530 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.530 | lr=0.0012 | ms_per_step=1307.2 | tokens_per_sec=100,267 | tokens_seen=56.36M
+[2026-03-28 21:05:01] INFO     step=440 | epoch=1 | ce_loss=2.657 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.657 | lr=0.0008 | ms_per_step=1307.3 | tokens_per_sec=100,265 | tokens_seen=57.67M
+[2026-03-28 21:05:14] INFO     step=450 | epoch=1 | ce_loss=2.647 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.647 | lr=0.0004 | ms_per_step=1307.3 | tokens_per_sec=100,262 | tokens_seen=58.98M
+[2026-03-28 21:05:26] INFO     Reached training limit during epoch 1
+[2026-03-28 21:05:26] INFO     Saved model checkpoint to artifacts/checkpoint/step_459_final_model
+[2026-03-28 21:05:26] INFO     step=459 | epoch=1 | ce_loss=2.645 | gpu_peak_allocated_gb=5.219 | gpu_peak_reserved_gb=5.396 | gpu_reserved_gb=5.396 | loss=2.645 | lr=3.43E-08 | ms_per_step=1307.3 | tokens_per_sec=100,262 | tokens_seen=60.16M
+[2026-03-28 21:05:26] INFO     Training complete: 459 steps, 60.16M tokens in 10m1.3s
+[2026-03-28 21:05:26] INFO     Stage complete: pre_training at step 459
+[2026-03-28 21:05:26] INFO     Training complete
+Checkpoint found - training succeeded
+Running evaluation: 033-layers-15-mlp-3 (1 GPU(s))
+[2026-03-28 21:05:29] INFO     Eval config: checkpoints=full=artifacts/checkpoint device=cuda:0 sequence_length=1024 batch_size=64 world_size=1
+[2026-03-28 21:05:29] INFO     Tokenizer: /home/kingsley/github/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+[2026-03-28 21:05:29] INFO     Validation data: /home/kingsley/github/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin
+[2026-03-28 21:05:29] INFO     Loaded tokens=62.02M sequences=60.6K vocab_size=1024
+[2026-03-28 21:05:29] INFO     Loading full-precision checkpoint
+[2026-03-28 21:05:29] INFO     Loading checkpoint from artifacts/checkpoint/step_459_final_model
+[2026-03-28 21:05:30] INFO     Loaded model from artifacts/checkpoint/step_459_final_model (35,933,304 parameters)
+[2026-03-28 21:05:30] INFO     Running full-precision evaluation
+W0328 21:05:32.849000 784937 torch/_inductor/utils.py:1679] [0/0] Not enough SMs to use max_autotune_gemm mode
+[2026-03-28 21:05:38] INFO      - batch 10/947 loss=2.708 bpb=1.629
+[2026-03-28 21:05:40] INFO      - batch 20/947 loss=2.728 bpb=1.631
+[2026-Running evaluation: 033-layers-15-mlp-3 (1 GPU(s))
+[2026-03-28 21:05:29] INFO     Eval config: checkpoints=full=artifacts/checkpoint device=cuda:0 sequence_length=1024 batch_size=64 world_size=1
+[2026-03-28 21:05:29] INFO     Tokenizer: /home/kingsley/github/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+[2026-03-28 21:05:29] INFO     Validation data: /home/kingsley/github/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_val_*.bin
+[2026-03-28 21:05:29] INFO     Loaded tokens=62.02M sequences=60.6K vocab_size=1024
+[2026-03-28 21:05:29] INFO     Loading full-precision checkpoint
+[2026-03-28 21:05:29] INFO     Loading checkpoint from artifacts/checkpoint/step_459_final_model
+[2026-03-28 21:05:30] INFO     Loaded model from artifacts/checkpoint/step_459_final_model (35,933,304 parameters)
+[2026-03-28 21:05:30] INFO     Running full-precision evaluation
+W0328 21:05:32.849000 784937 torch/_inductor/utils.py:1679] [0/0] Not enough SMs to use max_autotune_gemm mode
+[2026-03-28 21:05:38] INFO      - batch 10/947 loss=2.708 bpb=1.629
+[2026-03-28 21:05:40] INFO      - batch 20/947 loss=2.728 bpb=1.631
+[2026-03-28 21:05:42] INFO      - batch 30/947 loss=2.731 bpb=1.636
+[2026-03-28 21:05:44] INFO      - batch 40/947 loss=2.719 bpb=1.633
+[2026-03-28 21:05:46] INFO      - batch 50/947 loss=2.721 bpb=1.635
+[2026-03-28 21:05:48] INFO      - batch 60/947 loss=2.717 bpb=1.633
+[2026-03-28 21:05:50] INFO      - batch 70/947 loss=2.718 bpb=1.631
+[2026-03-28 21:05:52] INFO      - batch 80/947 loss=2.722 bpb=1.633
+[2026-03-28 21:05:54] INFO      - batch 90/947 loss=2.726 bpb=1.635
+[2026-03-28 21:05:56] INFO      - batch 100/947 loss=2.729 bpb=1.638
+[2026-03-28 21:05:58] INFO      - batch 110/947 loss=2.731 bpb=1.638
+[2026-03-28 21:06:00] INFO      - batch 120/947 loss=2.731 bpb=1.640
+[2026-03-28 21:06:01] INFO      - batch 130/947 loss=2.730 bpb=1.639
+[2026-03-28 21:06:03] INFO      - batch 140/947 loss=2.729 bpb=1.638
+[2026-03-28 21:06:05] INFO      - batch 150/947 loss=2.731 bpb=1.637
+[2026-03-28 21:06:07] INFO      - batch 160/947 loss=2.732 bpb=1.636
+[2026-03-28 21:06:09] INFO      - batch 170/947 loss=2.733 bpb=1.634
+[2026-03-28 21:06:11] INFO      - batch 180/947 loss=2.735 bpb=1.636
+[2026-03-28 21:06:13] INFO      - batch 190/947 loss=2.735 bpb=1.635
+[2026-03-28 21:06:15] INFO      - batch 200/947 loss=2.735 bpb=1.634
+[2026-03-28 21:06:17] INFO      - batch 210/947 loss=2.734 bpb=1.633
+[2026-03-28 21:06:19] INFO      - batch 220/947 loss=2.734 bpb=1.631
+[2026-03-28 21:06:21] INFO      - batch 230/947 loss=2.735 bpb=1.630
+[2026-03-28 21:06:23] INFO      - batch 240/947 loss=2.734 bpb=1.628
+[2026-03-28 21:06:25] INFO      - batch 250/947 loss=2.734 bpb=1.628
+[2026-03-28 21:06:27] INFO      - batch 260/947 loss=2.733 bpb=1.626
+[2026-03-28 21:06:29] INFO      - batch 270/947 loss=2.734 bpb=1.626
+[2026-03-28 21:06:30] INFO      - batch 280/947 loss=2.734 bpb=1.625
+[2026-03-28 21:06:32] INFO      - batch 290/947 loss=2.732 bpb=1.623
+[2026-03-28 21:06:34] INFO      - batch 300/947 loss=2.731 bpb=1.623
+[2026-03-28 21:06:36] INFO      - batch 310/947 loss=2.730 bpb=1.622
+[2026-03-28 21:06:38] INFO      - batch 320/947 loss=2.729 bpb=1.620
+[2026-03-28 21:06:40] INFO      - batch 330/947 loss=2.728 bpb=1.619
+[2026-03-28 21:06:42] INFO      - batch 340/947 loss=2.727 bpb=1.618
+[2026-03-28 21:06:44] INFO      - batch 350/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:46] INFO      - batch 360/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:48] INFO      - batch 370/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:50] INFO      - batch 380/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:52] INFO      - batch 390/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:54] INFO      - batch 400/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:56] INFO      - batch 410/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:57] INFO      - batch 420/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:59] INFO      - batch 430/947 loss=2.725 bpb=1.618
+[2026-03-28 21:07:01] INFO      - batch 440/947 loss=2.725 bpb=1.618
+[2026-03-28 21:07:03] INFO      - batch 450/947 loss=2.724 bpb=1.619
+[2026-03-28 21:03-28 21:05:42] INFO      - batch 30/947 loss=2.731 bpb=1.636
+[2026-03-28 21:05:44] INFO      - batch 40/947 loss=2.719 bpb=1.633
+[2026-03-28 21:05:46] INFO      - batch 50/947 loss=2.721 bpb=1.635
+[2026-03-28 21:05:48] INFO      - batch 60/947 loss=2.717 bpb=1.633
+[2026-03-28 21:05:50] INFO      - batch 70/947 loss=2.718 bpb=1.631
+[2026-03-28 21:05:52] INFO      - batch 80/947 loss=2.722 bpb=1.633
+[2026-03-28 21:05:54] INFO      - batch 90/947 loss=2.726 bpb=1.635
+[2026-03-28 21:05:56] INFO      - batch 100/947 loss=2.729 bpb=1.638
+[2026-03-28 21:05:58] INFO      - batch 110/947 loss=2.731 bpb=1.638
+[2026-03-28 21:06:00] INFO      - batch 120/947 loss=2.731 bpb=1.640
+[2026-03-28 21:06:01] INFO      - batch 130/947 loss=2.730 bpb=1.639
+[2026-03-28 21:06:03] INFO      - batch 140/947 loss=2.729 bpb=1.638
+[2026-03-28 21:06:05] INFO      - batch 150/947 loss=2.731 bpb=1.637
+[2026-03-28 21:06:07] INFO      - batch 160/947 loss=2.732 bpb=1.636
+[2026-03-28 21:06:09] INFO      - batch 170/947 loss=2.733 bpb=1.634
+[2026-03-28 21:06:11] INFO      - batch 180/947 loss=2.735 bpb=1.636
+[2026-03-28 21:06:13] INFO      - batch 190/947 loss=2.735 bpb=1.635
+[2026-03-28 21:06:15] INFO      - batch 200/947 loss=2.735 bpb=1.634
+[2026-03-28 21:06:17] INFO      - batch 210/947 loss=2.734 bpb=1.633
+[2026-03-28 21:06:19] INFO      - batch 220/947 loss=2.734 bpb=1.631
+[2026-03-28 21:06:21] INFO      - batch 230/947 loss=2.735 bpb=1.630
+[2026-03-28 21:06:23] INFO      - batch 240/947 loss=2.734 bpb=1.628
+[2026-03-28 21:06:25] INFO      - batch 250/947 loss=2.734 bpb=1.628
+[2026-03-28 21:06:27] INFO      - batch 260/947 loss=2.733 bpb=1.626
+[2026-03-28 21:06:29] INFO      - batch 270/947 loss=2.734 bpb=1.626
+[2026-03-28 21:06:30] INFO      - batch 280/947 loss=2.734 bpb=1.625
+[2026-03-28 21:06:32] INFO      - batch 290/947 loss=2.732 bpb=1.623
+[2026-03-28 21:06:34] INFO      - batch 300/947 loss=2.731 bpb=1.623
+[2026-03-28 21:06:36] INFO      - batch 310/947 loss=2.730 bpb=1.622
+[2026-03-28 21:06:38] INFO      - batch 320/947 loss=2.729 bpb=1.620
+[2026-03-28 21:06:40] INFO      - batch 330/947 loss=2.728 bpb=1.619
+[2026-03-28 21:06:42] INFO      - batch 340/947 loss=2.727 bpb=1.618
+[2026-03-28 21:06:44] INFO      - batch 350/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:46] INFO      - batch 360/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:48] INFO      - batch 370/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:50] INFO      - batch 380/947 loss=2.726 bpb=1.617
+[2026-03-28 21:06:52] INFO      - batch 390/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:54] INFO      - batch 400/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:56] INFO      - batch 410/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:57] INFO      - batch 420/947 loss=2.725 bpb=1.617
+[2026-03-28 21:06:59] INFO      - batch 430/947 loss=2.725 bpb=1.618
+[2026-03-28 21:07:01] INFO      - batch 440/947 loss=2.725 bpb=1.618
+[2026-03-28 21:07:03] INFO      - batch 450/947 loss=2.724 bpb=1.619
+[2026-03-28 21:07:05] INFO      - batch 460/947 loss=2.724 bpb=1.619
+[2026-03-28 21:07:07] INFO      - batch 470/947 loss=2.724 bpb=1.620
+[2026-03-28 21:07:09] INFO      - batch 480/947 loss=2.725 bpb=1.620
+[2026-03-28 21:07:11] INFO      - batch 490/947 loss=2.726 bpb=1.620
+[2026-03-28 21:07:13] INFO      - batch 500/947 loss=2.726 bpb=1.620
+[2026-03-28 21:07:15] INFO      - batch 510/947 loss=2.727 bpb=1.621
+[2026-03-28 21:07:17] INFO      - batch 520/947 loss=2.728 bpb=1.621
+[2026-03-28 21:07:19] INFO      - batch 530/947 loss=2.728 bpb=1.621
+[2026-03-28 21:07:21] INFO      - batch 540/947 loss=2.729 bpb=1.621
+[2026-03-28 21:07:23] INFO      - batch 550/947 loss=2.730 bpb=1.621
+[2026-03-28 21:07:24] INFO      - batch 560/947 loss=2.729 bpb=1.621
+[2026-03-28 21:07:26] INFO      - batch 570/947 loss=2.729 bpb=1.620
+[2026-03-28 21:07:28] INFO      - batch 580/947 loss=2.729 bpb=1.620
+[2026-03-28 21:07:30] INFO      - batch 590/947 loss=2.728 bpb=1.619
+[2026-03-28 21:07:32] INFO      - batch 600/947 loss=2.729 bpb=1.619
+[2026-03-28 21:07:34] INFO      - batch 610/947 loss=2.728 bpb=1.619
+[2026-03-28 21:07:36] INFO      - batc07:05] INFO      - batch 460/947 loss=2.724 bpb=1.619
+[2026-03-28 21:07:07] INFO      - batch 470/947 loss=2.724 bpb=1.620
+[2026-03-28 21:07:09] INFO      - batch 480/947 loss=2.725 bpb=1.620
+[2026-03-28 21:07:11] INFO      - batch 490/947 loss=2.726 bpb=1.620
+[2026-03-28 21:07:13] INFO      - batch 500/947 loss=2.726 bpb=1.620
+[2026-03-28 21:07:15] INFO      - batch 510/947 loss=2.727 bpb=1.621
+[2026-03-28 21:07:17] INFO      - batch 520/947 loss=2.728 bpb=1.621
+[2026-03-28 21:07:19] INFO      - batch 530/947 loss=2.728 bpb=1.621
+[2026-03-28 21:07:21] INFO      - batch 540/947 loss=2.729 bpb=1.621
+[2026-03-28 21:07:23] INFO      - batch 550/947 loss=2.730 bpb=1.621
+[2026-03-28 21:07:24] INFO      - batch 560/947 loss=2.729 bpb=1.621
+[2026-03-28 21:07:26] INFO      - batch 570/947 loss=2.729 bpb=1.620
+[2026-03-28 21:07:28] INFO      - batch 580/947 loss=2.729 bpb=1.620
+[2026-03-28 21:07:30] INFO      - batch 590/947 loss=2.728 bpb=1.619
+[2026-03-28 21:07:32] INFO      - batch 600/947 loss=2.729 bpb=1.619
+[2026-03-28 21:07:34] INFO      - batch 610/947 loss=2.728 bpb=1.619
+[2026-03-28 21:07:36] INFO      - batch 620/947 loss=2.728 bpb=1.618
+[2026-03-28 21:07:38] INFO      - batch 630/947 loss=2.727 bpb=1.617
+[2026-03-28 21:07:40] INFO      - batch 640/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:42] INFO      - batch 650/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:44] INFO      - batch 660/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:46] INFO      - batch 670/947 loss=2.725 bpb=1.614
+[2026-03-28 21:07:48] INFO      - batch 680/947 loss=2.725 bpb=1.614
+[2026-03-28 21:07:50] INFO      - batch 690/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:52] INFO      - batch 700/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:53] INFO      - batch 710/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:55] INFO      - batch 720/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:57] INFO      - batch 730/947 loss=2.725 bpb=1.616
+[2026-03-28 21:07:59] INFO      - batch 740/947 loss=2.726 bpb=1.617
+[2026-03-28 21:08:01] INFO      - batch 750/947 loss=2.726 bpb=1.617
+[2026-03-28 21:08:03] INFO      - batch 760/947 loss=2.727 bpb=1.618
+[2026-03-28 21:08:05] INFO      - batch 770/947 loss=2.727 bpb=1.618
+[2026-03-28 21:08:07] INFO      - batch 780/947 loss=2.728 bpb=1.618
+[2026-03-28 21:08:09] INFO      - batch 790/947 loss=2.728 bpb=1.619
+[2026-03-28 21:08:11] INFO      - batch 800/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:13] INFO      - batch 810/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:15] INFO      - batch 820/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:17] INFO      - batch 830/947 loss=2.730 bpb=1.619
+[2026-03-28 21:08:19] INFO      - batch 840/947 loss=2.730 bpb=1.619
+[2026-03-28 21:08:20] INFO      - batch 850/947 loss=2.731 bpb=1.619
+[2026-03-28 21:08:22] INFO      - batch 860/947 loss=2.731 bpb=1.619
+[2026-03-28 21:08:24] INFO      - batch 870/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:26] INFO      - batch 880/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:28] INFO      - batch 890/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:30] INFO      - batch 900/947 loss=2.730 bpb=1.617
+[2026-03-28 21:08:32] INFO      - batch 910/947 loss=2.730 bpb=1.617
+[2026-03-28 21:08:34] INFO      - batch 920/947 loss=2.729 bpb=1.617
+[2026-03-28 21:08:36] INFO      - batch 930/947 loss=2.729 bpb=1.616
+[2026-03-28 21:08:38] INFO      - batch 940/947 loss=2.728 bpb=1.616
+[2026-03-28 21:08:45] INFO      - batch 947/947 loss=2.728 bpb=1.616
+[2026-03-28 21:08:45] INFO     Full-precision eval complete: val_loss=2.728 val_bpb=1.616 in 195.3s
+[2026-03-28 21:08:45] INFO     Report saved to artifacts/eval_report.json
+h 620/947 loss=2.728 bpb=1.618
+[2026-03-28 21:07:38] INFO      - batch 630/947 loss=2.727 bpb=1.617
+[2026-03-28 21:07:40] INFO      - batch 640/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:42] INFO      - batch 650/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:44] INFO      - batch 660/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:46] INFO      - batch 670/947 loss=2.725 bpb=1.614
+[2026-03-28 21:07:48] INFO      - batch 680/947 loss=2.725 bpb=1.614
+[2026-03-28 21:07:50] INFO      - batch 690/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:52] INFO      - batch 700/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:53] INFO      - batch 710/947 loss=2.725 bpb=1.615
+[2026-03-28 21:07:55] INFO      - batch 720/947 loss=2.726 bpb=1.616
+[2026-03-28 21:07:57] INFO      - batch 730/947 loss=2.725 bpb=1.616
+[2026-03-28 21:07:59] INFO      - batch 740/947 loss=2.726 bpb=1.617
+[2026-03-28 21:08:01] INFO      - batch 750/947 loss=2.726 bpb=1.617
+[2026-03-28 21:08:03] INFO      - batch 760/947 loss=2.727 bpb=1.618
+[2026-03-28 21:08:05] INFO      - batch 770/947 loss=2.727 bpb=1.618
+[2026-03-28 21:08:07] INFO      - batch 780/947 loss=2.728 bpb=1.618
+[2026-03-28 21:08:09] INFO      - batch 790/947 loss=2.728 bpb=1.619
+[2026-03-28 21:08:11] INFO      - batch 800/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:13] INFO      - batch 810/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:15] INFO      - batch 820/947 loss=2.729 bpb=1.619
+[2026-03-28 21:08:17] INFO      - batch 830/947 loss=2.730 bpb=1.619
+[2026-03-28 21:08:19] INFO      - batch 840/947 loss=2.730 bpb=1.619
+[2026-03-28 21:08:20] INFO      - batch 850/947 loss=2.731 bpb=1.619
+[2026-03-28 21:08:22] INFO      - batch 860/947 loss=2.731 bpb=1.619
+[2026-03-28 21:08:24] INFO      - batch 870/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:26] INFO      - batch 880/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:28] INFO      - batch 890/947 loss=2.730 bpb=1.618
+[2026-03-28 21:08:30] INFO      - batch 900/947 loss=2.730 bpb=1.617
+[2026-03-28 21:08:32] INFO      - batch 910/947 loss=2.730 bpb=1.617
+[2026-03-28 21:08:34] INFO      - batch 920/947 loss=2.729 bpb=1.617
+[2026-03-28 21:08:36] INFO      - batch 930/947 loss=2.729 bpb=1.616
+[2026-03-28 21:08:38] INFO      - batch 940/947 loss=2.728 bpb=1.616
+[2026-03-28 21:08:45] INFO      - batch 947/947 loss=2.728 bpb=1.616
+[2026-03-28 21:08:45] INFO     Full-precision eval complete: val_loss=2.728 val_bpb=1.616 in 195.3s
+[2026-03-28 21:08:45] INFO     Report saved to artifacts/eval_report.json
+Hardware: 1x_gb10
+Archiving artifacts to: artifacts_1x_gb10
+Compressing checkpoint...
+Checkpoint compressed to checkpoint.tar.gz
+Artifacts moved to artifacts_1x_gb10
+Skipping git push (--no-push)
+Done - results committed and pushed

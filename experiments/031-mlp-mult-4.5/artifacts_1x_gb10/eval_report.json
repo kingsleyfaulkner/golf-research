@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-03-28T20:12:23.735326+00:00",
+  "val_tokens_evaluated": 62021633,
+  "vocab_size": 1024,
+  "checkpoint": "artifacts/checkpoint",
+  "val_loss": 2.626983609921928,
+  "val_bpb": 1.5558476646324406,
+  "eval_time_seconds": 141.15,
+  "quant": {
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 21859735,
+      "val_bpb": 1.556774781953829,
+      "val_loss": 2.628549008683726,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 134.46
+    },
+    "turboquip4c": {
+      "scheme": "turboquip4c",
+      "compressed_bytes": 9052428,
+      "val_bpb": 1.6023228865830037,
+      "val_loss": 2.7054550754175275,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 132.19
+    }
+  }
+}
