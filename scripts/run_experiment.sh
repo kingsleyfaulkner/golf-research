@@ -344,7 +344,7 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
         if [[ "$NUM_GPUS" -gt 1 ]]; then
             torchrun --nproc_per_node="$NUM_GPUS" -m composer.train --config train.yaml "${ALL_SET_ARGS[@]}" || true
         else
-            composer-train --config train.yaml "${ALL_SET_ARGS[@]}"
+            python3 -m composer.train --config train.yaml "${ALL_SET_ARGS[@]}"
         fi
 
         if [[ "$IS_SWEEP" == true ]]; then

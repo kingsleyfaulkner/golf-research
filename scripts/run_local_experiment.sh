@@ -13,7 +13,14 @@
 #   ./scripts/run_local_experiment.sh 008-lower-lr --no-push
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 DATA_DIR="$HOME/github/parameter-golf/data/datasets/fineweb10B_sp1024"
+
+# Use composer's venv if the local golf-research venv has torch issues
+COMPOSER_VENV="$ROOT_DIR/../composer/.venv/bin/activate"
+if [[ -f "$COMPOSER_VENV" ]]; then
+    source "$COMPOSER_VENV"
+fi
 
 if [[ ! -d "$DATA_DIR" ]]; then
     echo "Error: local data not found at $DATA_DIR"
