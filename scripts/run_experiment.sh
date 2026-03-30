@@ -394,27 +394,34 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
             # Eval
             if [[ "$EVAL" == true ]]; then
                 echo "Running evaluation: $VARIANT_NAME (${NUM_GPUS} GPU(s))"
+                local EVAL_CMD_ARGS=("--checkpoint" "$VARIANT_ARTIFACTS/checkpoint" "--report" "$VARIANT_ARTIFACTS/eval_report.json")
+                # Auto-detect local data paths
+                local _PG_DIR="$HOME/github/parameter-golf/data"
+                if [[ -d "$_PG_DIR" ]]; then
+                    local _VAL="$_PG_DIR/datasets/fineweb10B_sp1024/fineweb_val_*.bin"
+                    local _TOK="$_PG_DIR/tokenizers/fineweb_1024_bpe.model"
+                    compgen -G "$_VAL" > /dev/null 2>&1 && EVAL_CMD_ARGS+=("--val-data" "$_VAL")
+                    [[ -f "$_TOK" ]] && EVAL_CMD_ARGS+=("--tokenizer" "$_TOK")
+                fi
+                EVAL_CMD_ARGS+=("${EVAL_ARGS[@]}")
                 if [[ "$NUM_GPUS" -gt 1 ]]; then
-                    torchrun --nproc_per_node="$NUM_GPUS" -m composer.eval \
-                        --checkpoint "$VARIANT_ARTIFACTS/checkpoint" \
-                        --report "$VARIANT_ARTIFACTS/eval_report.json" \
-                        "${EVAL_ARGS[@]}" || true
+                    torchrun --nproc_per_node="$NUM_GPUS" "$SCRIPT_DIR/eval.py" "${EVAL_CMD_ARGS[@]}" || true
                 else
-                    python3 "$SCRIPT_DIR/eval.py" \
-                        --checkpoint "$VARIANT_ARTIFACTS/checkpoint" \
-                        --report "$VARIANT_ARTIFACTS/eval_report.json" \
-                        "${EVAL_ARGS[@]}" || true
+                    python3 "$SCRIPT_DIR/eval.py" "${EVAL_CMD_ARGS[@]}" || true
                 fi
             fi
 
-            # Archive variant: save original ARTIFACTS_DIR, point to variant, archive, restore
+            # Archive variant: temporarily override globals for archive_and_push
             SAVED_ARTIFACTS_DIR="$ARTIFACTS_DIR"
             SAVED_USE_NAMED="$USE_NAMED_ARTIFACTS"
+            SAVED_EXPERIMENT_DIR="$EXPERIMENT_DIR"
             ARTIFACTS_DIR="$VARIANT_ARTIFACTS"
             USE_NAMED_ARTIFACTS=false
+            EXPERIMENT_DIR="$VARIANT_DIR"
             EXPERIMENT="$EXPERIMENT/$VARIANT_NAME"
             archive_and_push ""
             EXPERIMENT="${EXPERIMENT%/*}"
+            EXPERIMENT_DIR="$SAVED_EXPERIMENT_DIR"
             ARTIFACTS_DIR="$SAVED_ARTIFACTS_DIR"
             USE_NAMED_ARTIFACTS="$SAVED_USE_NAMED"
         done

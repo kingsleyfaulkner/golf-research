@@ -136,16 +136,27 @@ def collect_results(root: Path) -> list[dict]:
     for experiment_dir in sorted(root.iterdir()):
         if not experiment_dir.is_dir():
             continue
-        for artifacts_dir in sorted(experiment_dir.iterdir()):
-            if not artifacts_dir.is_dir() or not artifacts_dir.name.startswith("artifacts_"):
-                continue
 
+        # Collect artifact directories: direct children and sweep variant children
+        artifact_dirs = []
+        for child in sorted(experiment_dir.iterdir()):
+            if not child.is_dir():
+                continue
+            if child.name.startswith("artifacts_"):
+                artifact_dirs.append((experiment_dir.name, child))
+            elif re.match(r"\d+-", child.name):
+                # Sweep variant folder (e.g. 1-mlpmult2-layers15/)
+                for sub in sorted(child.iterdir()):
+                    if sub.is_dir() and sub.name.startswith("artifacts_"):
+                        variant_name = f"{experiment_dir.name}/{child.name}"
+                        artifact_dirs.append((variant_name, sub))
+
+        for experiment, artifacts_dir in artifact_dirs:
             system_path = artifacts_dir / "system.json"
             gpu_tag = parse_gpu_tag_from_system(system_path) or parse_gpu_tag_from_folder(
                 artifacts_dir.name
             )
-            experiment = experiment_dir.name
-            rel_path = f"experiments/{experiment}/{artifacts_dir.name}"
+            rel_path = str(artifacts_dir.relative_to(root))
 
             entry = {
                 "experiment": experiment,

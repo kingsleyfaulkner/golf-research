@@ -21,5 +21,9 @@ if [[ ! -d "$DATA_DIR" ]]; then
     exit 1
 fi
 
+TOKENIZER="$HOME/github/parameter-golf/data/tokenizers/fineweb_1024_bpe.model"
+VAL_DATA="${DATA_DIR}/fineweb_val_*.bin"
+
 exec "$SCRIPT_DIR/run_experiment.sh" "$@" \
-    --set "training.pre_training.data.TokenizedDataset.path=${DATA_DIR}/fineweb_train_*.bin"
+    --set "training.pre_training.data.TokenizedDataset.path=${DATA_DIR}/fineweb_train_*.bin" \
+    --set "manifest.tokenizers.default.SentencePiece.model_path=${TOKENIZER}"
