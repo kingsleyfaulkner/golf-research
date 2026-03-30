@@ -1,5 +1,3 @@
-base: baseline
-
 properties:
   num_layers: [15, 20]
   mlp_mult: [2, 3, 4, 5]
