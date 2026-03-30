@@ -332,47 +332,120 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
         fi
     fi
 
+    # --- Detect sweep mode ---
+    IS_SWEEP=false
+    if [[ -f "$EXPERIMENT_DIR/sweep.yaml" ]]; then
+        IS_SWEEP=true
+    fi
+
     # --- Run training ---
     if [[ "$TRAIN" == true ]]; then
-        echo "Running experiment: $EXPERIMENT (${NUM_GPUS} GPU(s))"
+        echo "Running experiment: $EXPERIMENT (${NUM_GPUS} GPU(s))${IS_SWEEP:+ [sweep]}"
         if [[ "$NUM_GPUS" -gt 1 ]]; then
             torchrun --nproc_per_node="$NUM_GPUS" -m composer.train --config train.yaml "${ALL_SET_ARGS[@]}" || true
         else
             composer-train --config train.yaml "${ALL_SET_ARGS[@]}"
         fi
 
-        # Verify checkpoint exists
-        if [[ ! -d "$ARTIFACTS_DIR/checkpoint" ]]; then
-            echo "Error: no checkpoint directory found in artifacts/ - training failed"
-            exit 1
+        if [[ "$IS_SWEEP" == true ]]; then
+            # Verify at least one variant produced a checkpoint
+            VARIANT_COUNT=0
+            for VARIANT_DIR in "$EXPERIMENT_DIR"/[0-9]-*/; do
+                [[ -d "$VARIANT_DIR/artifacts/checkpoint" ]] && ((VARIANT_COUNT++)) || true
+            done
+            if [[ "$VARIANT_COUNT" -eq 0 ]]; then
+                echo "Error: no sweep variants produced checkpoints"
+                exit 1
+            fi
+            echo "Sweep complete - $VARIANT_COUNT variant(s) with checkpoints"
+        else
+            # Verify checkpoint exists
+            if [[ ! -d "$ARTIFACTS_DIR/checkpoint" ]]; then
+                echo "Error: no checkpoint directory found in artifacts/ - training failed"
+                exit 1
+            fi
+            CHECKPOINT_FILES=$(find "$ARTIFACTS_DIR/checkpoint" -type f | head -1)
+            if [[ -z "$CHECKPOINT_FILES" ]]; then
+                echo "Error: checkpoint directory is empty - training failed"
+                exit 1
+            fi
+            echo "Checkpoint found - training succeeded"
         fi
-        CHECKPOINT_FILES=$(find "$ARTIFACTS_DIR/checkpoint" -type f | head -1)
-        if [[ -z "$CHECKPOINT_FILES" ]]; then
-            echo "Error: checkpoint directory is empty - training failed"
-            exit 1
-        fi
-        echo "Checkpoint found - training succeeded"
     else
         echo "Skipping training (--no-train)"
     fi
 
-    # --- Run quantization ---
-    if [[ "$QUANT" == true ]]; then
-        echo "Running quantization (schemes=$QUANT_SCHEMES)..."
-        if [[ "$USE_NAMED_ARTIFACTS" == true ]]; then
-            python3 "$SCRIPT_DIR/quant.py" --checkpoint "$ARTIFACTS_DIR/checkpoint" --schemes "$QUANT_SCHEMES"
-        else
-            python3 "$SCRIPT_DIR/quant.py" --schemes "$QUANT_SCHEMES"
-        fi
-    fi
+    if [[ "$IS_SWEEP" == true ]]; then
+        # --- Process each sweep variant ---
+        for VARIANT_DIR in "$EXPERIMENT_DIR"/[0-9]-*/; do
+            [[ -d "$VARIANT_DIR/artifacts" ]] || continue
+            VARIANT_NAME=$(basename "$VARIANT_DIR")
+            echo ""
+            echo "===== Processing sweep variant: $VARIANT_NAME ====="
 
-    # --- Run eval ---
-    if [[ "$EVAL" == true ]]; then
-        if [[ "$USE_NAMED_ARTIFACTS" == true ]]; then
-            "$SCRIPT_DIR/run_eval.sh" "$EXPERIMENT" "$(basename "$ARTIFACTS_DIR")" "${EVAL_ARGS[@]}"
-        else
-            "$SCRIPT_DIR/run_eval.sh" "$EXPERIMENT" "${EVAL_ARGS[@]}"
+            VARIANT_ARTIFACTS="$VARIANT_DIR/artifacts"
+
+            # Quantize
+            if [[ "$QUANT" == true ]] && [[ -d "$VARIANT_ARTIFACTS/checkpoint" ]]; then
+                echo "Running quantization (schemes=$QUANT_SCHEMES)..."
+                python3 "$SCRIPT_DIR/quant.py" --checkpoint "$VARIANT_ARTIFACTS/checkpoint" --schemes "$QUANT_SCHEMES" || true
+            fi
+
+            # Eval
+            if [[ "$EVAL" == true ]]; then
+                echo "Running evaluation: $VARIANT_NAME (${NUM_GPUS} GPU(s))"
+                if [[ "$NUM_GPUS" -gt 1 ]]; then
+                    torchrun --nproc_per_node="$NUM_GPUS" -m composer.eval \
+                        --checkpoint "$VARIANT_ARTIFACTS/checkpoint" \
+                        --report "$VARIANT_ARTIFACTS/eval_report.json" \
+                        "${EVAL_ARGS[@]}" || true
+                else
+                    python3 "$SCRIPT_DIR/eval.py" \
+                        --checkpoint "$VARIANT_ARTIFACTS/checkpoint" \
+                        --report "$VARIANT_ARTIFACTS/eval_report.json" \
+                        "${EVAL_ARGS[@]}" || true
+                fi
+            fi
+
+            # Archive variant: save original ARTIFACTS_DIR, point to variant, archive, restore
+            SAVED_ARTIFACTS_DIR="$ARTIFACTS_DIR"
+            SAVED_USE_NAMED="$USE_NAMED_ARTIFACTS"
+            ARTIFACTS_DIR="$VARIANT_ARTIFACTS"
+            USE_NAMED_ARTIFACTS=false
+            EXPERIMENT="$EXPERIMENT/$VARIANT_NAME"
+            archive_and_push ""
+            EXPERIMENT="${EXPERIMENT%/*}"
+            ARTIFACTS_DIR="$SAVED_ARTIFACTS_DIR"
+            USE_NAMED_ARTIFACTS="$SAVED_USE_NAMED"
+        done
+
+        echo "Done - sweep results committed and pushed"
+    else
+        # --- Single experiment flow ---
+
+        # Quantize
+        if [[ "$QUANT" == true ]]; then
+            echo "Running quantization (schemes=$QUANT_SCHEMES)..."
+            if [[ "$USE_NAMED_ARTIFACTS" == true ]]; then
+                python3 "$SCRIPT_DIR/quant.py" --checkpoint "$ARTIFACTS_DIR/checkpoint" --schemes "$QUANT_SCHEMES"
+            else
+                python3 "$SCRIPT_DIR/quant.py" --schemes "$QUANT_SCHEMES"
+            fi
         fi
+
+        # Eval
+        if [[ "$EVAL" == true ]]; then
+            if [[ "$USE_NAMED_ARTIFACTS" == true ]]; then
+                "$SCRIPT_DIR/run_eval.sh" "$EXPERIMENT" "$(basename "$ARTIFACTS_DIR")" "${EVAL_ARGS[@]}"
+            else
+                "$SCRIPT_DIR/run_eval.sh" "$EXPERIMENT" "${EVAL_ARGS[@]}"
+            fi
+        fi
+
+        # Archive and push
+        trap - ERR
+        archive_and_push ""
+        echo "Done - results committed and pushed"
     fi
 else
     echo "Archive-only mode: skipping training"
@@ -380,9 +453,6 @@ else
         echo "Error: no artifacts directory found at '$ARTIFACTS_DIR'"
         exit 1
     fi
+    archive_and_push ""
+    echo "Done - results committed and pushed"
 fi
-
-# --- Success: archive and push ---
-trap - ERR
-archive_and_push ""
-echo "Done - results committed and pushed"

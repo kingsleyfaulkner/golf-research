@@ -385,6 +385,23 @@ def main():
     else:
         lines.append(f"# {experiment_name}")
 
+    # Sweep overrides (from sweep.yaml variant)
+    # Check parent directory for sweep overrides.yaml (variant folder structure)
+    sweep_overrides_path = artifact_dir.parent / "overrides.yaml"
+    if sweep_overrides_path.exists():
+        sweep_overrides = [
+            line
+            for line in sweep_overrides_path.read_text().splitlines()
+            if line.strip() and not line.startswith("#")
+        ]
+        if sweep_overrides:
+            lines.append("")
+            lines.append("## Sweep Overrides")
+            lines.append("")
+            lines.append("```yaml")
+            lines.extend(sweep_overrides)
+            lines.append("```")
+
     # Runtime overrides
     overrides_path = artifact_dir / "overrides.yaml"
     if overrides_path.exists():
