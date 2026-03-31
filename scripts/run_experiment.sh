@@ -432,37 +432,45 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
 
         PUSH="$SAVED_PUSH"
 
+        # Rename root artifacts/ (console.log, overrides) to artifacts_<gpu>
+        if [[ -d "$ARTIFACTS_DIR" ]] && [[ "$USE_NAMED_ARTIFACTS" == false ]]; then
+            # Reuse GPU info from first variant
+            FIRST_SYSTEM=$(find "$EXPERIMENT_DIR"/[0-9]-*/artifacts_*/system.json 2>/dev/null | head -1)
+            if [[ -n "$FIRST_SYSTEM" ]]; then
+                ROOT_GPU_TAG=$(python3 -c "
+import json, re, sys
+with open('$FIRST_SYSTEM') as f: info = json.load(f)
+gpus = info.get('gpus', [])
+ws = info.get('distributed', {}).get('world_size', 1)
+if not gpus: sys.exit(0)
+name = gpus[0]['name'].upper().replace('NVIDIA','').strip()
+for pat in [r'\d+\s*GB.*', r'BLACKWELL.*', r'SERVER.*', r'EDITION.*', r'GEFORCE\s*']:
+    name = re.sub(pat, '', name).strip()
+name = re.sub(r'\s+', '_', name).lower().strip('_')
+print(f'{ws}x_{name}')
+" 2>/dev/null || echo "${NUM_GPUS}x_unknown")
+            else
+                ROOT_GPU_TAG="${NUM_GPUS}x_unknown"
+            fi
+            ROOT_ARTIFACTS="$EXPERIMENT_DIR/artifacts_${ROOT_GPU_TAG}"
+            if [[ ! -d "$ROOT_ARTIFACTS" ]]; then
+                mv "$ARTIFACTS_DIR" "$ROOT_ARTIFACTS"
+            fi
+        fi
+
         # Single combined push for all sweep variants
         if [[ "$PUSH" == true ]]; then
             cd "$ROOT_DIR"
             python3 "$SCRIPT_DIR/update_results.py" || true
 
             RAND_SUFFIX=$(head -c 2 /dev/urandom | od -An -tx1 | tr -d ' \n')
-            GPU_INFO_PUSH=$(python3 -c "
-import json, re, sys
-# Find first variant's system.json for GPU tag
-import glob
-sj = glob.glob('experiments/${EXPERIMENT}/[0-9]-*/artifacts_*/system.json')
-if not sj: sys.exit(0)
-with open(sj[0]) as f: info = json.load(f)
-gpus = info.get('gpus', [])
-ws = info.get('distributed', {}).get('world_size', 1)
-if not gpus: sys.exit(0)
-name = gpus[0]['name'].upper().replace('NVIDIA','').strip()
-name = re.sub(r'\d+\s*GB.*','',name).strip()
-name = re.sub(r'BLACKWELL.*','',name).strip()
-name = re.sub(r'SERVER.*','',name).strip()
-name = re.sub(r'EDITION.*','',name).strip()
-name = re.sub(r'GEFORCE\s*','',name).strip()
-name = re.sub(r'\s+','_',name).lower().strip('_')
-print(f'{ws}x_{name}')
-" 2>/dev/null || echo "${NUM_GPUS}x_unknown")
-            BRANCH_NAME="results/${EXPERIMENT}-${GPU_INFO_PUSH}-${RAND_SUFFIX}"
-            COMMIT_MSG="Add $EXPERIMENT sweep results ($GPU_INFO_PUSH)"
+            BRANCH_NAME="results/${EXPERIMENT}-${ROOT_GPU_TAG:-${NUM_GPUS}x}-${RAND_SUFFIX}"
+            COMMIT_MSG="Add $EXPERIMENT sweep results (${ROOT_GPU_TAG:-${NUM_GPUS}x})"
 
             git fetch origin main 2>/dev/null || true
             git checkout -b "$BRANCH_NAME" origin/main 2>/dev/null || git checkout -b "$BRANCH_NAME"
             git add "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/ "experiments/${EXPERIMENT}"/[0-9]-*/overrides.yaml RESULTS.md 2>/dev/null || true
+            git add "experiments/${EXPERIMENT}"/artifacts_*/ 2>/dev/null || true
             # Exclude checkpoint binaries
             git reset HEAD "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/checkpoint.tar.gz 2>/dev/null || true
             git commit -m "$COMMIT_MSG" || true
