@@ -41,6 +41,7 @@ while [[ $# -gt 0 ]]; do
         --no-eval) EVAL=false; shift ;;
         --no-quant) QUANT=false; shift ;;
         --no-push) PUSH=false; shift ;;
+        --push-only) TRAIN=false; QUANT=false; EVAL=false; ARCHIVE_ONLY=true; shift ;;
         --archive-only) ARCHIVE_ONLY=true; shift ;;
         --readme-only) README_ONLY=true; README_TARGET="$2"; shift 2 ;;
         --artifacts-dir) ARTIFACTS_NAME="$2"; shift 2 ;;
