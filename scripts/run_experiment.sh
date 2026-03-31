@@ -457,10 +457,43 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
     fi
 else
     echo "Archive-only mode: skipping training"
-    if [[ ! -d "$ARTIFACTS_DIR" ]]; then
-        echo "Error: no artifacts directory found at '$ARTIFACTS_DIR'"
-        exit 1
+    IS_SWEEP=false
+    [[ -f "$EXPERIMENT_DIR/sweep.yaml" ]] && IS_SWEEP=true
+
+    if [[ "$IS_SWEEP" == true ]]; then
+        for VARIANT_DIR in "$EXPERIMENT_DIR"/[0-9]-*/; do
+            # Accept either unarchived artifacts/ or already-archived artifacts_*/
+            VARIANT_ARTIFACTS=""
+            if [[ -d "$VARIANT_DIR/artifacts" ]]; then
+                VARIANT_ARTIFACTS="$VARIANT_DIR/artifacts"
+            else
+                for ad in "$VARIANT_DIR"/artifacts_*/; do
+                    [[ -d "$ad" ]] && VARIANT_ARTIFACTS="$ad" && break
+                done
+            fi
+            [[ -z "$VARIANT_ARTIFACTS" ]] && continue
+            VARIANT_NAME=$(basename "$VARIANT_DIR")
+            echo ""
+            echo "===== Archiving sweep variant: $VARIANT_NAME ====="
+            SAVED_ARTIFACTS_DIR="$ARTIFACTS_DIR"
+            SAVED_USE_NAMED="$USE_NAMED_ARTIFACTS"
+            SAVED_EXPERIMENT_DIR="$EXPERIMENT_DIR"
+            ARTIFACTS_DIR="$VARIANT_ARTIFACTS"
+            USE_NAMED_ARTIFACTS=$([[ "$VARIANT_ARTIFACTS" == */artifacts ]] && echo false || echo true)
+            EXPERIMENT_DIR="$VARIANT_DIR"
+            EXPERIMENT="$EXPERIMENT/$VARIANT_NAME"
+            archive_and_push ""
+            EXPERIMENT="${EXPERIMENT%/*}"
+            EXPERIMENT_DIR="$SAVED_EXPERIMENT_DIR"
+            ARTIFACTS_DIR="$SAVED_ARTIFACTS_DIR"
+            USE_NAMED_ARTIFACTS="$SAVED_USE_NAMED"
+        done
+    else
+        if [[ ! -d "$ARTIFACTS_DIR" ]]; then
+            echo "Error: no artifacts directory found at '$ARTIFACTS_DIR'"
+            exit 1
+        fi
+        archive_and_push ""
     fi
-    archive_and_push ""
     echo "Done - results committed and pushed"
 fi
