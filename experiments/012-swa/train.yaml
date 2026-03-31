@@ -1,0 +1,129 @@
+# SWA experiment.
+# Change from baseline: adds StochasticWeightAveraging training feature.
+# NOT YET RUNNABLE — requires Composer SWA feature.
+#
+# Baseline: 9-layer decoder, 512 hidden, 8 heads (4 KV), 1024 vocab, tied
+# embeddings.  Trains for 20,000 iterations on 8xH100 with a 10-minute
+# wallclock cap, seeing ~7.2B tokens.
+#
+# Usage:
+#   composer-train --config train.yaml
+#   torchrun --nproc_per_node=8 -m composer.train --config train.yaml
+#
+# The reference trains with 524,288 tokens per global batch (8 GPUs x 8
+# gradient accumulation steps x 64 sequences x 1024 tokens).  We configure
+# batch_size and gpus to match.
+
+manifest: !include model.yaml
+
+model_name: baseline
+
+training:
+  pre_training:
+    # Global batch = max(gpus, 8) * batch_size * sequence_length tokens.
+    # At the reference 8 GPUs this is 524,288 tokens; with more GPUs the
+    # global batch scales up rather than accumulating.
+    # GradientAccumulation auto-computes micro-batching from world_size:
+    #   1 GPU  -> grad_accum = 8 (8 micro-batches of 64 seqs)
+    #   8 GPUs -> grad_accum = 1 (no accumulation needed)
+    gpus: !env WORLD_SIZE:1
+    batch_size: 64
+    sequence_length: !expr "model.context_length"
+    total_batch_tokens: !expr "max(self.gpus, 8) * self.batch_size * self.sequence_length"
+
+    # 10-minute wallclock cap matching the challenge constraint.
+    # Combined with max_steps as a safety limit - training stops when
+    # either condition is met first.
+    max_wallclock_seconds: 600
+    warmup_steps: 10
+
+    model_trainer:
+      DecoderTransformerTrainer:
+        optimizer:
+          LayerWise:
+            default_optimizer:
+              Muon:
+                lr: 0.04
+                momentum: 0.95
+                nesterov: true
+                ns_steps: 5
+                weight_decay: 0.0
+                features:
+                  - HyperparameterSchedule:
+                      parameter: momentum
+                      initial: 0.85
+                      final: 0.95
+                      scheduler:
+                        LinearWarmup:
+                          warmup_steps: 500
+            groups:
+              - name: embedding
+                patterns: ["embedding.*"]
+                optimizer:
+                  Adam:
+                    lr: 0.05
+                    betas: [0.9, 0.95]
+                    eps: 1.0e-8
+              - name: block_scalars
+                max_ndim: 1
+                optimizer:
+                  Adam:
+                    lr: 0.04
+                    betas: [0.9, 0.95]
+                    eps: 1.0e-8
+              # With tied embeddings, the head group shares weights with
+              # embedding via TiedLayers.  If untied, add a head group:
+              # - name: head
+              #   patterns: ["heads.*"]
+              #   optimizer:
+              #     Adam:
+              #       lr: 0.008
+              #       betas: [0.9, 0.95]
+              #       eps: 1.0e-8
+
+        scheduler:
+          WallclockWarmdown:
+            warmdown_steps: 1200
+            decay_type: linear
+
+        compile:
+          fullgraph: true
+          dynamic: false
+        features:
+          - CompileDiagnostics
+          - Autocast:
+              dtype: bfloat16
+          - CUDABackend:
+              allow_tf32: true
+              cudnn_allow_tf32: true
+              flash_sdp: true
+              mem_efficient_sdp: false
+              math_sdp: false
+              cudnn_sdp: false
+
+    data:
+      TokenizedDataset:
+        path: /workspace/parameter-golf/data/datasets/fineweb10B_sp1024/fineweb_train_*.bin
+        shuffle: true
+        bin_header_bytes: 1024
+
+    features:
+      - SystemDiagnostics:
+          diagnostics_file: artifacts/system.json
+      - ConfigSnapshot:
+          config_file: artifacts/experiment.yaml
+      - GradientAccumulation
+      - SpeedMonitor
+      - MemoryProfiler
+      - Checkpointer:
+          checkpoint_path: artifacts/checkpoint
+          max_checkpoints: 1
+          model_only: true
+      - MetricsLogger:
+          metrics_file: artifacts/metrics.jsonl
+      - ConsoleLogger:
+          interval: 10
+      # NOT YET SUPPORTED — requires Composer StochasticWeightAveraging feature
+      # - StochasticWeightAveraging:
+      #     start_fraction: 0.5
+      #     interval: 50

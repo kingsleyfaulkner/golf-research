@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-03-25T23:32:59.513335+00:00",
+  "val_tokens_evaluated": 62021633,
+  "vocab_size": 1024,
+  "checkpoint": "/home/kingsley/projects/golf-research/experiments/baseline/artifacts_2x_rtx_pro_6000_2/checkpoint",
+  "val_loss": 2.259545601936867,
+  "val_bpb": 1.3382301795207834,
+  "eval_time_seconds": 351.13,
+  "quant": {
+    "int6": {
+      "scheme": "int6",
+      "compressed_bytes": 11113054,
+      "val_bpb": 1.3680366853961168,
+      "val_loss": 2.30987263856358,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 350.31
+    },
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 15302548,
+      "val_bpb": 1.339686884008928,
+      "val_loss": 2.2620051864462285,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 351.2
+    },
+    "mxfp4": {
+      "scheme": "mxfp4",
+      "compressed_bytes": 8637990,
+      "val_bpb": 1.5032104727537732,
+      "val_loss": 2.5381079163171547,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 350.81
+    },
+    "nvfp4": {
+      "scheme": "nvfp4",
+      "compressed_bytes": 9155798,
+      "val_bpb": 1.4610970830872718,
+      "val_loss": 2.467001221923465,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 350.89
+    }
+  }
+}

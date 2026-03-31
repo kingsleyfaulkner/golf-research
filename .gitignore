@@ -1,0 +1,9 @@
+/CLAUDE.md
+.claude/
+.idea/
+__pycache__/
+**/checkpoint/
+**/checkpoint.tar.gz
+**/eval_report_backup.json
+.gitattributes
+/checkpoints/
