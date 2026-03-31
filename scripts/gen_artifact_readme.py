@@ -402,8 +402,18 @@ def main():
             lines.extend(sweep_overrides)
             lines.append("```")
 
-    # Runtime overrides
+    # Runtime overrides - check artifact dir, then parent experiment's artifacts_*/
     overrides_path = artifact_dir / "overrides.yaml"
+    if not overrides_path.exists():
+        # For sweep variants, look in the experiment root's archived artifacts
+        search_dir = (
+            experiment_dir.parent
+            if not (experiment_dir / "model.yaml").exists()
+            else experiment_dir
+        )
+        for candidate in sorted(search_dir.glob("artifacts_*/overrides.yaml")):
+            overrides_path = candidate
+            break
     if overrides_path.exists():
         overrides = [
             line

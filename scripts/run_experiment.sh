@@ -390,11 +390,6 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
 
             VARIANT_ARTIFACTS="$VARIANT_DIR/artifacts"
 
-            # Copy runtime overrides into variant artifacts for README generation
-            if [[ -f "$ARTIFACTS_DIR/overrides.yaml" ]] && [[ ! -f "$VARIANT_ARTIFACTS/overrides.yaml" ]]; then
-                cp "$ARTIFACTS_DIR/overrides.yaml" "$VARIANT_ARTIFACTS/overrides.yaml"
-            fi
-
             # Quantize
             if [[ "$QUANT" == true ]] && [[ -d "$VARIANT_ARTIFACTS/checkpoint" ]]; then
                 echo "Running quantization (schemes=$QUANT_SCHEMES)..."
