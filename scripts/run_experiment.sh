@@ -394,12 +394,12 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
             # Eval
             if [[ "$EVAL" == true ]]; then
                 echo "Running evaluation: $VARIANT_NAME (${NUM_GPUS} GPU(s))"
-                local EVAL_CMD_ARGS=("--checkpoint" "$VARIANT_ARTIFACTS/checkpoint" "--report" "$VARIANT_ARTIFACTS/eval_report.json")
+                EVAL_CMD_ARGS=("--checkpoint" "$VARIANT_ARTIFACTS/checkpoint" "--report" "$VARIANT_ARTIFACTS/eval_report.json")
                 # Auto-detect local data paths
-                local _PG_DIR="$HOME/github/parameter-golf/data"
+                _PG_DIR="$HOME/github/parameter-golf/data"
                 if [[ -d "$_PG_DIR" ]]; then
-                    local _VAL="$_PG_DIR/datasets/fineweb10B_sp1024/fineweb_val_*.bin"
-                    local _TOK="$_PG_DIR/tokenizers/fineweb_1024_bpe.model"
+                    _VAL="$_PG_DIR/datasets/fineweb10B_sp1024/fineweb_val_*.bin"
+                    _TOK="$_PG_DIR/tokenizers/fineweb_1024_bpe.model"
                     compgen -G "$_VAL" > /dev/null 2>&1 && EVAL_CMD_ARGS+=("--val-data" "$_VAL")
                     [[ -f "$_TOK" ]] && EVAL_CMD_ARGS+=("--tokenizer" "$_TOK")
                 fi
