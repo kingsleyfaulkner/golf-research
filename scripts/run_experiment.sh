@@ -378,6 +378,10 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
 
     if [[ "$IS_SWEEP" == true ]]; then
         # --- Process each sweep variant ---
+        # Defer push until all variants are archived
+        SAVED_PUSH="$PUSH"
+        PUSH=false
+
         for VARIANT_DIR in "$EXPERIMENT_DIR"/[0-9]-*/; do
             [[ -d "$VARIANT_DIR/artifacts" ]] || continue
             VARIANT_NAME=$(basename "$VARIANT_DIR")
@@ -396,7 +400,6 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
             if [[ "$EVAL" == true ]]; then
                 echo "Running evaluation: $VARIANT_NAME (${NUM_GPUS} GPU(s))"
                 EVAL_CMD_ARGS=("--checkpoint" "$VARIANT_ARTIFACTS/checkpoint" "--report" "$VARIANT_ARTIFACTS/eval_report.json")
-                # Auto-detect local data paths
                 _PG_DIR="$HOME/github/parameter-golf/data"
                 if [[ -d "$_PG_DIR" ]]; then
                     _VAL="$_PG_DIR/datasets/fineweb10B_sp1024/fineweb_val_*.bin"
@@ -412,7 +415,7 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
                 fi
             fi
 
-            # Archive variant: temporarily override globals for archive_and_push
+            # Archive variant (no push yet)
             SAVED_ARTIFACTS_DIR="$ARTIFACTS_DIR"
             SAVED_USE_NAMED="$USE_NAMED_ARTIFACTS"
             SAVED_EXPERIMENT_DIR="$EXPERIMENT_DIR"
@@ -426,6 +429,55 @@ if [[ "$ARCHIVE_ONLY" == false ]]; then
             ARTIFACTS_DIR="$SAVED_ARTIFACTS_DIR"
             USE_NAMED_ARTIFACTS="$SAVED_USE_NAMED"
         done
+
+        PUSH="$SAVED_PUSH"
+
+        # Single combined push for all sweep variants
+        if [[ "$PUSH" == true ]]; then
+            cd "$ROOT_DIR"
+            python3 "$SCRIPT_DIR/update_results.py" || true
+
+            RAND_SUFFIX=$(head -c 2 /dev/urandom | od -An -tx1 | tr -d ' \n')
+            GPU_INFO_PUSH=$(python3 -c "
+import json, re, sys
+# Find first variant's system.json for GPU tag
+import glob
+sj = glob.glob('experiments/${EXPERIMENT}/[0-9]-*/artifacts_*/system.json')
+if not sj: sys.exit(0)
+with open(sj[0]) as f: info = json.load(f)
+gpus = info.get('gpus', [])
+ws = info.get('distributed', {}).get('world_size', 1)
+if not gpus: sys.exit(0)
+name = gpus[0]['name'].upper().replace('NVIDIA','').strip()
+name = re.sub(r'\d+\s*GB.*','',name).strip()
+name = re.sub(r'BLACKWELL.*','',name).strip()
+name = re.sub(r'SERVER.*','',name).strip()
+name = re.sub(r'EDITION.*','',name).strip()
+name = re.sub(r'GEFORCE\s*','',name).strip()
+name = re.sub(r'\s+','_',name).lower().strip('_')
+print(f'{ws}x_{name}')
+" 2>/dev/null || echo "${NUM_GPUS}x_unknown")
+            BRANCH_NAME="results/${EXPERIMENT}-${GPU_INFO_PUSH}-${RAND_SUFFIX}"
+            COMMIT_MSG="Add $EXPERIMENT sweep results ($GPU_INFO_PUSH)"
+
+            git fetch origin main 2>/dev/null || true
+            git checkout -b "$BRANCH_NAME" origin/main 2>/dev/null || git checkout -b "$BRANCH_NAME"
+            git add "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/ "experiments/${EXPERIMENT}"/[0-9]-*/overrides.yaml RESULTS.md 2>/dev/null || true
+            # Exclude checkpoint binaries
+            git reset HEAD "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/checkpoint.tar.gz 2>/dev/null || true
+            git commit -m "$COMMIT_MSG" || true
+            git push -u origin "$BRANCH_NAME" || true
+
+            if command -v gh &>/dev/null; then
+                gh pr create --base main --head "$BRANCH_NAME" \
+                    --title "$COMMIT_MSG" \
+                    --body "Sweep results for $EXPERIMENT" || true
+            fi
+
+            git checkout -f main 2>/dev/null || git checkout -f -
+        else
+            echo "Skipping git push (--no-push)"
+        fi
 
         echo "Done - sweep results committed and pushed"
     else
@@ -461,8 +513,9 @@ else
     [[ -f "$EXPERIMENT_DIR/sweep.yaml" ]] && IS_SWEEP=true
 
     if [[ "$IS_SWEEP" == true ]]; then
+        SAVED_PUSH="$PUSH"
+        PUSH=false
         for VARIANT_DIR in "$EXPERIMENT_DIR"/[0-9]-*/; do
-            # Accept either unarchived artifacts/ or already-archived artifacts_*/
             VARIANT_ARTIFACTS=""
             if [[ -d "$VARIANT_DIR/artifacts" ]]; then
                 VARIANT_ARTIFACTS="$VARIANT_DIR/artifacts"
@@ -488,6 +541,25 @@ else
             ARTIFACTS_DIR="$SAVED_ARTIFACTS_DIR"
             USE_NAMED_ARTIFACTS="$SAVED_USE_NAMED"
         done
+        PUSH="$SAVED_PUSH"
+        # Reuse the sweep push block from the training path
+        if [[ "$PUSH" == true ]]; then
+            cd "$ROOT_DIR"
+            python3 "$SCRIPT_DIR/update_results.py" || true
+            RAND_SUFFIX=$(head -c 2 /dev/urandom | od -An -tx1 | tr -d ' \n')
+            BRANCH_NAME="results/${EXPERIMENT}-${NUM_GPUS}x-${RAND_SUFFIX}"
+            COMMIT_MSG="Add $EXPERIMENT sweep results"
+            git fetch origin main 2>/dev/null || true
+            git checkout -b "$BRANCH_NAME" origin/main 2>/dev/null || git checkout -b "$BRANCH_NAME"
+            git add "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/ "experiments/${EXPERIMENT}"/[0-9]-*/overrides.yaml RESULTS.md 2>/dev/null || true
+            git reset HEAD "experiments/${EXPERIMENT}"/[0-9]-*/artifacts_*/checkpoint.tar.gz 2>/dev/null || true
+            git commit -m "$COMMIT_MSG" || true
+            git push -u origin "$BRANCH_NAME" || true
+            if command -v gh &>/dev/null; then
+                gh pr create --base main --head "$BRANCH_NAME" --title "$COMMIT_MSG" --body "Sweep results for $EXPERIMENT" || true
+            fi
+            git checkout -f main 2>/dev/null || git checkout -f -
+        fi
     else
         if [[ ! -d "$ARTIFACTS_DIR" ]]; then
             echo "Error: no artifacts directory found at '$ARTIFACTS_DIR'"
