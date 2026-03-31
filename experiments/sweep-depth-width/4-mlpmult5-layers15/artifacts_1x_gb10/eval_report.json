@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-03-31T11:09:44.190483+00:00",
+  "val_tokens_evaluated": 62021632,
+  "vocab_size": 1024,
+  "checkpoint": "/home/kingsley/projects/golf-research/experiments/sweep-depth-width/4-mlpmult5-layers15//artifacts/checkpoint",
+  "val_loss": 7.222594494077082,
+  "val_bpb": 4.277627288481985,
+  "eval_time_seconds": 228.73
+}
