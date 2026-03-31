@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-03-31T09:37:42.525661+00:00",
+  "val_tokens_evaluated": 62021632,
+  "vocab_size": 1024,
+  "checkpoint": "/home/kingsley/projects/golf-research/experiments/sweep-depth-width/5-mlpmult2-layers20//artifacts/checkpoint",
+  "val_loss": 5.350565562615415,
+  "val_bpb": 3.1689063089759273,
+  "eval_time_seconds": 227.65,
+  "quant": {
+    "int8": {
+      "scheme": "int8",
+      "compressed_bytes": 19077756,
+      "val_bpb": 3.1691507559964425,
+      "val_loss": 5.350978301170086,
+      "val_tokens_evaluated": 62021632,
+      "eval_time_seconds": 211.06
+    }
+  }
+}
