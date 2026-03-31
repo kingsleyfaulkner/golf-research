@@ -1,0 +1,12 @@
+{
+  "quant": {
+    "int8": {
+      "scheme": "int8",
+      "compressor": "zstd",
+      "compressed_bytes": 27488476,
+      "serialized_bytes": 52664549,
+      "param_count": 52267128
+    }
+  },
+  "timestamp": "2026-03-31T09:29:07.590192+00:00"
+}
