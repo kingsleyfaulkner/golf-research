@@ -411,9 +411,13 @@ def main():
             if not (experiment_dir / "model.yaml").exists()
             else experiment_dir
         )
-        for candidate in sorted(search_dir.glob("artifacts_*/overrides.yaml")):
-            overrides_path = candidate
-            break
+        # Check both artifacts/ (during run) and artifacts_*/ (after archive)
+        for pattern in ["artifacts/overrides.yaml", "artifacts_*/overrides.yaml"]:
+            for candidate in sorted(search_dir.glob(pattern)):
+                overrides_path = candidate
+                break
+            if overrides_path.exists():
+                break
     if overrides_path.exists():
         overrides = [
             line
