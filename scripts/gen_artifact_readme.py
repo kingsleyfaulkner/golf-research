@@ -543,11 +543,15 @@ def main():
     # Config diff vs baseline
     if experiment_name != "baseline":
         baseline_dir = root_dir / "experiments" / "baseline"
+        # For sweep variants, configs are in the parent experiment dir
+        config_dir = experiment_dir
+        if not (config_dir / "model.yaml").exists() and (config_dir.parent / "model.yaml").exists():
+            config_dir = config_dir.parent
         if baseline_dir.exists():
             diffs = []
             for fname in ["train.yaml", "model.yaml"]:
                 base_f = baseline_dir / fname
-                exp_f = experiment_dir / fname
+                exp_f = config_dir / fname
                 if base_f.exists() and exp_f.exists():
                     result = subprocess.run(
                         [
