@@ -1,0 +1,3 @@
+model.num_layers: 20
+model.mlp_mult: 3
+training.pre_training.batch_size: 32
